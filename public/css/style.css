@@ -1,5 +1,31 @@
 body {
   font: 100% Helvetica, sans-serif;
-  color: #333; }
+  color: #333; 
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+header{
+  background-color: #1FC519;
+  height: 50px;
+}
+
+header ul{
+  display: flex;
+  margin-top: auto;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+header ul li{
+  list-style-type: none;
+  margin-top: 10px;
+}
 
 /*# sourceMappingURL=style.css.map */

@@ -1,16 +1,12 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var Product = sequelize.define('Product', {
-    name: DataTypes.STRING,
-    image: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    price: DataTypes.INTEGER
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
-  return Product;
-};
+const Sequelize = require('sequelize');
+const databaseURL   = 'sqlite://database.sqlite3';
+const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
+
+const Product = sequelize.define('Product', {
+  name: Sequelize.STRING,
+  image: Sequelize.TEXT,
+  description: Sequelize.TEXT,
+  price: Sequelize.STRING
+});
+
+module.exports = Product;

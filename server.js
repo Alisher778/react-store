@@ -6,69 +6,28 @@
 
 
 //instatiate path and express
-const express = require('express')
-const path = require('path')
-const app = express();
-const model = require('./models');
-const bodyParser = require("body-parser");
-
+const express     = require('express')
+const path        = require('path')
+const app         = express();
+const bodyParser  = require("body-parser");
+const multer      = require('multer');
+const multerS3    = require('multer-s3');
+const aws         = require('aws-sdk');
+const Sequelize = require('sequelize');
+const databaseURL   = 'sqlite://database.sqlite3';
+const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 //use the public folder as the static directory. 
 app.use( express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
 app.set('view engine', 'ejs')
-
-//********************************************************************************
-//********************************************************************************
-                            //** USERS **//
-
-//Get all Users
-app.get('/api/users', function(req, res){
-  model.User.findAll().then(function(users){
-    res.json(users)
-  })
-});
-
-//Get a New User Form ********************************************************
-app.get('/new/users', function(req, res){
-  res.render('user');
-})
+const products = require('./routes/products');
+const users = require('./routes/users');
+app.use('/', products);
+app.use('/users', users);
 
 
-app.post('/api/users', function(req, res){
-  model.User.create({
-    first_name: req.body.firstName,
-    last_name: req.body.lastName,
-    bio: req.body.bio
-  }).then(function(user){
-    res.redirect('/')
-  })
-})
-
-//========================================================================
-
-//********************************************************************************
-//********************************************************************************
-                            //** PRODUCTS **//
-
-//Get all Products
-app.get('/api/products', function(req, res){
-  model.Products.findAll().then(function(products){
-    res.json(products);
-  })
-});
-
-app.post('/api/new_product', function(req, res){
-  model.Post.create({
-    name: req.body.name,
-    image: req.file.path,
-    description: req.body.description,
-    price: req.body.price
-  }).then(function(product){
-    res.json(product)
-  })
-})
 
 //send any route to index.html where the react app is mounted
 app.get('*', (req,res)=>{

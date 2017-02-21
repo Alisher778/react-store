@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-
+import './app.css';
 
 export default class App extends Component{
   render() {
@@ -13,9 +13,8 @@ export default class App extends Component{
             <li><Link to="/products">Products</Link></li>
             <li><Link to="/new/users">CONTACT</Link></li>
           </ul>
-          {this.props.children}
         </header>
-        
+        {this.props.children}
       </div>
     );
   }
