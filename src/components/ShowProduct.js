@@ -1,33 +1,51 @@
-mport React, {Component} from 'react';
+import React, {Component} from 'react';
 import $ from 'jquery';
 
-class ProductsList extends Component {
+class ShowProduct extends Component {
   constructor(props) {
-    super(props);
+   super(props);
 
-    this.state = {products: [{a: 'b'}]}
-    console.log(this.props)
-    
+    this.state = {products: {
+                              id: 0,
+                              name: "BAg2",
+                              description: "NiceBag",
+                              image: ["hello", "something"]
+                            }
+                }
+
+ }
+ 
+ componentDidMount(){
+     $.get(`/api/product/${this.props.params.id}`, function(data){
+        this.setState({products: 
+          {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            image: data.image.split(',')
+          }
+        });
+        console.log("hello ---", this.state.products)
+     }.bind(this))
   }
 
-  componentDidMount(){
-    $.get('/api/product/', function(data){
-       this.setState({products: data});
-       console.log(data)
-    }.bind(this))
-   
+  printImages(){
+    const images = this.state.products.image;
+    images.map((image)=>{
+      return(<img src="jkjk" alt="hjh"/>)
+    })
+
   }
-  
   render() {
     return(
       <div className="products-list" >
         <ul>
-          <h1>Producsts are coming soon...</h1 >
-          {this.state.products.map((item, i)=>{return <li key={i}>{item.name}</li>})}
+          <p onClick={this.printImages.bind(this)}>{this.state.products.image[0]}</p>
+          <a href={`/api/product/delete/${this.state.products.id}/${this.state.products.image}`}>DELETE</a>
         </ul>
       </div>
     )
   }
 }
 
-export default ProductsList;
+export default ShowProduct;

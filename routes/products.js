@@ -6,7 +6,7 @@ const aws         = require('aws-sdk');
 const Sequelize = require('sequelize');
 const databaseURL   = 'sqlite://database.sqlite3';
 const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
-
+const $           = require('jquery');
 
 const Product = sequelize.define('Product', {
   name: Sequelize.STRING,
@@ -64,11 +64,24 @@ router.get('/api/product/:id', function(req, res){
   })
 })
 
-router.get('/api/product/delete/:id', function(req, res){
-  Product.delete({where: 
+router.get('/api/product/delete/:id/:image', function(req, res){
+  let image = req.params.image;
+  let imageArray = image.split(',');
+  Product.destroy({where: 
     {id: req.params.id}
   }).then(function(){
+    for(let i = 0; i<imageArray.length; i++){
+      $.ajax({
+        url: `${imageArray[i]}`,
+        type: 'DELETE',
+        success: function(result){
+          console.log(`${result} is deleted`)
+        }
+      })
+    }
+    
     res.json({msg: "Product is deleted successfully"})
+
   })
 })
 

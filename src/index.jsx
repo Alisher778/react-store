@@ -8,6 +8,7 @@ import Contact from './Contact';
 import Users from './Users';
 import Products from './Products';
 import ProductsList from './components/ProductsList';
+import ShowProduct from './components/ShowProduct';
 import {createStore} from 'redux';
 import reducers from './reducers'
 
@@ -20,6 +21,7 @@ render(
 		<Router history={browserHistory}>
 			<Route path="/" component={App}>
         <IndexRoute component={ProductsList} />
+        <Route path="/product/:id" component={ShowProduct}/>
         <Route path="/users" component={Users}/>
         <Route path="/products" component={Products}/>
         <Route path="/new/users" component={Contact}/>

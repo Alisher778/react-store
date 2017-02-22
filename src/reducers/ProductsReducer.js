@@ -1,5 +1,5 @@
-export default function() {
-  return[
+import $ from 'jquery';
+const data1 = [
           {
             id: 1,
             name: "defkvrfn ",
@@ -28,5 +28,7 @@ export default function() {
             updatedAt: "2017-02-21T04:01:12.310Z"
           },         
         ]
-
+export default function(state=data1) {
+  
+  return state;
 }

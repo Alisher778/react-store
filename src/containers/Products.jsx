@@ -3,12 +3,12 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 class Products extends Component {
+  
   getProductsList(){
-    return this.props.products.map((product) => {
-      return(
-        <li key={product.id}>{product.id}</li>
-      )
+   return this.props.products.map((product)=>{
+      return <li key={product.id}>{product.id}</li>
     })
+   
   }
 
   render() {
