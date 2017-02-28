@@ -1,7 +1,10 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 CREATE TABLE `Products` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` VARCHAR(255), `image` TEXT, `description` TEXT, `price` VARCHAR(255), `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);
-INSERT INTO "Products" VALUES(1,'defkvrfn ','https://s3.amazonaws.com/my-final-store%2Fproducts/1487632866945CROPPED-20161030_093823.jpg,https://s3.amazonaws.com/my-final-store%2Fproducts/1487632866949CROPPED-2.jpg','cdvf','1','2017-02-20 23:21:07.770 +00:00','2017-02-20 23:21:07.770 +00:00');
+INSERT INTO "Products" VALUES(6,'dfv','https://s3.amazonaws.com/my-final-store%2Fproducts/1487893957264CROPPED-20161030_093823.jpg','dfv','3','2017-02-23 23:52:38.072 +00:00','2017-02-23 23:52:38.072 +00:00');
+CREATE TABLE `Users` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `first_name` VARCHAR(255), `last_name` TEXT, `bio` TEXT, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);
+INSERT INTO "Users" VALUES(1,'defrbg','bg b','bg ','2017-02-21 00:45:24.567 +00:00','2017-02-21 00:45:24.567 +00:00');
 DELETE FROM sqlite_sequence;
-INSERT INTO "sqlite_sequence" VALUES('Products',1);
+INSERT INTO "sqlite_sequence" VALUES('Products',6);
+INSERT INTO "sqlite_sequence" VALUES('Users',1);
 COMMIT;

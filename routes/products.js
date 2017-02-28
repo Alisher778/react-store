@@ -7,10 +7,11 @@ const Sequelize = require('sequelize');
 const databaseURL   = 'sqlite://database.sqlite3';
 const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 const $           = require('jquery');
+const axios       = require('axios');
 
 const Product = sequelize.define('Product', {
   name: Sequelize.STRING,
-  image: Sequelize.TEXT,
+  image: {type: Sequelize.STRING, allowNull: true},
   description: Sequelize.TEXT,
   price: Sequelize.STRING
 })
@@ -34,6 +35,32 @@ var productImages = multer({
     })
 });
 
+
+
+router.get('/api/product/delete/:id', function(req, res){
+  Product.findById(req.params.id)
+    .then(function(respond){
+      //Delete image using Axios ajax
+      axios.delete(`${respond.image}`)
+      .then(function(info){
+        console.log('success',info)
+      }).catch(function(e){
+        console.error(e)
+      })
+      respond.destroy({
+        where: {
+          id: respond.id
+        }
+      }).then(function(){
+        res.redirect('/')
+      })
+      
+    })
+})
+
+
+
+
 //Get all Products
 router.get('/api/products', function(req, res){
   Product.findAll().then(function(products){
@@ -42,16 +69,17 @@ router.get('/api/products', function(req, res){
 });
 
 
-router.post('/api/new_product', productImages.any('image' ), function(req, res){
-  //take array and map it
-  //Map into string(array.join()) since DataType array is available in PG
+router.post('/api/new_product', productImages.single('image'), function(req, res){
+  console.log(req.body)
   sequelize.sync().then(function() {
     return Product.create({
     name: req.body.name,
-    image: req.files.map((image)=>{return image.location}).join(),
+    image: req.file.location,
     description: req.body.description,
     price: req.body.price
   }).then(function(product){
+    console.log(product)
+    console.log(product.file)
       res.redirect('/')
     })
   })
@@ -64,25 +92,5 @@ router.get('/api/product/:id', function(req, res){
   })
 })
 
-router.get('/api/product/delete/:id/:image', function(req, res){
-  let image = req.params.image;
-  let imageArray = image.split(',');
-  Product.destroy({where: 
-    {id: req.params.id}
-  }).then(function(){
-    for(let i = 0; i<imageArray.length; i++){
-      $.ajax({
-        url: `${imageArray[i]}`,
-        type: 'DELETE',
-        success: function(result){
-          console.log(`${result} is deleted`)
-        }
-      })
-    }
-    
-    res.json({msg: "Product is deleted successfully"})
-
-  })
-})
 
 module.exports = router;
