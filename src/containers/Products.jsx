@@ -22,21 +22,22 @@ export default class Products extends Component {
   }
 
 
-  postNewProduct(event){
-    event.preventDefault();
+  postProduct(){
+      $("form").submit(function(){
+       
+      var formData = new FormData($(this)[0]);
 
-    $.ajax({
-      url: "/api/new_product",
-      type: "POST",
-      data: $('form').serialize(),
-      sucess: function(data){
-        console.log(data)
-      },
-      error: function(err){
-        console.error(err)
-      }
-    })
-    
+      $.ajax({
+          url: '/api/new_product',
+          type: 'POST',
+          data: formData,
+          success: function (data) {
+              console.log(data)
+          },
+          cache: false
+      });
+          return false;
+      });
   }
   
   render() {
@@ -45,8 +46,8 @@ export default class Products extends Component {
         <ul>
           {this.state.products.map((product, i)=>{
             return(
-                <li key={i}>
-                  <Link to={`/api/product/${product.id}`}>
+                <li key={i} className="products-list">
+                  <Link to={`/api/product/${product.id}`} >
                     <img src={product.image} alt={product.name} />
                     <div>{product.name}</div>
                     <div>${product.price}</div>
@@ -56,11 +57,11 @@ export default class Products extends Component {
           })}
           
         </ul>
-        <form action="/api/new_product" method="post" encType="multipart/form-data" onSubmit={this.postNewProduct.bind(this)}>
-          <input type="text" name="name" id="name" />
-          <input type="file" name="image" id="image" />
-          <input type="text" name="info" id="info" />
-          <input type="text" name="price" id="price" />
+        <form action="/api/new_product" method="post" onSubmit={this.postProduct()} encType="multipart/form-data">
+          <p><input type="text" name="name" id="name" /></p>
+          <p><input type="file" name="image" id="image" /></p>
+          <p><input type="text" name="info" id="info" /></p>
+          <p><input type="text" name="price" id="price" /></p>
           <button type="submit">ADD</button>
         </form>
       </div>

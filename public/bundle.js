@@ -61,7 +61,7 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _Products = __webpack_require__(/*! ./components/Products.jsx */ 223);
+	var _Products = __webpack_require__(/*! ./containers/Products.jsx */ 223);
 	
 	var _Products2 = _interopRequireDefault(_Products);
 	
@@ -74,7 +74,9 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
-	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _Products2.default })
+	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Products2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _Products2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/api/product/:product_id', component: _Products2.default })
 	  )
 	), document.getElementById('app'));
 
@@ -26166,7 +26168,7 @@
 /***/ },
 /* 223 */
 /*!*************************************!*\
-  !*** ./src/components/Products.jsx ***!
+  !*** ./src/containers/Products.jsx ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -26224,20 +26226,22 @@
 	      }.bind(this));
 	    }
 	  }, {
-	    key: 'postNewProduct',
-	    value: function postNewProduct(event) {
-	      event.preventDefault();
+	    key: 'postProduct',
+	    value: function postProduct() {
+	      (0, _jquery2.default)("form").submit(function () {
 	
-	      _jquery2.default.ajax({
-	        url: "/api/new_product",
-	        type: "POST",
-	        data: (0, _jquery2.default)('form').serialize(),
-	        sucess: function sucess(data) {
-	          console.log(data);
-	        },
-	        error: function error(err) {
-	          console.error(err);
-	        }
+	        var formData = new FormData((0, _jquery2.default)(this)[0]);
+	
+	        _jquery2.default.ajax({
+	          url: '/api/new_product',
+	          type: 'POST',
+	          data: formData,
+	          success: function success(data) {
+	            console.log(data);
+	          },
+	          cache: false
+	        });
+	        return false;
 	      });
 	    }
 	  }, {
@@ -26252,7 +26256,7 @@
 	          this.state.products.map(function (product, i) {
 	            return _react2.default.createElement(
 	              'li',
-	              { key: i },
+	              { key: i, className: 'products-list' },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
 	                { to: '/api/product/' + product.id },
@@ -26274,11 +26278,27 @@
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { action: '/api/new_product', method: 'post', encType: 'multipart/form-data', onSubmit: this.postNewProduct.bind(this) },
-	          _react2.default.createElement('input', { type: 'text', name: 'name', id: 'name' }),
-	          _react2.default.createElement('input', { type: 'file', name: 'image', id: 'image' }),
-	          _react2.default.createElement('input', { type: 'text', name: 'info', id: 'info' }),
-	          _react2.default.createElement('input', { type: 'text', name: 'price', id: 'price' }),
+	          { action: '/api/new_product', method: 'post', onSubmit: this.postProduct(), encType: 'multipart/form-data' },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement('input', { type: 'text', name: 'name', id: 'name' })
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement('input', { type: 'file', name: 'image', id: 'image' })
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement('input', { type: 'text', name: 'info', id: 'info' })
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement('input', { type: 'text', name: 'price', id: 'price' })
+	          ),
 	          _react2.default.createElement(
 	            'button',
 	            { type: 'submit' },
