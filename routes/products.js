@@ -70,7 +70,6 @@ router.get('/api/products', function(req, res){
 
 
 router.post('/api/new_product', productImages.single('image'), function(req, res){
-  console.log(req.body)
   sequelize.sync().then(function() {
     return Product.create({
     name: req.body.name,
@@ -78,9 +77,7 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
     description: req.body.description,
     price: req.body.price
   }).then(function(product){
-    console.log(product)
-    console.log(product.file)
-      res.redirect('/')
+      res.json(product)
     })
   })
   

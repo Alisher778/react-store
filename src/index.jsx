@@ -4,13 +4,14 @@ import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-ro
 // Components
 import App from './App.jsx';
 import Products from './containers/Products.jsx';
+import ProductDetails from './containers/ProductDetails.jsx';
 
 render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={Products} />
         <Route path="/products" component={Products} />
-        <Route path="/api/product/:product_id" component={Products} />
+        <Route path="/product/:product_id" component={ProductDetails} />
       </Route>
     </Router>,
     document.getElementById('app')

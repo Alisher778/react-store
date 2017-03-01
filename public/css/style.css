@@ -29,9 +29,14 @@ header ul li{
 }
 .products-list{
   width: 30%;
+  float: left;
 }
 ul .products-list img{
-  width: 300px;
+  width: 100%;
   height: auto
+}
+ul form {
+  width: 100%;
+  float: none;
 }
 /*# sourceMappingURL=style.css.map */

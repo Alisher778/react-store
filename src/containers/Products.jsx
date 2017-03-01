@@ -18,26 +18,37 @@ export default class Products extends Component {
     $.get('/api/products', function(data){
       this.setState({products: data})
 
-    }.bind(this))
+    }.bind(this));
   }
 
 
-  postProduct(){
-      $("form").submit(function(){
-       
-      var formData = new FormData($(this)[0]);
+  postProduct(event){
+    console.log('IN function')
+      event.preventDefault();
+      var formData = new FormData(event.target);
+      console.log(formData)
 
-      $.ajax({
-          url: '/api/new_product',
-          type: 'POST',
-          data: formData,
-          success: function (data) {
-              console.log(data)
-          },
-          cache: false
+      axios.post('/api/new_product', formData)
+      .then((response) => {
+        console.log(response);
+        this.setState({products: response})
+      })
+      .catch((error) => {
+        console.log(error);
       });
-          return false;
-      });
+          
+  }
+
+  deleteProduct(event){
+    event.preventDefault();
+    let productId = $('')
+    $.ajax({
+    url: `/api/product/delete/`,
+    type: 'DELETE',
+    success: function(result) {
+        console.log(result)
+      }
+    });
   }
   
   render() {
@@ -47,17 +58,18 @@ export default class Products extends Component {
           {this.state.products.map((product, i)=>{
             return(
                 <li key={i} className="products-list">
-                  <Link to={`/api/product/${product.id}`} >
+                  <Link to={`/product/${product.id}`} >
                     <img src={product.image} alt={product.name} />
                     <div>{product.name}</div>
                     <div>${product.price}</div>
                   </Link>
+                 <button><a href={`/api/product/delete/${product.id}`}>DELETE</a></button> 
                 </li>
               )
           })}
           
         </ul>
-        <form action="/api/new_product" method="post" onSubmit={this.postProduct()} encType="multipart/form-data">
+        <form action="/api/new_product" method="post" onSubmit={this.postProduct.bind(this)} encType="multipart/form-data">
           <p><input type="text" name="name" id="name" /></p>
           <p><input type="file" name="image" id="image" /></p>
           <p><input type="text" name="info" id="info" /></p>

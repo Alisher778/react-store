@@ -65,9 +65,12 @@
 	
 	var _Products2 = _interopRequireDefault(_Products);
 	
+	var _ProductDetails = __webpack_require__(/*! ./containers/ProductDetails.jsx */ 271);
+	
+	var _ProductDetails2 = _interopRequireDefault(_ProductDetails);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// Components
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
 	  { history: _reactRouter.browserHistory },
@@ -76,9 +79,10 @@
 	    { path: '/', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Products2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _Products2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/api/product/:product_id', component: _Products2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default })
 	  )
 	), document.getElementById('app'));
+	// Components
 
 /***/ },
 /* 1 */
@@ -26227,21 +26231,32 @@
 	    }
 	  }, {
 	    key: 'postProduct',
-	    value: function postProduct() {
-	      (0, _jquery2.default)("form").submit(function () {
+	    value: function postProduct(event) {
+	      var _this2 = this;
 	
-	        var formData = new FormData((0, _jquery2.default)(this)[0]);
+	      console.log('IN function');
+	      event.preventDefault();
+	      var formData = new FormData(event.target);
+	      console.log(formData);
 	
-	        _jquery2.default.ajax({
-	          url: '/api/new_product',
-	          type: 'POST',
-	          data: formData,
-	          success: function success(data) {
-	            console.log(data);
-	          },
-	          cache: false
-	        });
-	        return false;
+	      _axios2.default.post('/api/new_product', formData).then(function (response) {
+	        console.log(response);
+	        _this2.setState({ products: response });
+	      }).catch(function (error) {
+	        console.log(error);
+	      });
+	    }
+	  }, {
+	    key: 'deleteProduct',
+	    value: function deleteProduct(event) {
+	      event.preventDefault();
+	      var productId = (0, _jquery2.default)('');
+	      _jquery2.default.ajax({
+	        url: '/api/product/delete/',
+	        type: 'DELETE',
+	        success: function success(result) {
+	          console.log(result);
+	        }
 	      });
 	    }
 	  }, {
@@ -26259,7 +26274,7 @@
 	              { key: i, className: 'products-list' },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/api/product/' + product.id },
+	                { to: '/product/' + product.id },
 	                _react2.default.createElement('img', { src: product.image, alt: product.name }),
 	                _react2.default.createElement(
 	                  'div',
@@ -26272,13 +26287,22 @@
 	                  '$',
 	                  product.price
 	                )
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '/api/product/delete/' + product.id },
+	                  'DELETE'
+	                )
 	              )
 	            );
 	          })
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { action: '/api/new_product', method: 'post', onSubmit: this.postProduct(), encType: 'multipart/form-data' },
+	          { action: '/api/new_product', method: 'post', onSubmit: this.postProduct.bind(this), encType: 'multipart/form-data' },
 	          _react2.default.createElement(
 	            'p',
 	            null,
@@ -39201,6 +39225,104 @@
 	return jQuery;
 	} );
 
+
+/***/ },
+/* 271 */
+/*!*******************************************!*\
+  !*** ./src/containers/ProductDetails.jsx ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 270);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ProductDetails = function (_Component) {
+	  _inherits(ProductDetails, _Component);
+	
+	  function ProductDetails(props) {
+	    _classCallCheck(this, ProductDetails);
+	
+	    var _this = _possibleConstructorReturn(this, (ProductDetails.__proto__ || Object.getPrototypeOf(ProductDetails)).call(this, props));
+	
+	    _this.state = { product: { id: '', name: '', info: '', image: '', price: '' } };
+	    return _this;
+	  }
+	
+	  _createClass(ProductDetails, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/api/product/' + this.props.params.product_id, function (data) {
+	        console.log(data);
+	        this.setState({
+	          product: { id: data.id, name: data.name, info: data.info, image: data.image, price: data.price }
+	        });
+	        console.log(this.state.product);
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'image-container' },
+	          _react2.default.createElement('img', { src: this.state.product.image, alt: this.state.product.name })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'product-info' },
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            this.state.product.image
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.product.info
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.product.price
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'buy-button' },
+	            'BUY'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ProductDetails;
+	}(_react.Component);
+	
+	exports.default = ProductDetails;
 
 /***/ }
 /******/ ]);
