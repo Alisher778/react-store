@@ -69,8 +69,13 @@
 	
 	var _ProductDetails2 = _interopRequireDefault(_ProductDetails);
 	
+	var _ProductForm = __webpack_require__(/*! ./components/ProductForm.jsx */ 272);
+	
+	var _ProductForm2 = _interopRequireDefault(_ProductForm);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	// Components
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
 	  { history: _reactRouter.browserHistory },
@@ -79,10 +84,10 @@
 	    { path: '/', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Products2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _Products2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default })
 	  )
 	), document.getElementById('app'));
-	// Components
 
 /***/ },
 /* 1 */
@@ -26141,21 +26146,51 @@
 	          'nav',
 	          null,
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'div',
+	            { className: 'logo' },
 	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/' },
-	              'Home'
+	              'li',
+	              { id: 'logo' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/' },
+	                'Home'
+	              )
 	            )
 	          ),
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'div',
+	            { className: 'nav-list' },
 	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/products' },
-	              'Products'
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/products' },
+	                'Products'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/products' },
+	                'Products1'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                'button',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/add/new_product' },
+	                  'Add Product'
+	                )
+	              )
 	            )
 	          )
 	        ),
@@ -26229,23 +26264,24 @@
 	        this.setState({ products: data });
 	      }.bind(this));
 	    }
-	  }, {
-	    key: 'postProduct',
-	    value: function postProduct(event) {
-	      var _this2 = this;
 	
-	      console.log('IN function');
-	      event.preventDefault();
-	      var formData = new FormData(event.target);
-	      console.log(formData);
+	    // postProduct(event){
+	    //   console.log('IN function')
+	    //     event.preventDefault();
+	    //     var formData = new FormData(event.target);
+	    //     console.log(formData)
 	
-	      _axios2.default.post('/api/new_product', formData).then(function (response) {
-	        console.log(response);
-	        _this2.setState({ products: response });
-	      }).catch(function (error) {
-	        console.log(error);
-	      });
-	    }
+	    //     axios.post('/api/new_product', formData)
+	    //     .then((response) => {
+	    //       console.log(response);
+	    //       this.setState({products: response})
+	    //     })
+	    //     .catch((error) => {
+	    //       console.log(error);
+	    //     });
+	
+	    // }
+	
 	  }, {
 	    key: 'deleteProduct',
 	    value: function deleteProduct(event) {
@@ -26267,7 +26303,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'ul',
-	          null,
+	          { className: 'all-products' },
 	          this.state.products.map(function (product, i) {
 	            return _react2.default.createElement(
 	              'li',
@@ -26287,47 +26323,9 @@
 	                  '$',
 	                  product.price
 	                )
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: '/api/product/delete/' + product.id },
-	                  'DELETE'
-	                )
 	              )
 	            );
 	          })
-	        ),
-	        _react2.default.createElement(
-	          'form',
-	          { action: '/api/new_product', method: 'post', onSubmit: this.postProduct.bind(this), encType: 'multipart/form-data' },
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement('input', { type: 'text', name: 'name', id: 'name' })
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement('input', { type: 'file', name: 'image', id: 'image' })
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement('input', { type: 'text', name: 'info', id: 'info' })
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement('input', { type: 'text', name: 'price', id: 'price' })
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { type: 'submit' },
-	            'ADD'
-	          )
 	        )
 	      );
 	    }
@@ -39273,11 +39271,9 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _jquery2.default.get('/api/product/' + this.props.params.product_id, function (data) {
-	        console.log(data);
 	        this.setState({
 	          product: { id: data.id, name: data.name, info: data.info, image: data.image, price: data.price }
 	        });
-	        console.log(this.state.product);
 	      }.bind(this));
 	    }
 	  }, {
@@ -39285,34 +39281,157 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'product-details' },
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'image-container' },
-	          _react2.default.createElement('img', { src: this.state.product.image, alt: this.state.product.name })
+	          'h1',
+	          null,
+	          this.state.product.name
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'product-info' },
+	          { className: 'product-container' },
 	          _react2.default.createElement(
-	            'h3',
-	            null,
-	            this.state.product.image
+	            'div',
+	            { className: 'product-info' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'product-image' },
+	              _react2.default.createElement('img', { src: this.state.product.image, alt: this.state.product.name })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'product-description' },
+	              _react2.default.createElement(
+	                'h3',
+	                null,
+	                this.state.product.name
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                this.state.product.info
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                'JBL Flip 3 Splashproof Wireless Bluetooth Speaker Blast your favorite tunes anywhere with this portable Bluetooth speaker, which plays music straight from your smartphone without making you fiddle with cords or safety harnesses. It belts out your favorite albums for up to 10 hours, letting you hang out all day before needing to recharge the built-in battery. Wireless Audio Thanks to multipoint Bluetooth connectivity, the Flip 3 has the power to connect wirelessly up to three devices at once, letting your friends share DJ duties without sharing cord-wrangling responsibilities. Rugged Design A tough housing of thick rubber and durable fabric keep the speaker safe at outdoor parties or trips to the beach. The device\u2019s splash-proof shell is durable enough to withstand both everyday roughhousing and nearby cannonball jumps into the pool.'
+	              )
+	            )
 	          ),
 	          _react2.default.createElement(
-	            'p',
-	            null,
-	            this.state.product.info
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            this.state.product.price
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'buy-button' },
-	            'BUY'
+	            'div',
+	            { className: 'side-bar' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              this.state.product.price
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'quantity' },
+	              'Quantity:',
+	              _react2.default.createElement(
+	                'select',
+	                null,
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '1' },
+	                  '1'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '2' },
+	                  '2'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '3' },
+	                  '3'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '4' },
+	                  '4'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '5' },
+	                  '5'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '6' },
+	                  '6'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '7' },
+	                  '7'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '8' },
+	                  '8'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '9' },
+	                  '9'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: '10' },
+	                  '10'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'color', 'aria-label': 'select-color' },
+	              _react2.default.createElement(
+	                'select',
+	                null,
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'select-color' },
+	                  'Select Color'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'black' },
+	                  'Black'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'white' },
+	                  'White'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'red' },
+	                  'Red'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'green' },
+	                  'Green'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'buy-button' },
+	              'BUY'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              null,
+	              _react2.default.createElement(
+	                'a',
+	                { href: '/api/product/delete/' + this.state.product.id },
+	                'DELETE'
+	              )
+	            )
 	          )
 	        )
 	      );
@@ -39323,6 +39442,110 @@
 	}(_react.Component);
 	
 	exports.default = ProductDetails;
+
+/***/ },
+/* 272 */
+/*!****************************************!*\
+  !*** ./src/components/ProductForm.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ProductForm = function (_Component) {
+	  _inherits(ProductForm, _Component);
+	
+	  function ProductForm() {
+	    _classCallCheck(this, ProductForm);
+	
+	    return _possibleConstructorReturn(this, (ProductForm.__proto__ || Object.getPrototypeOf(ProductForm)).apply(this, arguments));
+	  }
+	
+	  _createClass(ProductForm, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "new-products-form" },
+	        _react2.default.createElement(
+	          "form",
+	          { action: "/api/new_product", method: "post", encType: "multipart/form-data" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "form-items" },
+	            _react2.default.createElement(
+	              "label",
+	              null,
+	              "Name:"
+	            ),
+	            _react2.default.createElement("input", { type: "text", name: "name", id: "name", placeholder: "Product title" })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "form-items" },
+	            _react2.default.createElement(
+	              "label",
+	              null,
+	              "Image:"
+	            ),
+	            _react2.default.createElement("input", { type: "file", name: "image", id: "image" })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "form-items" },
+	            _react2.default.createElement(
+	              "label",
+	              null,
+	              "Price:"
+	            ),
+	            _react2.default.createElement("input", { type: "number", name: "price", id: "price", placeholder: "price in USD" })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "form-items" },
+	            _react2.default.createElement(
+	              "label",
+	              null,
+	              "Details:"
+	            ),
+	            _react2.default.createElement("textarea", { rows: "6", cols: "50", type: "text", name: "info", id: "info", placeholder: "Product details" })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "form-items button" },
+	            _react2.default.createElement(
+	              "button",
+	              { type: "submit" },
+	              "ADD NEW PRODUCT"
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ProductForm;
+	}(_react.Component);
+	
+	exports.default = ProductForm;
 
 /***/ }
 /******/ ]);

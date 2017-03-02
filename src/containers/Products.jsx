@@ -22,22 +22,22 @@ export default class Products extends Component {
   }
 
 
-  postProduct(event){
-    console.log('IN function')
-      event.preventDefault();
-      var formData = new FormData(event.target);
-      console.log(formData)
+  // postProduct(event){
+  //   console.log('IN function')
+  //     event.preventDefault();
+  //     var formData = new FormData(event.target);
+  //     console.log(formData)
 
-      axios.post('/api/new_product', formData)
-      .then((response) => {
-        console.log(response);
-        this.setState({products: response})
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  //     axios.post('/api/new_product', formData)
+  //     .then((response) => {
+  //       console.log(response);
+  //       this.setState({products: response})
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
           
-  }
+  // }
 
   deleteProduct(event){
     event.preventDefault();
@@ -54,7 +54,7 @@ export default class Products extends Component {
   render() {
     return(
       <div>
-        <ul>
+        <ul className="all-products">
           {this.state.products.map((product, i)=>{
             return(
                 <li key={i} className="products-list">
@@ -63,19 +63,10 @@ export default class Products extends Component {
                     <div>{product.name}</div>
                     <div>${product.price}</div>
                   </Link>
-                 <button><a href={`/api/product/delete/${product.id}`}>DELETE</a></button> 
                 </li>
               )
           })}
-          
         </ul>
-        <form action="/api/new_product" method="post" onSubmit={this.postProduct.bind(this)} encType="multipart/form-data">
-          <p><input type="text" name="name" id="name" /></p>
-          <p><input type="file" name="image" id="image" /></p>
-          <p><input type="text" name="info" id="info" /></p>
-          <p><input type="text" name="price" id="price" /></p>
-          <button type="submit">ADD</button>
-        </form>
       </div>
     )
   }

@@ -77,7 +77,7 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
     description: req.body.description,
     price: req.body.price
   }).then(function(product){
-      res.json(product)
+      res.redirect('/')
     })
   })
   
