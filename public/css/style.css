@@ -10,6 +10,12 @@ body {
 *{
   box-sizing: border-box;
 }
+a{
+  text-decoration: none;
+}
+ul li{
+  list-style-type: none;
+}
 /*======================================= Nav Bar =========================================*/
 nav{
   display: flex;
@@ -52,13 +58,30 @@ nav li a{
 .products-list{
   box-sizing: border-box;
   list-style-type: none;
-  flex: 0 24%;
+  flex: 0 22%;
   text-align: center;
-  border: 1px solid;
   margin: 2px;
+  margin: 12px 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #bebcbc;
+}
+.products-list a{
+  text-decoration: none;
 }
 .products-list img{
-  width: 200px;
+  width: 250px;
+  height: 200px;
+  margin-top: 25px;
+}
+.product-name{
+  color: black;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+.product-price{
+  color: #119185;
+  font-size: 1.3em;
+  font-weight: 900;
 }
 
 /*=============================== ProductForm.jsx ========================================*/
@@ -174,6 +197,25 @@ input#image {
   margin: 10px 0;
 }
 
+
+/*============================ Shopping Cart==========================*/
+
+.item-details{
+  display: flex;
+  border: 1px solid;
+}
+item-details li:nth-child(1){
+  flex-grow: 1;
+}
+item-details li:nth-child(2){
+  flex-flow: 3;
+}
+item-details li:nth-child(3){
+  flex-grow: 1
+}
+.image-src img{
+  width: 100px;
+}
 
 
 

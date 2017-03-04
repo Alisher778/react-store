@@ -30,16 +30,6 @@ class ProductDetails extends Component{
             <div className="product-description">
               <h3>{this.state.product.name}</h3>
               <p>{this.state.product.info}</p>
-              <div>JBL Flip 3 Splashproof Wireless Bluetooth Speaker
-Blast your favorite tunes anywhere with this portable Bluetooth speaker, which plays music straight from your smartphone without making you fiddle with cords or safety harnesses. It belts out your favorite albums for up to 10 hours, letting you hang out all day before needing to recharge the built-in battery.
-
-Wireless Audio
-Thanks to multipoint Bluetooth connectivity, the Flip 3 has the power to connect wirelessly up to three devices at once, letting your friends share DJ duties without sharing cord-wrangling responsibilities.
-
-Rugged Design
-A tough housing of thick rubber and durable fabric keep the speaker safe at outdoor parties or trips to the beach. The device’s splash-proof shell is durable enough to withstand both everyday roughhousing and nearby cannonball jumps into the pool.
-
-</div>
             </div>
 
           </div>

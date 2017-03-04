@@ -60,8 +60,8 @@ export default class Products extends Component {
                 <li key={i} className="products-list">
                   <Link to={`/product/${product.id}`} >
                     <img src={product.image} alt={product.name} />
-                    <div>{product.name}</div>
-                    <div>${product.price}</div>
+                    <div className="product-name">{product.name}</div>
+                    <div className="product-price">${product.price}</div>
                   </Link>
                 </li>
               )

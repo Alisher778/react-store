@@ -3,17 +3,63 @@ const router      = express.Router();
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
+const passwordHash  = require('password-hash');
 const Sequelize = require('sequelize');
 const databaseURL   = 'sqlite://database.sqlite3';
 const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 
+aws.config.update({
+    secretAccessKey: process.env.SECRETACCESSKEY,
+    accessKeyId: process.env.ACCESSKEYID,
+    region: 'us-east-1'
+});
+
+const s3 = new aws.S3();
+
+const userImage = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'my-final-store/users',
+        key: function (req, file, cb) {
+            cb(null, Date.now() + file.originalname);
+        }
+    })
+});
 
 const User = sequelize.define('User', {
   first_name: Sequelize.STRING,
   last_name: Sequelize.TEXT,
-  bio: Sequelize.TEXT
+  email: Sequelize.TEXT,
+  password: Sequelize.STRING,
+  avatar: {type: Sequelize.TEXT, defaultValue: "https://s3.amazonaws.com/my-final-store/users/avatar.png"}
+});
+
+const Address = sequelize.define('Address', {
+  user_id: Sequelize.INTEGER,
+  full_name: Sequelize.STRING,
+  street: Sequelize.TEXT,
+  apartment: Sequelize.TEXT,
+  city: Sequelize.STRING,
+  state: Sequelize.STRING,
+  zip: Sequelize.STRING,
+  country: Sequelize.STRING,
+  phone: Sequelize.STRING,
+  note: Sequelize.TEXT
+});
+
+const Cart = sequelize.define('Cart', {
+  user_id: Sequelize.INTEGER,
+  product_id: Sequelize.INTEGER,
+  product_name: Sequelize.STRING,
+  product_image: Sequelize.TEXT,
+  product_info: Sequelize.TEXT,
+  product_price: Sequelize.STRING,
+  product_quantity: Sequelize.INTEGER,
+  product_color: Sequelize.STRING,
 })
 
+User.hasMany(Cart); 
+User.hasMany(Address);
 
 router.get('/api/users', function(req, res){
   User.findAll().then(function(users){
@@ -21,18 +67,16 @@ router.get('/api/users', function(req, res){
   })
 });
 
-//Get a New User Form ********************************************************
-router.get('/new/users', function(req, res){
-  res.render('user');
-})
+//Get a New User Form *******************************************************
 
-
-router.post('/api/new_user', function(req, res){
+router.post('/api/register', userImage.single('avatar'), function(req, res){
   sequelize.sync().then(function() {
     return User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
-      bio: req.body.bio
+      email: req.body.email,
+      password: passwordHash.generate(req.body.password),
+      avatar: req.file.location
     }).then(function(user){
       res.json(user)
     })
