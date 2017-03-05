@@ -68,6 +68,22 @@ router.get('/api/users', function(req, res){
 });
 
 //Get a New User Form *******************************************************
+router.get('/api/user/:id', function(){
+  User.findById(req.params.id).then(function(user){
+    res.json(user);
+    console.log(user);
+  })
+});
+
+router.get('/api/user/:email', function(){
+  User.findAll({where: {
+      email: req.params.email
+    }
+  }).then(function(user){
+    res.json(user);
+    console.log(user);
+  })
+});
 
 router.post('/api/register', userImage.single('avatar'), function(req, res){
   sequelize.sync().then(function() {
@@ -81,6 +97,36 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       res.json(user)
     })
   })
+})
+
+
+// Create Users address*********************************************************
+
+router.post('/api/user/:id/address', function(req, res){
+  sequelize.sync().then(function(){
+    return Address.create({
+      user_id:   req.params.id,
+      full_name: req.body.full_name,
+      street:    req.body.street,
+      apartment: req.body.apartment,
+      city:      req.body.city,
+      state:     req.body.state,
+      zip:       req.body.zip,
+      country:   req.body.country,
+      phone:     req.body.phone,
+      note:      req.body.note
+    }).then(function(result){
+      res.json(result)
+    })
+  })
+})
+
+router.get('/api/user/address/:user_id', function(req, res){
+  Address.findAll({where: {user_id: req.params.id}})
+    .then(function(result){
+      res.json(result);
+      console.log(result);
+    })
 })
 
 module.exports = router;

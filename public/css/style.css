@@ -219,7 +219,23 @@ item-details li:nth-child(3){
 
 
 
+/*=========================== User Profile =============================*/
+.user-profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+.address-hidden{
+  display: none;
 
+}
+.address-hidden label{
+  width: 115px;
+}
+.address-hidden input{
+  width: 75%;
+}
 
 
 

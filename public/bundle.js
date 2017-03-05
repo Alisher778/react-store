@@ -41373,11 +41373,19 @@
 	
 	    var _this = _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).call(this, props));
 	
-	    _this.state = { user: { id: '0', first_name: 'Ali', last_name: 'Ali', password: 'password' } };
+	    _this.state = { user: { id: '1', first_name: 'Ali', last_name: 'Ali', password: 'password' } };
 	    return _this;
 	  }
 	
 	  _createClass(UserProfile, [{
+	    key: 'addAddress',
+	    value: function addAddress() {
+	      (0, _jquery2.default)('.add-address').click(function (e) {
+	        e.preventDefault();
+	        (0, _jquery2.default)('.address-hidden').toggle();
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -41397,6 +41405,122 @@
 	          'p',
 	          null,
 	          this.state.user.password
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'add-address' },
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.addAddress.bind(this) },
+	            'Add Address'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'address-hidden' },
+	          _react2.default.createElement(
+	            'form',
+	            { action: '/users/api/user/' + this.state.user.id + '/address', method: 'post' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Full Name'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'full_name' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Street'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'street' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Apartment/suit'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'apartment' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'City'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'city' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'State'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'state' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Zip/Postal'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'zip' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Country'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'country' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Phone'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', name: 'phone' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Notes'
+	              ),
+	              _react2.default.createElement('textarea', { type: 'text', name: 'note' })
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              _react2.default.createElement(
+	                'button',
+	                { type: 'submit' },
+	                'Add Address'
+	              )
+	            )
+	          )
 	        )
 	      );
 	    }
