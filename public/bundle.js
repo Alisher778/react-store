@@ -93,6 +93,7 @@
 	//   }
 	// });
 	
+	
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
 	  { history: _reactRouter.browserHistory },
@@ -103,9 +104,9 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _Products2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/cart/:user_name', component: _ShoppingCart2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/cart/:id', component: _ShoppingCart2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/sign_up', component: _UserRegister2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/profile/:name', component: _UserProfile2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/profile/:id', component: _UserProfile2.default })
 	  )
 	), document.getElementById('app'));
 	// import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath';
@@ -25612,13 +25613,25 @@
 	var App = function (_Component) {
 	  _inherits(App, _Component);
 	
-	  function App() {
+	  function App(props) {
 	    _classCallCheck(this, App);
 	
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	
+	    _this.state = { item: '0' };
+	    return _this;
 	  }
 	
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      $.get('/users/api/cart/1', function (data) {
+	        this.setState({
+	          item: data.length
+	        });
+	      }.bind(this));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -25657,8 +25670,9 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/cart/:user_name', activeStyle: { color: 'red' } },
-	                'Shooping Cart'
+	                { to: '/cart/:id', activeStyle: { color: 'red' } },
+	                'Shooping Cart ',
+	                this.state.item
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -25688,7 +25702,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/profile/:name', activeStyle: { color: 'red' } },
+	                { to: '/profile/:id', activeStyle: { color: 'red' } },
 	                'User'
 	              )
 	            )
@@ -41014,6 +41028,10 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
+	var _axios = __webpack_require__(/*! axios */ 285);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41042,6 +41060,25 @@
 	          product: { id: data.id, name: data.name, info: data.info, image: data.image, price: data.price }
 	        });
 	      }.bind(this));
+	    }
+	  }, {
+	    key: 'addToCart',
+	    value: function addToCart() {
+	      var selectedProduct = {
+	        user_id: this.props.params.user_id,
+	        product_id: this.state.product.id,
+	        product_name: this.state.product.name,
+	        product_image: this.state.product.image,
+	        product_info: this.state.product.info,
+	        product_price: this.state.product.price,
+	        product_quantity: (0, _jquery2.default)('.select-quantity').val(),
+	        product_color: (0, _jquery2.default)('.select-color').val()
+	      };
+	      _axios2.default.post('/users/api/cart/1/' + this.state.product.id, selectedProduct).then(function (data) {
+	        console.log(data);
+	      }).catch(function (error) {
+	        console.log(error);
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -41094,7 +41131,7 @@
 	              'Quantity:',
 	              _react2.default.createElement(
 	                'select',
-	                null,
+	                { className: 'select-quantity' },
 	                _react2.default.createElement(
 	                  'option',
 	                  { value: '1' },
@@ -41152,7 +41189,7 @@
 	              { className: 'color', 'aria-label': 'select-color' },
 	              _react2.default.createElement(
 	                'select',
-	                null,
+	                { className: 'select-color' },
 	                _react2.default.createElement(
 	                  'option',
 	                  { value: 'select-color' },
@@ -41182,7 +41219,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { className: 'buy-button' },
+	              { className: 'buy-button', onClick: this.addToCart.bind(this) },
 	              'BUY'
 	            ),
 	            _react2.default.createElement(
@@ -41224,6 +41261,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _jquery = __webpack_require__(/*! jquery */ 261);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41241,19 +41282,30 @@
 	    var _this = _possibleConstructorReturn(this, (ShoppingCart.__proto__ || Object.getPrototypeOf(ShoppingCart)).call(this, props));
 	
 	    _this.state = { items: [{
-	        userid: '1',
-	        productId: '2',
-	        name: 'Iphone 6 plus',
-	        image: "https://s3.amazonaws.com/my-final-store/products/product.jpg",
-	        quantity: 2,
-	        color: 'black',
-	        price: 699
+	        id: 0,
+	        user_id: '1',
+	        product_id: '2',
+	        product_name: 'Iphone 6 plus',
+	        product_image: "https://s3.amazonaws.com/my-final-store/products/product.jpg",
+	        product_info: 'some info',
+	        product_quantity: 2,
+	        product_color: 'black',
+	        product_price: 699
 	      }] };
 	
 	    return _this;
 	  }
 	
 	  _createClass(ShoppingCart, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/users/api/cart/' + this.props.params.id, function (data) {
+	        this.setState({
+	          items: data
+	        });
+	      }.bind(this));
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -41264,7 +41316,9 @@
 	          null,
 	          'Hello ',
 	          this.props.params.user_name,
-	          '. Your Items in the cart!'
+	          '. Your have ',
+	          this.state.items.length,
+	          'Items in the cart!'
 	        ),
 	        this.state.items.map(function (item) {
 	          return _react2.default.createElement(
@@ -41275,37 +41329,37 @@
 	              { className: 'item-details' },
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'image-src', key: item.image },
-	                _react2.default.createElement('img', { src: item.image, alt: 'product default image' })
+	                { className: 'image-src', id: item.product_name },
+	                _react2.default.createElement('img', { src: item.product_image, alt: 'product default image' })
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                { key: item.productId },
+	                { id: item.product_id },
 	                _react2.default.createElement(
 	                  'ul',
 	                  { className: 'product-details' },
 	                  _react2.default.createElement(
 	                    'li',
-	                    { key: item.name },
-	                    item.name
+	                    { id: item.product_name },
+	                    item.product_name
 	                  ),
 	                  _react2.default.createElement(
 	                    'li',
-	                    { key: item.quantity },
+	                    { id: item.product_quantity },
 	                    _react2.default.createElement(
 	                      'span',
 	                      null,
-	                      item.quantity,
+	                      item.product_quantity,
 	                      ' '
 	                    )
 	                  ),
 	                  _react2.default.createElement(
 	                    'li',
-	                    { key: item.color },
+	                    { id: item.product_color },
 	                    _react2.default.createElement(
 	                      'span',
 	                      null,
-	                      item.color,
+	                      item.product_color,
 	                      ' '
 	                    )
 	                  )
@@ -41313,14 +41367,14 @@
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                { key: item.price },
+	                { id: item.product_price },
 	                '$',
-	                item.price
+	                item.product_price
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'a',
-	              { href: '/delete/this/item' },
+	              { href: '/users/api/cart/' + item.id + '/delete' },
 	              'Remove'
 	            )
 	          );
@@ -41359,6 +41413,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -41369,15 +41425,44 @@
 	  _inherits(UserProfile, _Component);
 	
 	  function UserProfile(props) {
+	    var _user;
+	
 	    _classCallCheck(this, UserProfile);
 	
 	    var _this = _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).call(this, props));
 	
-	    _this.state = { user: { id: '1', first_name: 'Ali', last_name: 'Ali', password: 'password' } };
+	    _this.state = { user: (_user = { id: '1',
+	        first_name: 'Ali',
+	        last_name: 'Ali',
+	        password: 'password',
+	        email: 'example@eaxmple.com'
+	      }, _defineProperty(_user, 'password', 'password'), _defineProperty(_user, 'avatar', 'https://s3.amazonaws.com/my-final-store/users/avatar.png'), _user),
+	      address: { id: '1',
+	        full_name: 'Admin Admin',
+	        street: '2060 E205 Ave',
+	        apartment: '1K',
+	        city: 'Brooklyn',
+	        state: 'NY', zip: '11011',
+	        country: 'United States of America',
+	        phone: '888-000-7777',
+	        note: 'Be aware of the dog'
+	      }
+	    };
 	    return _this;
 	  }
 	
 	  _createClass(UserProfile, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/users/api/user/' + this.props.params.id, function (data) {
+	        this.setState({ user: { id: data.id, first_name: data.first_name, last_name: data.last_name, email: data.email, password: data.password, avatar: data.avatar } });
+	      }.bind(this));
+	
+	      _jquery2.default.get('/users/api/user/address/' + this.state.user.id, function (data) {
+	        this.setState({ address: { id: data.id, full_name: data.full_name, street: data.street, apartment: data.apartment, city: data.city, state: data.state, zip: data.zip, country: data.country, phone: data.phone, note: data.note } });
+	      }.bind(this));
+	    }
+	  }, {
 	    key: 'addAddress',
 	    value: function addAddress() {
 	      (0, _jquery2.default)('.add-address').click(function (e) {
@@ -41404,15 +41489,65 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
+	          this.state.user.email
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
 	          this.state.user.password
 	        ),
 	        _react2.default.createElement(
+	          'p',
+	          null,
+	          _react2.default.createElement('img', { src: this.state.user.avatar, alt: this.state.user.first_name, style: { width: "100px" } })
+	        ),
+	        _react2.default.createElement(
 	          'div',
-	          { className: 'add-address' },
+	          { className: 'address-details' },
 	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.addAddress.bind(this) },
-	            'Add Address'
+	            'p',
+	            null,
+	            this.state.address.full_name
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.street
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.apartment
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.city
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.state
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.zip
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.country
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.phone
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.state.address.note
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -41520,6 +41655,15 @@
 	                'Add Address'
 	              )
 	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'add-address' },
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.addAddress.bind(this) },
+	            'Add Address'
 	          )
 	        )
 	      );

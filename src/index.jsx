@@ -17,6 +17,7 @@ import UserProfile from './containers/UserProfile.jsx';
 //   }
 // });
 
+
 render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
@@ -24,9 +25,9 @@ render(
         <Route path="/products" component={Products} />
         <Route path="/product/:product_id" component={ProductDetails} />
         <Route path="/add/new_product" component={ProductForm} />
-        <Route path="/cart/:user_name" component={ShoppingCart} />
+        <Route path="/cart/:id" component={ShoppingCart} />
         <Route path="/sign_up" component={UserRegister} />
-        <Route path="/profile/:name" component={UserProfile} />
+        <Route path="/profile/:id" component={UserProfile} />
       </Route>
     </Router>,
     document.getElementById('app')

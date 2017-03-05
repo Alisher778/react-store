@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
+import axios from 'axios';
 
 class ProductDetails extends Component{
 
@@ -14,6 +15,25 @@ class ProductDetails extends Component{
         product: {id: data.id, name: data.name, info: data.info, image: data.image, price: data.price}
       });
     }.bind(this))
+  }
+
+  addToCart(){
+    const selectedProduct = {
+      user_id: this.props.params.user_id,
+      product_id: this.state.product.id,
+      product_name: this.state.product.name,
+      product_image: this.state.product.image,
+      product_info: this.state.product.info,
+      product_price: this.state.product.price,
+      product_quantity: $('.select-quantity').val(),
+      product_color: $('.select-color').val()
+    }
+    axios.post(`/users/api/cart/1/${this.state.product.id}`, selectedProduct)
+      .then(function(data){
+        console.log(data)
+      }).catch(function(error){
+        console.log(error)
+      })
   }
 
   render() {
@@ -37,7 +57,7 @@ class ProductDetails extends Component{
             <div className="side-bar">
               <p>{this.state.product.price}</p>
               <div className="quantity">Quantity: 
-                <select>
+                <select className="select-quantity">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -51,7 +71,7 @@ class ProductDetails extends Component{
                 </select>
               </div>
               <div className="color" aria-label="select-color">
-                <select>
+                <select className="select-color">
                   <option value="select-color">Select Color</option>
                   <option value="black">Black</option>
                   <option value="white">White</option>
@@ -59,7 +79,7 @@ class ProductDetails extends Component{
                   <option value="green">Green</option>
                 </select>
               </div>
-              <button className="buy-button">BUY</button>
+              <button className="buy-button" onClick={this.addToCart.bind(this)}>BUY</button>
               <button><a href={`/api/product/delete/${this.state.product.id}`}>DELETE</a></button> 
             </div>
          

@@ -68,20 +68,18 @@ router.get('/api/users', function(req, res){
 });
 
 //Get a New User Form *******************************************************
-router.get('/api/user/:id', function(){
+router.get('/api/user/:id', function(req, res){
   User.findById(req.params.id).then(function(user){
     res.json(user);
-    console.log(user);
   })
 });
 
-router.get('/api/user/:email', function(){
+router.get('/api/user/:email', function(req, res){
   User.findAll({where: {
       email: req.params.email
     }
   }).then(function(user){
     res.json(user);
-    console.log(user);
   })
 });
 
@@ -122,11 +120,87 @@ router.post('/api/user/:id/address', function(req, res){
 })
 
 router.get('/api/user/address/:user_id', function(req, res){
-  Address.findAll({where: {user_id: req.params.id}})
+  Address.findAll({where: {user_id: req.params.user_id}})
     .then(function(result){
       res.json(result);
-      console.log(result);
     })
 })
+
+
+// Create Shopping cart ***********************************************************
+
+
+router.post("/api/cart/:user_id/:product_id", function(req, res){
+  Cart.findAll({
+    where: {product_id: req.params.product_id}
+  }).then(function(data){
+    
+    if(data.length == 0){
+      sequelize.sync().then(function(){
+        return Cart.create({
+          user_id: req.params.user_id,
+          product_id: req.params.product_id,
+          product_name: req.body.product_name,
+          product_image: req.body.product_image,
+          product_info: req.body.product_info,
+          product_price: req.body.product_price,
+          product_quantity: req.body.product_quantity,
+          product_color: req.body.product_color
+        }).then(function(result){
+          res.json(result);
+        })
+      })
+    }else{
+      console.log(data[0])
+      return data[0].increment({
+        product_quantity: 1
+      }).then(function(data){
+        res.json(data)
+      })
+    }
+  })
+  
+})
+
+router.get('/api/cart/:user_id', function(req, res){
+  Cart.findAll({where: {user_id: req.params.user_id}})
+    .then(function(data){
+      res.json(data)
+    })
+})
+
+router.get('/api/cart/:id/delete', function(req, res){
+  Cart.destroy({
+    where: {id: req.params.id}
+  }).then(function(data){
+    res.json({msg: 'item deleted successfully'})
+    console.log("item was deleted successfully")
+  }).catch(function(error){
+    console.error(error)
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;
