@@ -32,7 +32,8 @@ class UserProfile extends Component {
     }.bind(this));
 
     $.get(`/users/api/user/address/${this.state.user.id}`, function(data){
-      this.setState({address: {id: data.id, full_name: data.full_name, street: data.street, apartment: data.apartment, city: data.city, state: data.state, zip: data.zip, country: data.country, phone: data.phone, note: data.note }});
+      console.log(data)
+      this.setState({address: data[0]});
     }.bind(this))
   }
   

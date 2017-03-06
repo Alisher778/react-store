@@ -10,6 +10,7 @@ const express     = require('express')
 const path        = require('path')
 const app         = express();
 const bodyParser  = require("body-parser");
+const session     = require('express-session');
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
@@ -20,6 +21,11 @@ const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 app.use( express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
 
 app.set('view engine', 'ejs')
 const products = require('./routes/products');

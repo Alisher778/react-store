@@ -29,11 +29,11 @@ class ProductDetails extends Component{
       product_color: $('.select-color').val()
     }
     axios.post(`/users/api/cart/1/${this.state.product.id}`, selectedProduct)
-      .then(function(data){
-        console.log(data)
-      }).catch(function(error){
-        console.log(error)
-      })
+    .then(function(data){
+      this.props.incrementCart()
+    }.bind(this)).catch(function(error){
+      console.log(error)
+    })
   }
 
   render() {

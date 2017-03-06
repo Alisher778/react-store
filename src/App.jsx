@@ -5,17 +5,24 @@ import {Link, browserHistory} from 'react-router';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state={item: '0'}
+    this.state={item: 0}
   }
 
   componentDidMount() {
     $.get(`/users/api/cart/1`, function(data){
       this.setState({
-        item: data.length
+        item: data.length,
+        uid: 0
       });
     }.bind(this))
   }
 
+  incrementCart(){
+    this.setState({
+      item: this.state.item + 1
+    })
+  }
+ 
 
   render() {
     return(
@@ -32,7 +39,10 @@ export default class App extends Component {
             <li><Link to="/profile/:id" activeStyle={{ color: 'red' }}>User</Link></li>
           </div>
         </nav>
-        {this.props.children}
+        {this.props.children && React.cloneElement(this.props.children, {
+              incrementCart: this.incrementCart.bind(this),
+              uid: this.state.uid
+            })}
       </div>
     )
   }

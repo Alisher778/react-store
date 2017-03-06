@@ -203,15 +203,16 @@ input#image {
 .item-details{
   display: flex;
   border: 1px solid;
+  justify-content: space-around;
 }
 item-details li:nth-child(1){
-  flex-grow: 1;
+  flex-grow: 2;
 }
 item-details li:nth-child(2){
   flex-flow: 3;
 }
 item-details li:nth-child(3){
-  flex-grow: 1
+  flex-grow: 2
 }
 .image-src img{
   width: 100px;

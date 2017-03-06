@@ -44,7 +44,8 @@ class ShoppingCart extends Component {
                     </ul>
                   </li>
                   <li id={item.product_price}>
-                    ${item.product_price}
+                    <div>Unit Price: ${item.product_price}</div>
+                    <div><b>Total:</b> ${item.product_price * item.product_quantity}</div>
                   </li>
                 </ul>
                 <a href={`/users/api/cart/${item.id}/delete`}>Remove</a>
@@ -52,7 +53,7 @@ class ShoppingCart extends Component {
             )
           })
         }
-        
+        <h1>Total: {}</h1>
       </div>
     )
   }

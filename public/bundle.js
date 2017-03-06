@@ -25618,7 +25618,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-	    _this.state = { item: '0' };
+	    _this.state = { item: 0 };
 	    return _this;
 	  }
 	
@@ -25627,9 +25627,17 @@
 	    value: function componentDidMount() {
 	      $.get('/users/api/cart/1', function (data) {
 	        this.setState({
-	          item: data.length
+	          item: data.length,
+	          uid: 0
 	        });
 	      }.bind(this));
+	    }
+	  }, {
+	    key: 'incrementCart',
+	    value: function incrementCart() {
+	      this.setState({
+	        item: this.state.item + 1
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -25708,7 +25716,10 @@
 	            )
 	          )
 	        ),
-	        this.props.children
+	        this.props.children && _react2.default.cloneElement(this.props.children, {
+	          incrementCart: this.incrementCart.bind(this),
+	          uid: this.state.uid
+	        })
 	      );
 	    }
 	  }]);
@@ -41075,8 +41086,8 @@
 	        product_color: (0, _jquery2.default)('.select-color').val()
 	      };
 	      _axios2.default.post('/users/api/cart/1/' + this.state.product.id, selectedProduct).then(function (data) {
-	        console.log(data);
-	      }).catch(function (error) {
+	        this.props.incrementCart();
+	      }.bind(this)).catch(function (error) {
 	        console.log(error);
 	      });
 	    }
@@ -41368,8 +41379,23 @@
 	              _react2.default.createElement(
 	                'li',
 	                { id: item.product_price },
-	                '$',
-	                item.product_price
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  'Unit Price: $',
+	                  item.product_price
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  null,
+	                  _react2.default.createElement(
+	                    'b',
+	                    null,
+	                    'Total:'
+	                  ),
+	                  ' $',
+	                  item.product_price * item.product_quantity
+	                )
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -41378,7 +41404,12 @@
 	              'Remove'
 	            )
 	          );
-	        })
+	        }),
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Total: '
+	        )
 	      );
 	    }
 	  }]);
@@ -41459,7 +41490,8 @@
 	      }.bind(this));
 	
 	      _jquery2.default.get('/users/api/user/address/' + this.state.user.id, function (data) {
-	        this.setState({ address: { id: data.id, full_name: data.full_name, street: data.street, apartment: data.apartment, city: data.city, state: data.state, zip: data.zip, country: data.country, phone: data.phone, note: data.note } });
+	        console.log(data);
+	        this.setState({ address: data[0] });
 	      }.bind(this));
 	    }
 	  }, {

@@ -74,15 +74,6 @@ router.get('/api/user/:id', function(req, res){
   })
 });
 
-router.get('/api/user/:email', function(req, res){
-  User.findAll({where: {
-      email: req.params.email
-    }
-  }).then(function(user){
-    res.json(user);
-  })
-});
-
 router.post('/api/register', userImage.single('avatar'), function(req, res){
   sequelize.sync().then(function() {
     return User.create({
@@ -96,6 +87,7 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
     })
   })
 })
+
 
 
 // Create Users address*********************************************************
@@ -173,7 +165,7 @@ router.get('/api/cart/:id/delete', function(req, res){
   Cart.destroy({
     where: {id: req.params.id}
   }).then(function(data){
-    res.json({msg: 'item deleted successfully'})
+    res.redirect(`/cart/${req.params.id}`)
     console.log("item was deleted successfully")
   }).catch(function(error){
     console.error(error)
