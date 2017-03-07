@@ -36,7 +36,7 @@ var productImages = multer({
 });
 
 
-
+// ################# DELETE Product By Id ###################
 router.get('/api/product/delete/:id', function(req, res){
   Product.findById(req.params.id)
     .then(function(respond){
@@ -60,15 +60,14 @@ router.get('/api/product/delete/:id', function(req, res){
 
 
 
-
-//Get all Products
+// ################# Find All Products ###################
 router.get('/api/products', function(req, res){
   Product.findAll().then(function(products){
     res.json(products);
   })
 });
 
-
+// ################# Post New Product ###################
 router.post('/api/new_product', productImages.single('image'), function(req, res){
   sequelize.sync().then(function() {
     return Product.create({
@@ -83,10 +82,21 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
   
 })
 
+// ################# Find Product By Id ###################
 router.get('/api/product/:id', function(req, res){
   Product.findById(req.params.id).then(function(product){
     res.json(product)
   })
+})
+
+// ################# Update by Id ###################
+router.post('/api/product/:id', (req, res)=>{
+  Product.update({where: {id: req.params.id}})
+    .then((result)=>{
+      res.json(result)
+    }).catch((error)=>{
+      console.log(error)
+    })
 })
 
 

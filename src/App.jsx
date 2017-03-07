@@ -14,8 +14,9 @@ export default class App extends Component {
     $.ajax({
       url: '/users/username',
       success: (data)=>{
+        console.log('username id', data)
         this.setState({id: data.username});
-          if(data.username !== 0 && data.username !== undefined){
+          if(data.username !== 0 && data.username !== undefined && data.username !== null){
             this.setState({isLoggedIn: true})
           }
         $.get(`/users/api/cart/${this.state.id}`, (data)=>{
@@ -30,15 +31,18 @@ export default class App extends Component {
       items: this.state.items + 1
     })
   }
-  
+  // ************* Set CurrentUser Id Globally ************************
   getCurrentUserId(){
     return this.state.id;
-  }
+  };
 
+ // ************** Check if a User Logged in *************************
   isLoggedInFunc(){
     if(this.state.isLoggedIn){
       return(
-        <li><a href="/users/logout">Log Out</a></li>
+        <li>
+          <a href="/users/logout" id="log-out-btn" >Log Out</a>
+        </li>
       )
     }else{
       return(
@@ -50,11 +54,16 @@ export default class App extends Component {
     }
   }
 
+  // *********** Check if CurrentUser is Admin ***************************
   isAdmin(){
     if(this.state.id == 1){
       return(
           <ul className="admin-btn">
-            <li><Link to="/add/new_product"><i className="fa fa-plus" aria-hidden="true"></i></Link></li>
+            <li>
+              <Link to="/add/new_product">
+                <i className="fa fa-plus" aria-hidden="true"></i>
+              </Link>
+            </li>
           </ul>
         )
     }
@@ -78,7 +87,6 @@ export default class App extends Component {
             {this.isLoggedInFunc()}
             {this.isAdmin()}
           </ul>
-          
           
         </nav>
         {this.props.children && React.cloneElement(this.props.children, {

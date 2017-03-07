@@ -1,4 +1,4 @@
-const express     = require('express');
+  const express     = require('express');
 const router      = express.Router();
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
@@ -58,10 +58,10 @@ const Cart = sequelize.define('Cart', {
   product_color: Sequelize.STRING,
 })
 
-User.hasMany(Cart); 
-Cart.belongsTo(User);
-User.hasMany(Address);
-Address.belongsTo(User);
+// User.hasMany(Cart); 
+// Cart.belongsTo(User);
+// User.hasMany(Address);
+// Address.belongsTo(User);
 
 router.get('/api/users', function(req, res){
   User.findAll().then(function(users){
@@ -76,6 +76,7 @@ router.get('/api/user/:id', function(req, res){
   })
 });
 
+// ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
   sequelize.sync().then(function() {
     return User.create({
@@ -86,12 +87,12 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       avatar: req.file.location
     }).then(function(user){
       req.session.username = user.id;
-      res.json(user)
+      res.redirect(`/profile/${user.id}`)
     })
   })
 })
 
-
+// ********************** Login function ******************************************
 router.post('/api/login', function(req, res){
   const email = req.body.email;
   const password = req.body.password;
@@ -115,15 +116,18 @@ router.post('/api/login', function(req, res){
     })
 })
 
+// ******************** Send CurrentUser Id to React State ************************
 router.get('/username', function(req,res){
   req.session.username;
   console.log('request received ....')
   res.json({username: req.session.username})
 });
 
+
 router.get('/logout', function(req, res){
     req.session.username = null;
-    res.redirect('/');
+    res.redirect('/')
+    console.log("--------------logged out----------------")
 });
 
 
@@ -165,9 +169,9 @@ router.get('/api/user/address/:user_id', function(req, res){
 router.post("/api/cart/:user_id/:product_id", function(req, res){
   req.session.username;
   Cart.findAll({
-    where: {product_id: req.params.product_id}
+    where: {product_id: req.params.product_id, user_id: req.params.users_id}
   }).then(function(data){
-    
+    console.log('analyze -----', data)
     if(data.length == 0){
       sequelize.sync().then(function(){
         return Cart.create({
@@ -221,7 +225,14 @@ router.get('/api/cart/:id/delete', function(req, res){
   })
 })
 
-
+router.post('/api/cart/:product_id', (req, res)=>{
+  Product.update({where: {id: req.params.product_id}})
+    .then((result)=>{
+      res.json(result)
+    }).catch((error)=>{
+      console.log(error)
+    })
+})
 router.use(function(req, res, next) {
   if (req.session.username){
     next();

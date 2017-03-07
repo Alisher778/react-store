@@ -8,7 +8,6 @@ class ProductDetails extends Component{
     super(props);
     this.state = {product:{id:'', name:'', info: '', image: '', price: ''}};
     console.log(this.props.id());
-    console.log(`/users/api/cart/${this.props.id()}/hello${this.state.product.id}`)
   }
 
   componentDidMount(){
@@ -31,8 +30,11 @@ class ProductDetails extends Component{
       product_quantity: $('.select-quantity').val(),
       product_color: $('.select-color').val()
     }
-    axios.post(`/users/api/cart/${this.props.id()}/${this.state.product.id}`, selectedProduct)
+    const url = `/users/api/cart/${this.props.id()}/${this.state.product.id}`;
+    console.log(url)
+    axios.post(url, selectedProduct)
     .then(function(data){
+      console.log(data)
       this.props.incrementCart()
     }.bind(this)).catch(function(error){
       console.log(error)
