@@ -6,20 +6,23 @@ class ProductDetails extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {product:{id:'', name:'', info: '', image: '', price: ''}}
+    this.state = {product:{id:'', name:'', info: '', image: '', price: ''}};
+    console.log(this.props.id());
+    console.log(`/users/api/cart/${this.props.id()}/hello${this.state.product.id}`)
   }
 
   componentDidMount(){
     $.get(`/api/product/${this.props.params.product_id}`, function(data){
       this.setState({
-        product: {id: data.id, name: data.name, info: data.info, image: data.image, price: data.price}
+        product: data
       });
     }.bind(this))
+    console.log(this.props.id())
   }
 
   addToCart(){
     const selectedProduct = {
-      user_id: this.props.params.user_id,
+      user_id: this.props.id(),
       product_id: this.state.product.id,
       product_name: this.state.product.name,
       product_image: this.state.product.image,
@@ -28,7 +31,7 @@ class ProductDetails extends Component{
       product_quantity: $('.select-quantity').val(),
       product_color: $('.select-color').val()
     }
-    axios.post(`/users/api/cart/1/${this.state.product.id}`, selectedProduct)
+    axios.post(`/users/api/cart/${this.props.id()}/${this.state.product.id}`, selectedProduct)
     .then(function(data){
       this.props.incrementCart()
     }.bind(this)).catch(function(error){

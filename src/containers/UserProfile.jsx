@@ -13,27 +13,30 @@ class UserProfile extends Component {
                           password: 'password',
                           avatar: 'https://s3.amazonaws.com/my-final-store/users/avatar.png'
                         },
-                  address: {id: '1',
-                            full_name: 'Admin Admin',
-                            street: '2060 E205 Ave',
-                            apartment: '1K',
-                            city: 'Brooklyn',
-                            state: 'NY', zip: '11011',
-                            country: 'United States of America',
-                            phone: '888-000-7777',
-                            note: 'Be aware of the dog'
-                          },
+                  address: [{
+                            id: '',
+                            user_id: '',
+                            full_name: '',
+                            street: '',
+                            apartment: '',
+                            city: '',
+                            state: '', 
+                            zip: '',
+                            country: '',
+                            phone: '',
+                            note: ''
+                          }],
                   }
   }
 
   componentDidMount() {
     $.get(`/users/api/user/${this.props.params.id}`, function(data){
-      this.setState({user: {id: data.id, first_name: data.first_name, last_name: data.last_name, email: data.email, password: data.password, avatar: data.avatar}});
+      this.setState({user: data});
     }.bind(this));
 
-    $.get(`/users/api/user/address/${this.state.user.id}`, function(data){
+    $.get(`/users/api/user/address/${this.props.params.id}`, function(data){
       console.log(data)
-      this.setState({address: data[0]});
+      this.setState({address: data});
     }.bind(this))
   }
   
@@ -54,17 +57,22 @@ class UserProfile extends Component {
         <p>{this.state.user.password}</p>
         <p><img src={this.state.user.avatar} alt={this.state.user.first_name} style={{width: "100px"}}/></p>
         
-        <div className="address-details">
-          <p>{this.state.address.full_name}</p>
-          <p>{this.state.address.street}</p>
-          <p>{this.state.address.apartment}</p>
-          <p>{this.state.address.city}</p>
-          <p>{this.state.address.state}</p>
-          <p>{this.state.address.zip}</p>
-          <p>{this.state.address.country}</p>
-          <p>{this.state.address.phone}</p>
-          <p>{this.state.address.note}</p>
-        </div> 
+        { this.state.address.map((address)=>{
+          return(
+              <div className="address-details" key={address.id}>
+                <p>{address.full_name}</p>
+                <p>{address.street}</p>
+                <p>{address.apartment}</p>
+                <p>{address.city}</p>
+                <p>{address.state}</p>
+                <p>{address.zip}</p>
+                <p>{address.country}</p>
+                <p>{address.phone}</p>
+                <p>{address.note}</p>
+              </div> 
+            )
+        })}
+        
         
         <div className="address-hidden">
           <form action={`/users/api/user/${this.state.user.id}/address`} method="post">

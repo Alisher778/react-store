@@ -59,7 +59,9 @@ const Cart = sequelize.define('Cart', {
 })
 
 User.hasMany(Cart); 
+Cart.belongsTo(User);
 User.hasMany(Address);
+Address.belongsTo(User);
 
 router.get('/api/users', function(req, res){
   User.findAll().then(function(users){
@@ -83,10 +85,46 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       password: passwordHash.generate(req.body.password),
       avatar: req.file.location
     }).then(function(user){
+      req.session.username = user.id;
       res.json(user)
     })
   })
 })
+
+
+router.post('/api/login', function(req, res){
+  const email = req.body.email;
+  const password = req.body.password;
+  User.count({where: {email: email }})
+    .then(function(numberOfuser){
+      if(!numberOfuser == 0){
+        User.findOne({ where: {email: email }})
+          .then(function(user){
+            const pass = passwordHash.verify(req.body.password, user.password);
+            if(pass){
+              req.session.username = user.id;
+              console.log(req.session.username)
+              res.redirect('/')
+            }else{
+              res.json({error: "wrong password"})
+            }
+          })
+      }else{
+        res.json({error: "email not found"})
+      }
+    })
+})
+
+router.get('/username', function(req,res){
+  req.session.username;
+  console.log('request received ....')
+  res.json({username: req.session.username})
+});
+
+router.get('/logout', function(req, res){
+    req.session.username = null;
+    res.redirect('/');
+});
 
 
 
@@ -106,6 +144,7 @@ router.post('/api/user/:id/address', function(req, res){
       phone:     req.body.phone,
       note:      req.body.note
     }).then(function(result){
+      req.session.username;
       res.json(result)
     })
   })
@@ -114,6 +153,7 @@ router.post('/api/user/:id/address', function(req, res){
 router.get('/api/user/address/:user_id', function(req, res){
   Address.findAll({where: {user_id: req.params.user_id}})
     .then(function(result){
+      req.session.username;
       res.json(result);
     })
 })
@@ -123,6 +163,7 @@ router.get('/api/user/address/:user_id', function(req, res){
 
 
 router.post("/api/cart/:user_id/:product_id", function(req, res){
+  req.session.username;
   Cart.findAll({
     where: {product_id: req.params.product_id}
   }).then(function(data){
@@ -143,7 +184,6 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
         })
       })
     }else{
-      console.log(data[0])
       return data[0].increment({
         product_quantity: 1
       }).then(function(data){
@@ -154,7 +194,15 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
   
 })
 
+router.get("/api/carts", function(req, res){
+  req.session.username;
+  Cart.findAll().then(function(data){
+    res.json(data)
+  })
+})
+
 router.get('/api/cart/:user_id', function(req, res){
+  req.session.username;
   Cart.findAll({where: {user_id: req.params.user_id}})
     .then(function(data){
       res.json(data)
@@ -162,10 +210,11 @@ router.get('/api/cart/:user_id', function(req, res){
 })
 
 router.get('/api/cart/:id/delete', function(req, res){
+  req.session.username;
   Cart.destroy({
     where: {id: req.params.id}
   }).then(function(data){
-    res.redirect(`/cart/${req.params.id}`)
+    res.redirect('/')
     console.log("item was deleted successfully")
   }).catch(function(error){
     console.error(error)
@@ -173,6 +222,14 @@ router.get('/api/cart/:id/delete', function(req, res){
 })
 
 
+router.use(function(req, res, next) {
+  if (req.session.username){
+    next();
+    return;
+  }
+    res.redirect('/');
+    
+});
 
 
 

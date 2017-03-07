@@ -8,7 +8,7 @@ class UserRegister extends Component {
     let firstName = $('input').attr('name', 'firstName').val();
     let lastName = $('input').attr('name', 'lastName').val();
     let userName = firstName + lastName
-    browserHistory.push(`/cart/${userName}`);
+    browserHistory.push(`/cart/${id}`);
   };
 
   render() {
@@ -19,7 +19,7 @@ class UserRegister extends Component {
             <label >First Name:</label><input type="text" name="firstName" />
           </p>
           <p>
-            <label >Last Name:</label><input type="text" name="LastName" />
+            <label >Last Name:</label><input type="text" name="lastName" />
           </p>
           <p>
             <label >Email:</label><input type="email" name="email" />
