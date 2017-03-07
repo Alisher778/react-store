@@ -14,7 +14,7 @@ export default class App extends Component {
     $.ajax({
       url: '/users/username',
       success: (data)=>{
-        console.log('username id', data)
+        console.log('username id -- ', data.username)
         this.setState({id: data.username});
           if(data.username !== 0 && data.username !== undefined && data.username !== null){
             this.setState({isLoggedIn: true})
@@ -69,6 +69,12 @@ export default class App extends Component {
     }
   }
 
+  redirectUrl(){
+    if(!this.state.isLoggedIn){
+      window.location.href= "/sign_up"
+    }
+  }
+
   render() {
     return(
       <div>
@@ -81,8 +87,8 @@ export default class App extends Component {
           </div>
           <ul className="user-bar">
             <ul className="user-cart">
-              <li><Link to={`/cart/${this.state.id}`}><i className="fa fa-shopping-cart" aria-hidden="true"></i><span className="cart-number">{this.state.items}</span></Link></li>
-              <li><Link to={`/profile/${this.state.id}`}><i className="fa fa-user-circle-o" aria-hidden="true"></i></Link></li>
+              <li><Link to={`/cart/${this.state.id}`} onClick={this.redirectUrl.bind(this)}><i className="fa fa-shopping-cart" aria-hidden="true"></i><span className="cart-number">{this.state.items}</span></Link></li>
+              <li><Link to={`/profile/${this.state.id}`} onClick={this.redirectUrl.bind(this)}><i className="fa fa-user-circle-o" aria-hidden="true"></i></Link></li>
             </ul>
             {this.isLoggedInFunc()}
             {this.isAdmin()}

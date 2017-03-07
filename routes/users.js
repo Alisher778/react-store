@@ -165,38 +165,38 @@ router.get('/api/user/address/:user_id', function(req, res){
 
 // Create Shopping cart ***********************************************************
 
-
 router.post("/api/cart/:user_id/:product_id", function(req, res){
-  req.session.username;
-  Cart.findAll({
-    where: {product_id: req.params.product_id, user_id: req.params.users_id}
-  }).then(function(data){
-    console.log('analyze -----', data)
-    if(data.length == 0){
-      sequelize.sync().then(function(){
-        return Cart.create({
-          user_id: req.params.user_id,
-          product_id: req.params.product_id,
-          product_name: req.body.product_name,
-          product_image: req.body.product_image,
-          product_info: req.body.product_info,
-          product_price: req.body.product_price,
-          product_quantity: req.body.product_quantity,
-          product_color: req.body.product_color
-        }).then(function(result){
-          res.json(result);
-        })
-      })
-    }else{
-      return data[0].increment({
-        product_quantity: 1
-      }).then(function(data){
-        res.json(data)
-      })
-    }
-  })
-  
-})
+   Cart.findAll({
+     where: { user_id: req.params.user_id, product_id: req.params.product_id}
+   }).then(function(data){
+     console.log("find cart ----",data.length)
+     if(data.length == 0){
+       sequelize.sync().then(function(){
+         return Cart.create({
+           user_id: req.params.user_id,
+           product_id: req.params.product_id,
+           product_name: req.body.product_name,
+           product_image: req.body.product_image,
+           product_info: req.body.product_info,
+           product_price: req.body.product_price,
+           product_quantity: req.body.product_quantity,
+           product_color: req.body.product_color
+         }).then(function(result){
+           res.json(result);
+         })
+       })
+     }else{
+      console.log("User id before ----", data)
+       return data[0].increment({
+         product_quantity: req.body.product_quantity
+       }).then(function(data){
+         res.json(data)
+       })
+     }
+   })
+   
+ })
+
 
 router.get("/api/carts", function(req, res){
   req.session.username;
@@ -225,14 +225,7 @@ router.get('/api/cart/:id/delete', function(req, res){
   })
 })
 
-router.post('/api/cart/:product_id', (req, res)=>{
-  Product.update({where: {id: req.params.product_id}})
-    .then((result)=>{
-      res.json(result)
-    }).catch((error)=>{
-      console.log(error)
-    })
-})
+
 router.use(function(req, res, next) {
   if (req.session.username){
     next();

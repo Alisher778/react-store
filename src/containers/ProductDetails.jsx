@@ -6,7 +6,7 @@ class ProductDetails extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {product:{id:'', name:'', info: '', image: '', price: ''}};
+    this.state = {product:{id:'', name:'', info: '', image: '', price: ''}, isLoggedIn: false};
     console.log(this.props.id());
   }
 
@@ -15,30 +15,42 @@ class ProductDetails extends Component{
       this.setState({
         product: data
       });
-    }.bind(this))
+    }.bind(this));
     console.log(this.props.id())
+    if(this.props.id() !== 0 && this.props.id() !== undefined && this.props.id() !== null){
+      this.setState({isLoggedIn: true})
+    }
   }
 
   addToCart(){
-    const selectedProduct = {
-      user_id: this.props.id(),
-      product_id: this.state.product.id,
-      product_name: this.state.product.name,
-      product_image: this.state.product.image,
-      product_info: this.state.product.info,
-      product_price: this.state.product.price,
-      product_quantity: $('.select-quantity').val(),
-      product_color: $('.select-color').val()
+
+    if(this.state.isLoggedIn){
+      const selectedProduct = {
+        user_id: this.props.id(),
+        product_id: this.state.product.id,
+        product_name: this.state.product.name,
+        product_image: this.state.product.image,
+        product_info: this.state.product.info,
+        product_price: this.state.product.price,
+        product_quantity: $('.select-quantity').val(),
+        product_color: $('.select-color').val()
+      }
+      const url = `/users/api/cart/${this.props.id()}/${this.state.product.id}`;
+      
+      axios.post(url, selectedProduct)
+        .then(function(data){
+          this.props.incrementCart();
+      }.bind(this)).catch(function(error){
+        console.log(error)
+      })
+    }else{
+      
+      $('nav').after("<h1 id='msg'>You must be log in<h1>");
+      $('#msg').fadeOut(4000);
+      window.location.href= "/sign_up"
+      return;
     }
-    const url = `/users/api/cart/${this.props.id()}/${this.state.product.id}`;
-    console.log(url)
-    axios.post(url, selectedProduct)
-    .then(function(data){
-      console.log(data)
-      this.props.incrementCart()
-    }.bind(this)).catch(function(error){
-      console.log(error)
-    })
+    
   }
 
   render() {

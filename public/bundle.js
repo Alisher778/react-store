@@ -25649,7 +25649,7 @@
 	      _jquery2.default.ajax({
 	        url: '/users/username',
 	        success: function success(data) {
-	          console.log('username id', data);
+	          console.log('username id -- ', data.username);
 	          _this2.setState({ id: data.username });
 	          if (data.username !== 0 && data.username !== undefined && data.username !== null) {
 	            _this2.setState({ isLoggedIn: true });
@@ -25738,6 +25738,13 @@
 	      }
 	    }
 	  }, {
+	    key: 'redirectUrl',
+	    value: function redirectUrl() {
+	      if (!this.state.isLoggedIn) {
+	        window.location.href = "/sign_up";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -25783,7 +25790,7 @@
 	                null,
 	                _react2.default.createElement(
 	                  _reactRouter.Link,
-	                  { to: '/cart/' + this.state.id },
+	                  { to: '/cart/' + this.state.id, onClick: this.redirectUrl.bind(this) },
 	                  _react2.default.createElement('i', { className: 'fa fa-shopping-cart', 'aria-hidden': 'true' }),
 	                  _react2.default.createElement(
 	                    'span',
@@ -25797,7 +25804,7 @@
 	                null,
 	                _react2.default.createElement(
 	                  _reactRouter.Link,
-	                  { to: '/profile/' + this.state.id },
+	                  { to: '/profile/' + this.state.id, onClick: this.redirectUrl.bind(this) },
 	                  _react2.default.createElement('i', { className: 'fa fa-user-circle-o', 'aria-hidden': 'true' })
 	                )
 	              )
@@ -41282,7 +41289,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (ProductDetails.__proto__ || Object.getPrototypeOf(ProductDetails)).call(this, props));
 	
-	    _this.state = { product: { id: '', name: '', info: '', image: '', price: '' } };
+	    _this.state = { product: { id: '', name: '', info: '', image: '', price: '' }, isLoggedIn: false };
 	    console.log(_this.props.id());
 	    return _this;
 	  }
@@ -41296,28 +41303,39 @@
 	        });
 	      }.bind(this));
 	      console.log(this.props.id());
+	      if (this.props.id() !== 0 && this.props.id() !== undefined && this.props.id() !== null) {
+	        this.setState({ isLoggedIn: true });
+	      }
 	    }
 	  }, {
 	    key: 'addToCart',
 	    value: function addToCart() {
-	      var selectedProduct = {
-	        user_id: this.props.id(),
-	        product_id: this.state.product.id,
-	        product_name: this.state.product.name,
-	        product_image: this.state.product.image,
-	        product_info: this.state.product.info,
-	        product_price: this.state.product.price,
-	        product_quantity: (0, _jquery2.default)('.select-quantity').val(),
-	        product_color: (0, _jquery2.default)('.select-color').val()
-	      };
-	      var url = '/users/api/cart/' + this.props.id() + '/' + this.state.product.id;
-	      console.log(url);
-	      _axios2.default.post(url, selectedProduct).then(function (data) {
-	        console.log(data);
-	        this.props.incrementCart();
-	      }.bind(this)).catch(function (error) {
-	        console.log(error);
-	      });
+	
+	      if (this.state.isLoggedIn) {
+	        var selectedProduct = {
+	          user_id: this.props.id(),
+	          product_id: this.state.product.id,
+	          product_name: this.state.product.name,
+	          product_image: this.state.product.image,
+	          product_info: this.state.product.info,
+	          product_price: this.state.product.price,
+	          product_quantity: (0, _jquery2.default)('.select-quantity').val(),
+	          product_color: (0, _jquery2.default)('.select-color').val()
+	        };
+	        var url = '/users/api/cart/' + this.props.id() + '/' + this.state.product.id;
+	
+	        _axios2.default.post(url, selectedProduct).then(function (data) {
+	          this.props.incrementCart();
+	        }.bind(this)).catch(function (error) {
+	          console.log(error);
+	        });
+	      } else {
+	
+	        (0, _jquery2.default)('nav').after("<h1 id='msg'>You must be log in<h1>");
+	        (0, _jquery2.default)('#msg').fadeOut(4000);
+	        window.location.href = "/sign_up";
+	        return;
+	      }
 	    }
 	  }, {
 	    key: 'render',
