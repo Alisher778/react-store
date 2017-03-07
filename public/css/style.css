@@ -20,8 +20,8 @@ ul li{
 nav{
   display: flex;
   height: 50px;
-  justify-content: space-around;
-  background: linear-gradient(-34deg, rgb(22, 235, 237), rgb(23, 175, 150));
+  /*background: linear-gradient(-34deg, rgb(22, 235, 237), rgb(23, 175, 150));*/
+  background-color: #1fa67a;
 }
 nav li{
   list-style-type: none;
@@ -36,18 +36,64 @@ nav li a{
 }
 .logo {
     display: flex;
-    justify-content: center;
     flex-grow: 1;
+    margin-left: 3vw;
     align-items: center;
 }
 
 .nav-list {
     display: flex;
     justify-content: space-around;
-    flex-grow: 2;
+    flex-grow: 1;
     align-items: center;
 }
-
+i.fa.fa-shopping-cart{
+  font-size: 22px;
+  color: #f3f1ee; 
+}
+i.fa.fa-user-circle-o{
+  font-size: 22px;
+}
+span.cart-number {
+  position: relative;
+  top: -16px;
+  left: 2px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 200;
+  display: inline-block;
+  width: 15px;
+  text-align: center;
+  height: 15px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #023e5a;
+}
+.user-bar{
+  display: flex;
+  flex-grow: ;
+  justify-content: space-around;
+  margin-right: 20px;
+}
+.sign-up{
+  font-size: 14px;
+  font-weight: 500;
+}
+.user-cart{
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+.user-cart li{
+  align-self: center;
+  margin: 0 10px;
+}
+.auth-links{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 0;
+}
 /*------------------------------------------------------------------------------------------*/
 /*=============================== Products.jsx =======================================*/
 .all-products{

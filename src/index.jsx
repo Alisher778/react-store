@@ -6,6 +6,9 @@ import {Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './App.jsx';
 import ProductForm from './components/ProductForm.jsx';
 import UserRegister from './components/UserRegister.jsx';
+import LoginForm from './components/LoginForm.jsx';
+import NotFound from './components/NotFound.jsx';
+
 import Products from './containers/Products.jsx';
 import ProductDetails from './containers/ProductDetails.jsx';
 import ShoppingCart from './containers/ShoppingCart.jsx';
@@ -27,7 +30,9 @@ render(
         <Route path="/add/new_product" component={ProductForm} />
         <Route path="/cart/:id" component={ShoppingCart} />
         <Route path="/sign_up" component={UserRegister} />
+        <Route path="/login" component={LoginForm} />
         <Route path="/profile/:id" component={UserProfile} />
+        <Route path="*" component={NotFound} />
       </Route>
     </Router>,
     document.getElementById('app')
