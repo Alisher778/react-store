@@ -78,8 +78,8 @@ router.get('/api/user/:id', function(req, res){
 
 // ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
-
-   User.create({
+  sequelize.sync().then(()=>{
+    return User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       email: req.body.email,
@@ -89,6 +89,8 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       req.session.username = user.id;
       res.redirect(`/profile/${user.id}`)
     })
+  })
+   
  
 })
 
@@ -135,8 +137,8 @@ router.get('/logout', function(req, res){
 // Create Users address*********************************************************
 
 router.post('/api/user/:id/address', function(req, res){
-  
-    Address.create({
+  sequelize.sync().then(()=>{
+    return Address.create({
       user_id:   req.params.id,
       full_name: req.body.full_name,
       street:    req.body.street,
@@ -149,8 +151,10 @@ router.post('/api/user/:id/address', function(req, res){
       note:      req.body.note
     }).then(function(result){
       req.session.username;
-      res.json(result)
+      res.redirect(`/profile/${req.session.username}`)
     })
+  })
+    
 
 })
 
@@ -171,8 +175,8 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
    }).then(function(data){
      console.log("find cart ----",data.length)
      if(data.length == 0){
-       
-       Cart.create({
+       sequelize.sync().then(()=>{
+        return Cart.create({
            user_id: req.params.user_id,
            product_id: req.params.product_id,
            product_name: req.body.product_name,
@@ -184,6 +188,7 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
          }).then(function(result){
            res.json(result);
          })
+       })
      
      }else{
       console.log("User id before ----", data)
@@ -234,26 +239,5 @@ router.use(function(req, res, next) {
     res.redirect('/');
     
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

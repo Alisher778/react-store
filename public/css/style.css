@@ -161,10 +161,12 @@ span.cart-number {
 }
 .form-items textarea {
   width: 80%;
+  display: none;
 }
 input#image {
   padding-top: 6px;
 }
+
 .form-items.button{
   text-align: center;
 }
@@ -284,7 +286,54 @@ item-details li:nth-child(3){
   width: 75%;
 }
 
-
+.login-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.login-form form{
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10vh;
+  width: 300px;
+  max-width: 325px;
+} 
+.login-form form input{
+  height: 40px;
+  padding: 2px 0 2px 14px;
+  font-size: 15px;
+  border-radius: 4px;
+  margin: 7px 0;
+  flex-grow: 1;
+  border: 1px solid rgba(121, 119, 119, 0.46)
+}
+.login-form form label{
+  margin: 10px 0 3px 0;
+}
+.login-form form button{
+  margin-top: 20px;
+  height: 42px;
+  background-color: #18ad59;
+  border: 1px solid #24a97e;
+  font-weight: 400;
+  font-size: 18px;
+  padding: 3px;
+  color: #fff;
+  border-radius: 3px;
+}
+.input-wrap{
+  display: flex;
+  position: relative;
+}
+.input-wrap i {
+  width: 34px;
+  display: inline-block;
+  color: #a19090;
+  align-self: center;
+  position: absolute;
+  right: 0;
+}
 
 
 

@@ -7,7 +7,7 @@ class ProductDetails extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {product:{id:'', name:'', description: '', image: '', price: ''}, isLoggedIn: false};
+    this.state = {product:{id:'', name:'', description: '', image: '', price: '', category: ''}, isLoggedIn: false};
   }
 
   componentDidMount(){
@@ -34,7 +34,8 @@ class ProductDetails extends Component{
         product_info: this.state.product.info,
         product_price: this.state.product.price,
         product_quantity: $('.select-quantity').val(),
-        product_color: $('.select-color').val()
+        product_color: $('.select-color').val(),
+        product_category: this.state.product.category
       }
       const url = `/users/api/cart/${this.props.id()}/${this.state.product.id}`;
       

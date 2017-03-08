@@ -10,7 +10,7 @@ export default class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {products: [{
-      id: 1, name: "Hello", image: "someUrl", price: 20
+      id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
     }]}
   }
 

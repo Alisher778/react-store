@@ -13,7 +13,8 @@ const Product = sequelize.define('Product', {
   name: Sequelize.STRING,
   image: {type: Sequelize.STRING, allowNull: true},
   description: Sequelize.TEXT,
-  price: Sequelize.STRING
+  price: Sequelize.STRING,
+  category: Sequelize.STRING
 })
 
 
@@ -69,16 +70,18 @@ router.get('/api/products', function(req, res){
 
 // ################# Post New Product ###################
 router.post('/api/new_product', productImages.single('image'), function(req, res){
- console.log("-----------------------------------------",req.body)
-  Product.create({
+ 
+ sequelize.sync().then(()=>{
+  return Product.create({
     name: req.body.name,
     image: req.file.location,
     description: req.body.description,
-    price: req.body.price
+    price: req.body.price,
+    category: req.body.category
   }).then(function(product){
       res.redirect('/')
   })
-
+ })
   
 })
 

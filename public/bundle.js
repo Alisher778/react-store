@@ -65,31 +65,31 @@
 	
 	var _ProductForm2 = _interopRequireDefault(_ProductForm);
 	
-	var _UserRegister = __webpack_require__(/*! ./components/UserRegister.jsx */ 243);
+	var _UserRegister = __webpack_require__(/*! ./components/UserRegister.jsx */ 246);
 	
 	var _UserRegister2 = _interopRequireDefault(_UserRegister);
 	
-	var _LoginForm = __webpack_require__(/*! ./components/LoginForm.jsx */ 244);
+	var _LoginForm = __webpack_require__(/*! ./components/LoginForm.jsx */ 247);
 	
 	var _LoginForm2 = _interopRequireDefault(_LoginForm);
 	
-	var _NotFound = __webpack_require__(/*! ./components/NotFound.jsx */ 291);
+	var _NotFound = __webpack_require__(/*! ./components/NotFound.jsx */ 294);
 	
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 	
-	var _Products = __webpack_require__(/*! ./containers/Products.jsx */ 292);
+	var _Products = __webpack_require__(/*! ./containers/Products.jsx */ 295);
 	
 	var _Products2 = _interopRequireDefault(_Products);
 	
-	var _ProductDetails = __webpack_require__(/*! ./containers/ProductDetails.jsx */ 314);
+	var _ProductDetails = __webpack_require__(/*! ./containers/ProductDetails.jsx */ 317);
 	
 	var _ProductDetails2 = _interopRequireDefault(_ProductDetails);
 	
-	var _ShoppingCart = __webpack_require__(/*! ./containers/ShoppingCart.jsx */ 315);
+	var _ShoppingCart = __webpack_require__(/*! ./containers/ShoppingCart.jsx */ 318);
 	
 	var _ShoppingCart2 = _interopRequireDefault(_ShoppingCart);
 	
-	var _UserProfile = __webpack_require__(/*! ./containers/UserProfile.jsx */ 316);
+	var _UserProfile = __webpack_require__(/*! ./containers/UserProfile.jsx */ 319);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
@@ -37638,7 +37638,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactTinymceInput = __webpack_require__(/*! react-tinymce-input */ 317);
+	var _reactTinymceInput = __webpack_require__(/*! react-tinymce-input */ 243);
 	
 	var _reactTinymceInput2 = _interopRequireDefault(_reactTinymceInput);
 	
@@ -37713,7 +37713,40 @@
 	              null,
 	              'Price:'
 	            ),
-	            _react2.default.createElement('input', { type: 'number', name: 'price', id: 'price', placeholder: 'price in USD' })
+	            _react2.default.createElement('input', { type: 'text', name: 'price', id: 'price', placeholder: 'price in USD' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-items' },
+	            _react2.default.createElement(
+	              'label',
+	              null,
+	              'Category:'
+	            ),
+	            _react2.default.createElement(
+	              'select',
+	              { 'class': 'category', name: '<category></category>' },
+	              _react2.default.createElement(
+	                'option',
+	                { value: 'bag' },
+	                'Handbag'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: 'shoe' },
+	                'Shoes'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: 'jewelry' },
+	                'Jewelry'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: 'accessory' },
+	                'Accessories'
+	              )
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -37736,11 +37769,10 @@
 	              } }),
 	            _react2.default.createElement(
 	              'textarea',
-	              { id: 'text', name: 'description', value: this.state.value, onChange: this.onTextAreaChange.bind(this), cols: 1, rows: 2 },
+	              { id: 'text', type: 'hidden', name: 'description', value: this.state.value, onChange: this.onTextAreaChange.bind(this), cols: 1, rows: 2 },
 	              this.state.value
 	            )
 	          ),
-	          _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.state.value } }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'form-items button' },
@@ -37762,6 +37794,522 @@
 
 /***/ },
 /* 243 */
+/*!****************************************************!*\
+  !*** ./~/react-tinymce-input/dist/TinyMCEInput.js ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*global tinymce */
+	
+	// TinyMCE semi-controlled component.
+	//
+	// Limitations/Notes
+	// * `tinymce` be defined in the global scope.
+	// * `ignoreUpdatesWhenFocused` - sometimes TinyMCE has issues with cursor placement. This component tries very
+	//     hard to avoid such issues, but if the come up, this prop might help. Set it to true and the component
+	//     will only update the TinyMCE editor from new props when it does not have focus.
+	// * `onChange` - this is the main event you will want to handle. Note: unlike normal React onChange events,
+	//     it does not use a SyntheticEvent based event. It simply passes up the changed content.
+	// * events - the component listens for several events and maps them to something more React-like (ex. blur
+	//     => onBlur). Any event that changes the content should trigger both the original event plus onChange.
+	//     The event handler will receive the original tinymce event as a param.
+	//     [init, activate, deactivate, focus, blur, hide, remove reset, show, submit]
+	// * level of control - tinymce does not trigger an event on every character change. We could try binding to
+	//     a keyboard event. However, we have found that, in practice, getting changes in TinyMCE time is good enoug.
+	//     If you are trying to write a control that need per-character eventing, ex. a component that allows
+	//     multiple editors to work on the input at the same time, tinymce may not be right for you.
+	
+	'use strict';
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var React = __webpack_require__(/*! react */ 1),
+	    uuid = __webpack_require__(/*! uuid */ 244);
+	
+	var DIRECT_PASSTHROUGH_EVENTS = ['Activate', 'Deactivate', 'Focus', 'Hide', 'Init', 'Remove', 'Reset', 'Show', 'Submit', 'Click'];
+	var PSEUDO_HIDDEN = { position: 'absolute', left: -200, top: -200, height: 0 };
+	
+	var TinyMCEInput = React.createClass({
+	  displayName: 'TinyMCEInput',
+	  propTypes: {
+	    className: React.PropTypes.string,
+	    tinymceConfig: React.PropTypes.object.isRequired,
+	    name: React.PropTypes.string, // the form name for the input element
+	    value: React.PropTypes.string,
+	    rows: React.PropTypes.number,
+	    focus: React.PropTypes.bool, // focus the tinymce element if not already focused
+	    maxInitWaitTime: React.PropTypes.number, // [20000] maximum amount of time to wait, in ms, for tinymce to create an editor before giving up
+	    style: React.PropTypes.object,
+	    ignoreUpdatesWhenFocused: React.PropTypes.bool, // tinymce can sometimes have cursor position issues on updates, if you app does not need live updates from the backing model, then set the prop and it will only update when the editor does not have focus
+	
+	    pollInterval: React.PropTypes.number.isRequired, // [1000] inteval to wait between polling for changes in tinymce editor (since blur does not always work), changes are then synced if the editor is focused
+	
+	    // intercepted events
+	    onChange: React.PropTypes.func.isRequired, // this is a controlled component, we require onChange
+	    onBlur: React.PropTypes.func,
+	    onSetupEditor: React.PropTypes.func,
+	
+	    // direct pass through events
+	    onActivate: React.PropTypes.func,
+	    onClick: React.PropTypes.func,
+	    onDeactivate: React.PropTypes.func,
+	    onFocus: React.PropTypes.func,
+	    onHide: React.PropTypes.func,
+	    onInit: React.PropTypes.func,
+	    onRedo: React.PropTypes.func,
+	    onRemove: React.PropTypes.func,
+	    onReset: React.PropTypes.func,
+	    onShow: React.PropTypes.func,
+	    onSubmit: React.PropTypes.func,
+	    onUndo: React.PropTypes.func,
+	
+	    textareaProps: React.PropTypes.object.isRequired, // props passed through to the textarea
+	    otherEventHandlers: React.PropTypes.objectOf(React.PropTypes.func.isRequired).isRequired
+	
+	  },
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      tinymceConfig: {},
+	      maxInitWaitTime: 20000,
+	      pollInterval: 1000,
+	      textareaProps: {},
+	      otherEventHandlers: {},
+	      onChange: function onChange() {}
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      id: uuid(),
+	      value: this.props.value
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.initStartTime = Date.now();
+	    if (typeof tinymce !== 'undefined') {
+	      this.initTinyMCE();
+	    } else {
+	      this.initTimeout = setTimeout(this.initTinyMCE, 100);
+	    }
+	    this.updateInterval = setInterval(this.checkForChanges, this.props.pollInterval);
+	  },
+	  componentDidUpdate: function componentDidUpdate() {
+	    if (this.props.focus) {
+	      var editor = tinymce.get(this.state.id);
+	      if (editor) {
+	        editor.focus();
+	      }
+	    }
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    tinymce.remove(this.state.id);
+	    clearTimeout(this.initTimeout);
+	    clearInterval(this.updateInterval);
+	    this.initTimeout = undefined;
+	    this.initStartTime = undefined;
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.value !== this.state.value) {
+	      var editor = tinymce.get(this.state.id);
+	      if (editor) {
+	        if (!this.props.ignoreUpdatesWhenFocused || tinymce.focusedEditor !== editor || this.isDropOverrideFlagged()) {
+	          var bookmark = editor.selection.getBookmark(2, true);
+	          editor.setContent(nextProps.value);
+	          editor.selection.moveToBookmark(bookmark);
+	        }
+	      }
+	      this.setState({ value: nextProps.value });
+	    }
+	  },
+	  setupPassthroughEvents: function setupPassthroughEvents(editor) {
+	    var _this = this,
+	        event;
+	
+	    /* eslint-disable no-loop-func */
+	    for (var i = 0, len = DIRECT_PASSTHROUGH_EVENTS.length; i < len; ++i) {
+	      event = DIRECT_PASSTHROUGH_EVENTS[i];
+	      editor.on(event.toLowerCase(), function (tinyMCEEvent) {
+	        var handler = _this.props['on' + event];
+	        if (typeof handler === 'function') {
+	          handler(tinyMCEEvent);
+	        }
+	      });
+	    }
+	    /* eslint-enable no-loop-func */
+	
+	    var handlers = this.props.otherEventHandlers;
+	    for (var eventName in handlers) {
+	      if (handlers.hasOwnProperty(eventName)) {
+	        editor.on(eventName, handlers[eventName]);
+	      }
+	    }
+	  },
+	  setupEditor: function setupEditor(editor) {
+	    editor.on('change', this.onTinyMCEChange);
+	    editor.on('blur', this.onTinyMCEBlur);
+	    editor.on('drop', this.onTinyMCEDrop);
+	    editor.on('undo', this.onTinyMCEUndo);
+	    editor.on('redo', this.onTinyMCERedo);
+	    this.setupPassthroughEvents(editor);
+	
+	    if (this.props.onSetupEditor) {
+	      this.props.onSetupEditor(editor);
+	    }
+	
+	    if (this.props.focus) {
+	      editor.focus();
+	    }
+	    this.initTimeout = undefined;
+	  },
+	  createMCEContextForComponent: function createMCEContextForComponent() {
+	    var tinymceConfig = Object.assign({}, this.props.tinymceConfig, {
+	      selector: '#' + this.state.id,
+	      setup: this.setupEditor
+	    });
+	    tinymce.init(tinymceConfig);
+	  },
+	  initTinyMCE: function initTinyMCE() {
+	    var currentTime = Date.now();
+	    if (!tinymce) {
+	      if (currentTime - this.initStartTime > this.props.maxInitWaitTime) {
+	        this.initTimeout = undefined;
+	      } else {
+	        this.initTimeout = setTimeout(this.initTinyMCE, 100);
+	      }
+	    } else {
+	      this.createMCEContextForComponent();
+	      this.initTimeout = undefined;
+	    }
+	  },
+	  clearDropOverride: function clearDropOverride() {
+	    this._tempDropOverride = undefined;
+	    var editor = tinymce.get(this.state.id);
+	    if (editor) {
+	      this.syncChange(editor.getContent());
+	    }
+	  },
+	  flagDropOverride: function flagDropOverride() {
+	    this._tempDropOverride = true;
+	    if (this._tempDropOverrideTimeout) {
+	      clearTimeout(this.clearDropOverride);
+	    }
+	    this._tempDropOverrideTimeout = setTimeout(this.clearDropOverride, 250);
+	  },
+	  isDropOverrideFlagged: function isDropOverrideFlagged() {
+	    return this._tempDropOverride;
+	  },
+	  syncChange: function syncChange(newValue) {
+	    if (newValue !== this.state.value) {
+	      if (this.props.onChange) {
+	        this.props.onChange(newValue);
+	      }
+	      this.setState({ value: newValue });
+	    }
+	  },
+	  triggerEventHandler: function triggerEventHandler(handler, event) {
+	    if (handler) {
+	      handler(event);
+	    }
+	  },
+	  checkForChanges: function checkForChanges() {
+	    var editor = tinymce.get(this.state.id);
+	    if (tinymce.focusedEditor === editor) {
+	      var content = editor.getContent();
+	      if (content !== this.state.value) {
+	        this.syncChange(content);
+	      }
+	    }
+	  },
+	  onTinyMCEChange: function onTinyMCEChange(tinyMCEEvent) {
+	    this.syncChange(tinyMCEEvent.target.getContent());
+	  },
+	  onTinyMCEBlur: function onTinyMCEBlur(tinyMCEEvent) {
+	    this.triggerEventHandler(this.props.onBlur, tinyMCEEvent);
+	    if (this.props.ignoreUpdatesWhenFocused) {
+	      // if we have been ignoring updates while focused (to preserve cursor position)
+	      // sync them now that we no longer have focus.
+	      tinyMCEEvent.target.setContent(this.state.value);
+	    }
+	    if (this.props.onBlur) {
+	      this.props.onBlur();
+	    }
+	  },
+	  onTinyMCEUndo: function onTinyMCEUndo(tinyMCEEvent) {
+	    this.triggerEventHandler(this.props.onUndo, tinyMCEEvent);
+	    this.syncChange(tinyMCEEvent.target.getContent());
+	  },
+	  onTinyMCERedo: function onTinyMCERedo(tinyMCEEvent) {
+	    this.triggerEventHandler(this.props.onRedo, tinyMCEEvent);
+	    this.syncChange(tinyMCEEvent.target.getContent());
+	  },
+	  onTinyMCEDrop: function onTinyMCEDrop() {
+	    // We want to process updates just after a drop, even if processUpdatesWhenFocused
+	    // is false. The processUpdatesWhenFocused flag exists to keep the cursor from
+	    // jumping around, and we do not cares so much if the cursor jumps after dropping
+	    // an image because that is a mouse event. However, ignoring updates right after a
+	    // drop means that anything that relies on knowing the content has changed is
+	    // won't actually know.
+	    this.flagDropOverride();
+	  },
+	  onTextareaChange: function onTextareaChange(e) {
+	    // should only be called when tinymce failed to load and we are getting changes directly in the textarea (fallback mode?)
+	    this.syncChange(e.target.value);
+	  },
+	  render: function render() {
+	    // the textarea is controlled by tinymce... and react, neither of which agree on the value
+	    // solution: keep a separate input element, controlled by just react, that will actually be submitted
+	    return React.createElement(
+	      'div',
+	      { className: this.props.className, style: this.props.style },
+	      React.createElement('input', { type: 'hidden', name: this.props.name, value: this.state.value, readOnly: true }),
+	      React.createElement('textarea', _extends({
+	        id: this.state.id,
+	        defaultValue: this.state.value,
+	        onChange: this.onTextareaChange,
+	        rows: this.props.rows,
+	        style: PSEUDO_HIDDEN
+	      }, this.props.textareaProps))
+	    );
+	  }
+	});
+	
+	module.exports = TinyMCEInput;
+
+/***/ },
+/* 244 */
+/*!************************!*\
+  !*** ./~/uuid/uuid.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	//     uuid.js
+	//
+	//     Copyright (c) 2010-2012 Robert Kieffer
+	//     MIT License - http://opensource.org/licenses/mit-license.php
+	
+	// Unique ID creation requires a high quality random # generator.  We feature
+	// detect to determine the best RNG source, normalizing to a function that
+	// returns 128-bits of randomness, since that's what's usually required
+	var _rng = __webpack_require__(/*! ./rng */ 245);
+	
+	// Maps for number <-> hex string conversion
+	var _byteToHex = [];
+	var _hexToByte = {};
+	for (var i = 0; i < 256; i++) {
+	  _byteToHex[i] = (i + 0x100).toString(16).substr(1);
+	  _hexToByte[_byteToHex[i]] = i;
+	}
+	
+	// **`parse()` - Parse a UUID into it's component bytes**
+	function parse(s, buf, offset) {
+	  var i = (buf && offset) || 0, ii = 0;
+	
+	  buf = buf || [];
+	  s.toLowerCase().replace(/[0-9a-f]{2}/g, function(oct) {
+	    if (ii < 16) { // Don't overflow!
+	      buf[i + ii++] = _hexToByte[oct];
+	    }
+	  });
+	
+	  // Zero out remaining bytes if string was short
+	  while (ii < 16) {
+	    buf[i + ii++] = 0;
+	  }
+	
+	  return buf;
+	}
+	
+	// **`unparse()` - Convert UUID byte array (ala parse()) into a string**
+	function unparse(buf, offset) {
+	  var i = offset || 0, bth = _byteToHex;
+	  return  bth[buf[i++]] + bth[buf[i++]] +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] + '-' +
+	          bth[buf[i++]] + bth[buf[i++]] +
+	          bth[buf[i++]] + bth[buf[i++]] +
+	          bth[buf[i++]] + bth[buf[i++]];
+	}
+	
+	// **`v1()` - Generate time-based UUID**
+	//
+	// Inspired by https://github.com/LiosK/UUID.js
+	// and http://docs.python.org/library/uuid.html
+	
+	// random #'s we need to init node and clockseq
+	var _seedBytes = _rng();
+	
+	// Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+	var _nodeId = [
+	  _seedBytes[0] | 0x01,
+	  _seedBytes[1], _seedBytes[2], _seedBytes[3], _seedBytes[4], _seedBytes[5]
+	];
+	
+	// Per 4.2.2, randomize (14 bit) clockseq
+	var _clockseq = (_seedBytes[6] << 8 | _seedBytes[7]) & 0x3fff;
+	
+	// Previous uuid creation time
+	var _lastMSecs = 0, _lastNSecs = 0;
+	
+	// See https://github.com/broofa/node-uuid for API details
+	function v1(options, buf, offset) {
+	  var i = buf && offset || 0;
+	  var b = buf || [];
+	
+	  options = options || {};
+	
+	  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+	
+	  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+	  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+	  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+	  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+	  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
+	
+	  // Per 4.2.1.2, use count of uuid's generated during the current clock
+	  // cycle to simulate higher resolution clock
+	  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+	
+	  // Time since last uuid creation (in msecs)
+	  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
+	
+	  // Per 4.2.1.2, Bump clockseq on clock regression
+	  if (dt < 0 && options.clockseq === undefined) {
+	    clockseq = clockseq + 1 & 0x3fff;
+	  }
+	
+	  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+	  // time interval
+	  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+	    nsecs = 0;
+	  }
+	
+	  // Per 4.2.1.2 Throw error if too many uuids are requested
+	  if (nsecs >= 10000) {
+	    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
+	  }
+	
+	  _lastMSecs = msecs;
+	  _lastNSecs = nsecs;
+	  _clockseq = clockseq;
+	
+	  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+	  msecs += 12219292800000;
+	
+	  // `time_low`
+	  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+	  b[i++] = tl >>> 24 & 0xff;
+	  b[i++] = tl >>> 16 & 0xff;
+	  b[i++] = tl >>> 8 & 0xff;
+	  b[i++] = tl & 0xff;
+	
+	  // `time_mid`
+	  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
+	  b[i++] = tmh >>> 8 & 0xff;
+	  b[i++] = tmh & 0xff;
+	
+	  // `time_high_and_version`
+	  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+	  b[i++] = tmh >>> 16 & 0xff;
+	
+	  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+	  b[i++] = clockseq >>> 8 | 0x80;
+	
+	  // `clock_seq_low`
+	  b[i++] = clockseq & 0xff;
+	
+	  // `node`
+	  var node = options.node || _nodeId;
+	  for (var n = 0; n < 6; n++) {
+	    b[i + n] = node[n];
+	  }
+	
+	  return buf ? buf : unparse(b);
+	}
+	
+	// **`v4()` - Generate random UUID**
+	
+	// See https://github.com/broofa/node-uuid for API details
+	function v4(options, buf, offset) {
+	  // Deprecated - 'format' argument, as supported in v1.2
+	  var i = buf && offset || 0;
+	
+	  if (typeof(options) == 'string') {
+	    buf = options == 'binary' ? new Array(16) : null;
+	    options = null;
+	  }
+	  options = options || {};
+	
+	  var rnds = options.random || (options.rng || _rng)();
+	
+	  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+	  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+	  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+	
+	  // Copy bytes to buffer, if provided
+	  if (buf) {
+	    for (var ii = 0; ii < 16; ii++) {
+	      buf[i + ii] = rnds[ii];
+	    }
+	  }
+	
+	  return buf || unparse(rnds);
+	}
+	
+	// Export public API
+	var uuid = v4;
+	uuid.v1 = v1;
+	uuid.v4 = v4;
+	uuid.parse = parse;
+	uuid.unparse = unparse;
+	
+	module.exports = uuid;
+
+
+/***/ },
+/* 245 */
+/*!*******************************!*\
+  !*** ./~/uuid/rng-browser.js ***!
+  \*******************************/
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {
+	var rng;
+	
+	var crypto = global.crypto || global.msCrypto; // for IE 11
+	if (crypto && crypto.getRandomValues) {
+	  // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
+	  // Moderately fast, high quality
+	  var _rnds8 = new Uint8Array(16);
+	  rng = function whatwgRNG() {
+	    crypto.getRandomValues(_rnds8);
+	    return _rnds8;
+	  };
+	}
+	
+	if (!rng) {
+	  // Math.random()-based (RNG)
+	  //
+	  // If all else fails, use Math.random().  It's fast, but is of unspecified
+	  // quality.
+	  var  _rnds = new Array(16);
+	  rng = function() {
+	    for (var i = 0, r; i < 16; i++) {
+	      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+	      _rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+	    }
+	
+	    return _rnds;
+	  };
+	}
+	
+	module.exports = rng;
+	
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 246 */
 /*!*****************************************!*\
   !*** ./src/components/UserRegister.jsx ***!
   \*****************************************/
@@ -37886,7 +38434,7 @@
 	exports.default = UserRegister;
 
 /***/ },
-/* 244 */
+/* 247 */
 /*!**************************************!*\
   !*** ./src/components/LoginForm.jsx ***!
   \**************************************/
@@ -37904,17 +38452,21 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactStripeCheckout = __webpack_require__(/*! react-stripe-checkout */ 245);
+	var _reactStripeCheckout = __webpack_require__(/*! react-stripe-checkout */ 248);
 	
 	var _reactStripeCheckout2 = _interopRequireDefault(_reactStripeCheckout);
 	
-	var _Payment = __webpack_require__(/*! ./Payment.jsx */ 246);
+	var _Payment = __webpack_require__(/*! ./Payment.jsx */ 249);
 	
 	var _Payment2 = _interopRequireDefault(_Payment);
 	
-	var _reactTinymce = __webpack_require__(/*! react-tinymce */ 247);
+	var _reactTinymce = __webpack_require__(/*! react-tinymce */ 250);
 	
 	var _reactTinymce2 = _interopRequireDefault(_reactTinymce);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -37938,29 +38490,21 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'login-form' },
 	        _react2.default.createElement(
 	          'form',
 	          { action: '/users/api/login', method: 'post' },
 	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'Email:'
-	            ),
-	            _react2.default.createElement('input', { type: 'text', name: 'email' })
+	            'div',
+	            { className: 'input-wrap' },
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'email', name: 'email' }),
+	            _react2.default.createElement('i', { className: 'fa fa-key', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
-	            'p',
-	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'password:'
-	            ),
-	            _react2.default.createElement('input', { type: 'tpassword', name: 'password' })
+	            'div',
+	            { className: 'input-wrap' },
+	            _react2.default.createElement('input', { type: 'password', placeholder: 'Password', name: 'password' }),
+	            _react2.default.createElement('i', { className: 'fa fa-envelope-o', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'button',
@@ -37978,7 +38522,7 @@
 	exports.default = LoginForm;
 
 /***/ },
-/* 245 */
+/* 248 */
 /*!**********************************************!*\
   !*** ./~/react-stripe-checkout/dist/main.js ***!
   \**********************************************/
@@ -38513,7 +39057,7 @@
 
 
 /***/ },
-/* 246 */
+/* 249 */
 /*!************************************!*\
   !*** ./src/components/Payment.jsx ***!
   \************************************/
@@ -38531,7 +39075,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactStripeCheckout = __webpack_require__(/*! react-stripe-checkout */ 245);
+	var _reactStripeCheckout = __webpack_require__(/*! react-stripe-checkout */ 248);
 	
 	var _reactStripeCheckout2 = _interopRequireDefault(_reactStripeCheckout);
 	
@@ -38589,7 +39133,7 @@
 	exports.default = Payment;
 
 /***/ },
-/* 247 */
+/* 250 */
 /*!*************************************!*\
   !*** ./~/react-tinymce/lib/main.js ***!
   \*************************************/
@@ -38597,10 +39141,10 @@
 
 	'use strict';
 	
-	module.exports = __webpack_require__(/*! ./components/TinyMCE */ 248);
+	module.exports = __webpack_require__(/*! ./components/TinyMCE */ 251);
 
 /***/ },
-/* 248 */
+/* 251 */
 /*!***************************************************!*\
   !*** ./~/react-tinymce/lib/components/TinyMCE.js ***!
   \***************************************************/
@@ -38616,19 +39160,19 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 158);
 	
-	var _lodashLangIsEqual = __webpack_require__(/*! lodash/lang/isEqual */ 249);
+	var _lodashLangIsEqual = __webpack_require__(/*! lodash/lang/isEqual */ 252);
 	
 	var _lodashLangIsEqual2 = _interopRequireDefault(_lodashLangIsEqual);
 	
-	var _lodashLangClone = __webpack_require__(/*! lodash/lang/clone */ 274);
+	var _lodashLangClone = __webpack_require__(/*! lodash/lang/clone */ 277);
 	
 	var _lodashLangClone2 = _interopRequireDefault(_lodashLangClone);
 	
-	var _helpersUuid = __webpack_require__(/*! ../helpers/uuid */ 289);
+	var _helpersUuid = __webpack_require__(/*! ../helpers/uuid */ 292);
 	
 	var _helpersUuid2 = _interopRequireDefault(_helpersUuid);
 	
-	var _helpersUcFirst = __webpack_require__(/*! ../helpers/ucFirst */ 290);
+	var _helpersUcFirst = __webpack_require__(/*! ../helpers/ucFirst */ 293);
 	
 	var _helpersUcFirst2 = _interopRequireDefault(_helpersUcFirst);
 	
@@ -38754,14 +39298,14 @@
 	module.exports = TinyMCE;
 
 /***/ },
-/* 249 */
+/* 252 */
 /*!**************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isEqual.js ***!
   \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseIsEqual = __webpack_require__(/*! ../internal/baseIsEqual */ 250),
-	    bindCallback = __webpack_require__(/*! ../internal/bindCallback */ 272);
+	var baseIsEqual = __webpack_require__(/*! ../internal/baseIsEqual */ 253),
+	    bindCallback = __webpack_require__(/*! ../internal/bindCallback */ 275);
 	
 	/**
 	 * Performs a deep comparison between two values to determine if they are
@@ -38817,15 +39361,15 @@
 
 
 /***/ },
-/* 250 */
+/* 253 */
 /*!**********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseIsEqual.js ***!
   \**********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseIsEqualDeep = __webpack_require__(/*! ./baseIsEqualDeep */ 251),
-	    isObject = __webpack_require__(/*! ../lang/isObject */ 260),
-	    isObjectLike = __webpack_require__(/*! ./isObjectLike */ 261);
+	var baseIsEqualDeep = __webpack_require__(/*! ./baseIsEqualDeep */ 254),
+	    isObject = __webpack_require__(/*! ../lang/isObject */ 263),
+	    isObjectLike = __webpack_require__(/*! ./isObjectLike */ 264);
 	
 	/**
 	 * The base implementation of `_.isEqual` without support for `this` binding
@@ -38854,17 +39398,17 @@
 
 
 /***/ },
-/* 251 */
+/* 254 */
 /*!**************************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseIsEqualDeep.js ***!
   \**************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var equalArrays = __webpack_require__(/*! ./equalArrays */ 252),
-	    equalByTag = __webpack_require__(/*! ./equalByTag */ 254),
-	    equalObjects = __webpack_require__(/*! ./equalObjects */ 255),
-	    isArray = __webpack_require__(/*! ../lang/isArray */ 268),
-	    isTypedArray = __webpack_require__(/*! ../lang/isTypedArray */ 271);
+	var equalArrays = __webpack_require__(/*! ./equalArrays */ 255),
+	    equalByTag = __webpack_require__(/*! ./equalByTag */ 257),
+	    equalObjects = __webpack_require__(/*! ./equalObjects */ 258),
+	    isArray = __webpack_require__(/*! ../lang/isArray */ 271),
+	    isTypedArray = __webpack_require__(/*! ../lang/isTypedArray */ 274);
 	
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -38965,13 +39509,13 @@
 
 
 /***/ },
-/* 252 */
+/* 255 */
 /*!**********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/equalArrays.js ***!
   \**********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var arraySome = __webpack_require__(/*! ./arraySome */ 253);
+	var arraySome = __webpack_require__(/*! ./arraySome */ 256);
 	
 	/**
 	 * A specialized version of `baseIsEqualDeep` for arrays with support for
@@ -39025,7 +39569,7 @@
 
 
 /***/ },
-/* 253 */
+/* 256 */
 /*!********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/arraySome.js ***!
   \********************************************************/
@@ -39057,7 +39601,7 @@
 
 
 /***/ },
-/* 254 */
+/* 257 */
 /*!*********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/equalByTag.js ***!
   \*********************************************************/
@@ -39114,13 +39658,13 @@
 
 
 /***/ },
-/* 255 */
+/* 258 */
 /*!***********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/equalObjects.js ***!
   \***********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var keys = __webpack_require__(/*! ../object/keys */ 256);
+	var keys = __webpack_require__(/*! ../object/keys */ 259);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -39190,16 +39734,16 @@
 
 
 /***/ },
-/* 256 */
+/* 259 */
 /*!*************************************************!*\
   !*** ./~/react-tinymce/~/lodash/object/keys.js ***!
   \*************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(/*! ../internal/getNative */ 257),
-	    isArrayLike = __webpack_require__(/*! ../internal/isArrayLike */ 262),
-	    isObject = __webpack_require__(/*! ../lang/isObject */ 260),
-	    shimKeys = __webpack_require__(/*! ../internal/shimKeys */ 266);
+	var getNative = __webpack_require__(/*! ../internal/getNative */ 260),
+	    isArrayLike = __webpack_require__(/*! ../internal/isArrayLike */ 265),
+	    isObject = __webpack_require__(/*! ../lang/isObject */ 263),
+	    shimKeys = __webpack_require__(/*! ../internal/shimKeys */ 269);
 	
 	/* Native method references for those with the same name as other `lodash` methods. */
 	var nativeKeys = getNative(Object, 'keys');
@@ -39244,13 +39788,13 @@
 
 
 /***/ },
-/* 257 */
+/* 260 */
 /*!********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/getNative.js ***!
   \********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isNative = __webpack_require__(/*! ../lang/isNative */ 258);
+	var isNative = __webpack_require__(/*! ../lang/isNative */ 261);
 	
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -39269,14 +39813,14 @@
 
 
 /***/ },
-/* 258 */
+/* 261 */
 /*!***************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isNative.js ***!
   \***************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(/*! ./isFunction */ 259),
-	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 261);
+	var isFunction = __webpack_require__(/*! ./isFunction */ 262),
+	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 264);
 	
 	/** Used to detect host constructors (Safari > 5). */
 	var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -39326,13 +39870,13 @@
 
 
 /***/ },
-/* 259 */
+/* 262 */
 /*!*****************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isFunction.js ***!
   \*****************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(/*! ./isObject */ 260);
+	var isObject = __webpack_require__(/*! ./isObject */ 263);
 	
 	/** `Object#toString` result references. */
 	var funcTag = '[object Function]';
@@ -39373,7 +39917,7 @@
 
 
 /***/ },
-/* 260 */
+/* 263 */
 /*!***************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isObject.js ***!
   \***************************************************/
@@ -39410,7 +39954,7 @@
 
 
 /***/ },
-/* 261 */
+/* 264 */
 /*!***********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/isObjectLike.js ***!
   \***********************************************************/
@@ -39431,14 +39975,14 @@
 
 
 /***/ },
-/* 262 */
+/* 265 */
 /*!**********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/isArrayLike.js ***!
   \**********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var getLength = __webpack_require__(/*! ./getLength */ 263),
-	    isLength = __webpack_require__(/*! ./isLength */ 265);
+	var getLength = __webpack_require__(/*! ./getLength */ 266),
+	    isLength = __webpack_require__(/*! ./isLength */ 268);
 	
 	/**
 	 * Checks if `value` is array-like.
@@ -39455,13 +39999,13 @@
 
 
 /***/ },
-/* 263 */
+/* 266 */
 /*!********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/getLength.js ***!
   \********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseProperty = __webpack_require__(/*! ./baseProperty */ 264);
+	var baseProperty = __webpack_require__(/*! ./baseProperty */ 267);
 	
 	/**
 	 * Gets the "length" property value of `object`.
@@ -39479,7 +40023,7 @@
 
 
 /***/ },
-/* 264 */
+/* 267 */
 /*!***********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseProperty.js ***!
   \***********************************************************/
@@ -39502,7 +40046,7 @@
 
 
 /***/ },
-/* 265 */
+/* 268 */
 /*!*******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/isLength.js ***!
   \*******************************************************/
@@ -39531,17 +40075,17 @@
 
 
 /***/ },
-/* 266 */
+/* 269 */
 /*!*******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/shimKeys.js ***!
   \*******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArguments = __webpack_require__(/*! ../lang/isArguments */ 267),
-	    isArray = __webpack_require__(/*! ../lang/isArray */ 268),
-	    isIndex = __webpack_require__(/*! ./isIndex */ 269),
-	    isLength = __webpack_require__(/*! ./isLength */ 265),
-	    keysIn = __webpack_require__(/*! ../object/keysIn */ 270);
+	var isArguments = __webpack_require__(/*! ../lang/isArguments */ 270),
+	    isArray = __webpack_require__(/*! ../lang/isArray */ 271),
+	    isIndex = __webpack_require__(/*! ./isIndex */ 272),
+	    isLength = __webpack_require__(/*! ./isLength */ 268),
+	    keysIn = __webpack_require__(/*! ../object/keysIn */ 273);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -39581,14 +40125,14 @@
 
 
 /***/ },
-/* 267 */
+/* 270 */
 /*!******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isArguments.js ***!
   \******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(/*! ../internal/isArrayLike */ 262),
-	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 261);
+	var isArrayLike = __webpack_require__(/*! ../internal/isArrayLike */ 265),
+	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 264);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -39624,15 +40168,15 @@
 
 
 /***/ },
-/* 268 */
+/* 271 */
 /*!**************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isArray.js ***!
   \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(/*! ../internal/getNative */ 257),
-	    isLength = __webpack_require__(/*! ../internal/isLength */ 265),
-	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 261);
+	var getNative = __webpack_require__(/*! ../internal/getNative */ 260),
+	    isLength = __webpack_require__(/*! ../internal/isLength */ 268),
+	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 264);
 	
 	/** `Object#toString` result references. */
 	var arrayTag = '[object Array]';
@@ -39673,7 +40217,7 @@
 
 
 /***/ },
-/* 269 */
+/* 272 */
 /*!******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/isIndex.js ***!
   \******************************************************/
@@ -39706,17 +40250,17 @@
 
 
 /***/ },
-/* 270 */
+/* 273 */
 /*!***************************************************!*\
   !*** ./~/react-tinymce/~/lodash/object/keysIn.js ***!
   \***************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArguments = __webpack_require__(/*! ../lang/isArguments */ 267),
-	    isArray = __webpack_require__(/*! ../lang/isArray */ 268),
-	    isIndex = __webpack_require__(/*! ../internal/isIndex */ 269),
-	    isLength = __webpack_require__(/*! ../internal/isLength */ 265),
-	    isObject = __webpack_require__(/*! ../lang/isObject */ 260);
+	var isArguments = __webpack_require__(/*! ../lang/isArguments */ 270),
+	    isArray = __webpack_require__(/*! ../lang/isArray */ 271),
+	    isIndex = __webpack_require__(/*! ../internal/isIndex */ 272),
+	    isLength = __webpack_require__(/*! ../internal/isLength */ 268),
+	    isObject = __webpack_require__(/*! ../lang/isObject */ 263);
 	
 	/** Used for native method references. */
 	var objectProto = Object.prototype;
@@ -39779,14 +40323,14 @@
 
 
 /***/ },
-/* 271 */
+/* 274 */
 /*!*******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/isTypedArray.js ***!
   \*******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isLength = __webpack_require__(/*! ../internal/isLength */ 265),
-	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 261);
+	var isLength = __webpack_require__(/*! ../internal/isLength */ 268),
+	    isObjectLike = __webpack_require__(/*! ../internal/isObjectLike */ 264);
 	
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -39862,13 +40406,13 @@
 
 
 /***/ },
-/* 272 */
+/* 275 */
 /*!***********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/bindCallback.js ***!
   \***********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(/*! ../utility/identity */ 273);
+	var identity = __webpack_require__(/*! ../utility/identity */ 276);
 	
 	/**
 	 * A specialized version of `baseCallback` which only supports `this` binding
@@ -39910,7 +40454,7 @@
 
 
 /***/ },
-/* 273 */
+/* 276 */
 /*!******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/utility/identity.js ***!
   \******************************************************/
@@ -39939,15 +40483,15 @@
 
 
 /***/ },
-/* 274 */
+/* 277 */
 /*!************************************************!*\
   !*** ./~/react-tinymce/~/lodash/lang/clone.js ***!
   \************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseClone = __webpack_require__(/*! ../internal/baseClone */ 275),
-	    bindCallback = __webpack_require__(/*! ../internal/bindCallback */ 272),
-	    isIterateeCall = __webpack_require__(/*! ../internal/isIterateeCall */ 288);
+	var baseClone = __webpack_require__(/*! ../internal/baseClone */ 278),
+	    bindCallback = __webpack_require__(/*! ../internal/bindCallback */ 275),
+	    isIterateeCall = __webpack_require__(/*! ../internal/isIterateeCall */ 291);
 	
 	/**
 	 * Creates a clone of `value`. If `isDeep` is `true` nested objects are cloned,
@@ -40018,21 +40562,21 @@
 
 
 /***/ },
-/* 275 */
+/* 278 */
 /*!********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseClone.js ***!
   \********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var arrayCopy = __webpack_require__(/*! ./arrayCopy */ 276),
-	    arrayEach = __webpack_require__(/*! ./arrayEach */ 277),
-	    baseAssign = __webpack_require__(/*! ./baseAssign */ 278),
-	    baseForOwn = __webpack_require__(/*! ./baseForOwn */ 280),
-	    initCloneArray = __webpack_require__(/*! ./initCloneArray */ 284),
-	    initCloneByTag = __webpack_require__(/*! ./initCloneByTag */ 285),
-	    initCloneObject = __webpack_require__(/*! ./initCloneObject */ 287),
-	    isArray = __webpack_require__(/*! ../lang/isArray */ 268),
-	    isObject = __webpack_require__(/*! ../lang/isObject */ 260);
+	var arrayCopy = __webpack_require__(/*! ./arrayCopy */ 279),
+	    arrayEach = __webpack_require__(/*! ./arrayEach */ 280),
+	    baseAssign = __webpack_require__(/*! ./baseAssign */ 281),
+	    baseForOwn = __webpack_require__(/*! ./baseForOwn */ 283),
+	    initCloneArray = __webpack_require__(/*! ./initCloneArray */ 287),
+	    initCloneByTag = __webpack_require__(/*! ./initCloneByTag */ 288),
+	    initCloneObject = __webpack_require__(/*! ./initCloneObject */ 290),
+	    isArray = __webpack_require__(/*! ../lang/isArray */ 271),
+	    isObject = __webpack_require__(/*! ../lang/isObject */ 263);
 	
 	/** `Object#toString` result references. */
 	var argsTag = '[object Arguments]',
@@ -40155,7 +40699,7 @@
 
 
 /***/ },
-/* 276 */
+/* 279 */
 /*!********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/arrayCopy.js ***!
   \********************************************************/
@@ -40184,7 +40728,7 @@
 
 
 /***/ },
-/* 277 */
+/* 280 */
 /*!********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/arrayEach.js ***!
   \********************************************************/
@@ -40215,14 +40759,14 @@
 
 
 /***/ },
-/* 278 */
+/* 281 */
 /*!*********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseAssign.js ***!
   \*********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseCopy = __webpack_require__(/*! ./baseCopy */ 279),
-	    keys = __webpack_require__(/*! ../object/keys */ 256);
+	var baseCopy = __webpack_require__(/*! ./baseCopy */ 282),
+	    keys = __webpack_require__(/*! ../object/keys */ 259);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -40243,7 +40787,7 @@
 
 
 /***/ },
-/* 279 */
+/* 282 */
 /*!*******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseCopy.js ***!
   \*******************************************************/
@@ -40275,14 +40819,14 @@
 
 
 /***/ },
-/* 280 */
+/* 283 */
 /*!*********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseForOwn.js ***!
   \*********************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseFor = __webpack_require__(/*! ./baseFor */ 281),
-	    keys = __webpack_require__(/*! ../object/keys */ 256);
+	var baseFor = __webpack_require__(/*! ./baseFor */ 284),
+	    keys = __webpack_require__(/*! ../object/keys */ 259);
 	
 	/**
 	 * The base implementation of `_.forOwn` without support for callback
@@ -40301,13 +40845,13 @@
 
 
 /***/ },
-/* 281 */
+/* 284 */
 /*!******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/baseFor.js ***!
   \******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var createBaseFor = __webpack_require__(/*! ./createBaseFor */ 282);
+	var createBaseFor = __webpack_require__(/*! ./createBaseFor */ 285);
 	
 	/**
 	 * The base implementation of `baseForIn` and `baseForOwn` which iterates
@@ -40327,13 +40871,13 @@
 
 
 /***/ },
-/* 282 */
+/* 285 */
 /*!************************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/createBaseFor.js ***!
   \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var toObject = __webpack_require__(/*! ./toObject */ 283);
+	var toObject = __webpack_require__(/*! ./toObject */ 286);
 	
 	/**
 	 * Creates a base function for `_.forIn` or `_.forInRight`.
@@ -40363,13 +40907,13 @@
 
 
 /***/ },
-/* 283 */
+/* 286 */
 /*!*******************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/toObject.js ***!
   \*******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(/*! ../lang/isObject */ 260);
+	var isObject = __webpack_require__(/*! ../lang/isObject */ 263);
 	
 	/**
 	 * Converts `value` to an object if it's not one.
@@ -40386,7 +40930,7 @@
 
 
 /***/ },
-/* 284 */
+/* 287 */
 /*!*************************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/initCloneArray.js ***!
   \*************************************************************/
@@ -40421,13 +40965,13 @@
 
 
 /***/ },
-/* 285 */
+/* 288 */
 /*!*************************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/initCloneByTag.js ***!
   \*************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var bufferClone = __webpack_require__(/*! ./bufferClone */ 286);
+	var bufferClone = __webpack_require__(/*! ./bufferClone */ 289);
 	
 	/** `Object#toString` result references. */
 	var boolTag = '[object Boolean]',
@@ -40493,7 +41037,7 @@
 
 
 /***/ },
-/* 286 */
+/* 289 */
 /*!**********************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/bufferClone.js ***!
   \**********************************************************/
@@ -40523,7 +41067,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 287 */
+/* 290 */
 /*!**************************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/initCloneObject.js ***!
   \**************************************************************/
@@ -40548,15 +41092,15 @@
 
 
 /***/ },
-/* 288 */
+/* 291 */
 /*!*************************************************************!*\
   !*** ./~/react-tinymce/~/lodash/internal/isIterateeCall.js ***!
   \*************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(/*! ./isArrayLike */ 262),
-	    isIndex = __webpack_require__(/*! ./isIndex */ 269),
-	    isObject = __webpack_require__(/*! ../lang/isObject */ 260);
+	var isArrayLike = __webpack_require__(/*! ./isArrayLike */ 265),
+	    isIndex = __webpack_require__(/*! ./isIndex */ 272),
+	    isObject = __webpack_require__(/*! ../lang/isObject */ 263);
 	
 	/**
 	 * Checks if the provided arguments are from an iteratee call.
@@ -40585,7 +41129,7 @@
 
 
 /***/ },
-/* 289 */
+/* 292 */
 /*!*********************************************!*\
   !*** ./~/react-tinymce/lib/helpers/uuid.js ***!
   \*********************************************/
@@ -40599,7 +41143,7 @@
 	};
 
 /***/ },
-/* 290 */
+/* 293 */
 /*!************************************************!*\
   !*** ./~/react-tinymce/lib/helpers/ucFirst.js ***!
   \************************************************/
@@ -40619,7 +41163,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 291 */
+/* 294 */
 /*!*************************************!*\
   !*** ./src/components/NotFound.jsx ***!
   \*************************************/
@@ -40676,7 +41220,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 292 */
+/* 295 */
 /*!*************************************!*\
   !*** ./src/containers/Products.jsx ***!
   \*************************************/
@@ -40696,7 +41240,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _redux = __webpack_require__(/*! redux */ 293);
+	var _redux = __webpack_require__(/*! redux */ 296);
 	
 	var _axios = __webpack_require__(/*! axios */ 217);
 	
@@ -40723,7 +41267,7 @@
 	    var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 	
 	    _this.state = { products: [{
-	        id: 1, name: "Hello", image: "someUrl", price: 20
+	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
 	      }] };
 	    return _this;
 	  }
@@ -40808,7 +41352,7 @@
 	exports.default = Products;
 
 /***/ },
-/* 293 */
+/* 296 */
 /*!******************************!*\
   !*** ./~/redux/lib/index.js ***!
   \******************************/
@@ -40819,27 +41363,27 @@
 	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 	
-	var _createStore = __webpack_require__(/*! ./createStore */ 294);
+	var _createStore = __webpack_require__(/*! ./createStore */ 297);
 	
 	var _createStore2 = _interopRequireDefault(_createStore);
 	
-	var _combineReducers = __webpack_require__(/*! ./combineReducers */ 309);
+	var _combineReducers = __webpack_require__(/*! ./combineReducers */ 312);
 	
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 	
-	var _bindActionCreators = __webpack_require__(/*! ./bindActionCreators */ 311);
+	var _bindActionCreators = __webpack_require__(/*! ./bindActionCreators */ 314);
 	
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 	
-	var _applyMiddleware = __webpack_require__(/*! ./applyMiddleware */ 312);
+	var _applyMiddleware = __webpack_require__(/*! ./applyMiddleware */ 315);
 	
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 	
-	var _compose = __webpack_require__(/*! ./compose */ 313);
+	var _compose = __webpack_require__(/*! ./compose */ 316);
 	
 	var _compose2 = _interopRequireDefault(_compose);
 	
-	var _warning = __webpack_require__(/*! ./utils/warning */ 310);
+	var _warning = __webpack_require__(/*! ./utils/warning */ 313);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -40863,7 +41407,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 4)))
 
 /***/ },
-/* 294 */
+/* 297 */
 /*!************************************!*\
   !*** ./~/redux/lib/createStore.js ***!
   \************************************/
@@ -40875,11 +41419,11 @@
 	exports.ActionTypes = undefined;
 	exports['default'] = createStore;
 	
-	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 295);
+	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 298);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _symbolObservable = __webpack_require__(/*! symbol-observable */ 305);
+	var _symbolObservable = __webpack_require__(/*! symbol-observable */ 308);
 	
 	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 	
@@ -41132,15 +41676,15 @@
 	}
 
 /***/ },
-/* 295 */
+/* 298 */
 /*!***********************************!*\
   !*** ./~/lodash/isPlainObject.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ 296),
-	    getPrototype = __webpack_require__(/*! ./_getPrototype */ 302),
-	    isObjectLike = __webpack_require__(/*! ./isObjectLike */ 304);
+	var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ 299),
+	    getPrototype = __webpack_require__(/*! ./_getPrototype */ 305),
+	    isObjectLike = __webpack_require__(/*! ./isObjectLike */ 307);
 	
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -41203,15 +41747,15 @@
 
 
 /***/ },
-/* 296 */
+/* 299 */
 /*!*********************************!*\
   !*** ./~/lodash/_baseGetTag.js ***!
   \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(/*! ./_Symbol */ 297),
-	    getRawTag = __webpack_require__(/*! ./_getRawTag */ 300),
-	    objectToString = __webpack_require__(/*! ./_objectToString */ 301);
+	var Symbol = __webpack_require__(/*! ./_Symbol */ 300),
+	    getRawTag = __webpack_require__(/*! ./_getRawTag */ 303),
+	    objectToString = __webpack_require__(/*! ./_objectToString */ 304);
 	
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -41240,13 +41784,13 @@
 
 
 /***/ },
-/* 297 */
+/* 300 */
 /*!*****************************!*\
   !*** ./~/lodash/_Symbol.js ***!
   \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(/*! ./_root */ 298);
+	var root = __webpack_require__(/*! ./_root */ 301);
 	
 	/** Built-in value references. */
 	var Symbol = root.Symbol;
@@ -41255,13 +41799,13 @@
 
 
 /***/ },
-/* 298 */
+/* 301 */
 /*!***************************!*\
   !*** ./~/lodash/_root.js ***!
   \***************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ 299);
+	var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ 302);
 	
 	/** Detect free variable `self`. */
 	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -41273,7 +41817,7 @@
 
 
 /***/ },
-/* 299 */
+/* 302 */
 /*!*********************************!*\
   !*** ./~/lodash/_freeGlobal.js ***!
   \*********************************/
@@ -41287,13 +41831,13 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 300 */
+/* 303 */
 /*!********************************!*\
   !*** ./~/lodash/_getRawTag.js ***!
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var Symbol = __webpack_require__(/*! ./_Symbol */ 297);
+	var Symbol = __webpack_require__(/*! ./_Symbol */ 300);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -41342,7 +41886,7 @@
 
 
 /***/ },
-/* 301 */
+/* 304 */
 /*!*************************************!*\
   !*** ./~/lodash/_objectToString.js ***!
   \*************************************/
@@ -41373,13 +41917,13 @@
 
 
 /***/ },
-/* 302 */
+/* 305 */
 /*!***********************************!*\
   !*** ./~/lodash/_getPrototype.js ***!
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(/*! ./_overArg */ 303);
+	var overArg = __webpack_require__(/*! ./_overArg */ 306);
 	
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -41388,7 +41932,7 @@
 
 
 /***/ },
-/* 303 */
+/* 306 */
 /*!******************************!*\
   !*** ./~/lodash/_overArg.js ***!
   \******************************/
@@ -41412,7 +41956,7 @@
 
 
 /***/ },
-/* 304 */
+/* 307 */
 /*!**********************************!*\
   !*** ./~/lodash/isObjectLike.js ***!
   \**********************************/
@@ -41450,17 +41994,17 @@
 
 
 /***/ },
-/* 305 */
+/* 308 */
 /*!**************************************!*\
   !*** ./~/symbol-observable/index.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(/*! ./lib/index */ 306);
+	module.exports = __webpack_require__(/*! ./lib/index */ 309);
 
 
 /***/ },
-/* 306 */
+/* 309 */
 /*!******************************************!*\
   !*** ./~/symbol-observable/lib/index.js ***!
   \******************************************/
@@ -41472,7 +42016,7 @@
 	  value: true
 	});
 	
-	var _ponyfill = __webpack_require__(/*! ./ponyfill */ 308);
+	var _ponyfill = __webpack_require__(/*! ./ponyfill */ 311);
 	
 	var _ponyfill2 = _interopRequireDefault(_ponyfill);
 	
@@ -41495,10 +42039,10 @@
 	
 	var result = (0, _ponyfill2['default'])(root);
 	exports['default'] = result;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./../../webpack/buildin/module.js */ 307)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./../../webpack/buildin/module.js */ 310)(module)))
 
 /***/ },
-/* 307 */
+/* 310 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -41517,7 +42061,7 @@
 
 
 /***/ },
-/* 308 */
+/* 311 */
 /*!*********************************************!*\
   !*** ./~/symbol-observable/lib/ponyfill.js ***!
   \*********************************************/
@@ -41548,7 +42092,7 @@
 	};
 
 /***/ },
-/* 309 */
+/* 312 */
 /*!****************************************!*\
   !*** ./~/redux/lib/combineReducers.js ***!
   \****************************************/
@@ -41559,13 +42103,13 @@
 	exports.__esModule = true;
 	exports['default'] = combineReducers;
 	
-	var _createStore = __webpack_require__(/*! ./createStore */ 294);
+	var _createStore = __webpack_require__(/*! ./createStore */ 297);
 	
-	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 295);
+	var _isPlainObject = __webpack_require__(/*! lodash/isPlainObject */ 298);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _warning = __webpack_require__(/*! ./utils/warning */ 310);
+	var _warning = __webpack_require__(/*! ./utils/warning */ 313);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -41699,7 +42243,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../process/browser.js */ 4)))
 
 /***/ },
-/* 310 */
+/* 313 */
 /*!**************************************!*\
   !*** ./~/redux/lib/utils/warning.js ***!
   \**************************************/
@@ -41732,7 +42276,7 @@
 	}
 
 /***/ },
-/* 311 */
+/* 314 */
 /*!*******************************************!*\
   !*** ./~/redux/lib/bindActionCreators.js ***!
   \*******************************************/
@@ -41791,7 +42335,7 @@
 	}
 
 /***/ },
-/* 312 */
+/* 315 */
 /*!****************************************!*\
   !*** ./~/redux/lib/applyMiddleware.js ***!
   \****************************************/
@@ -41805,7 +42349,7 @@
 	
 	exports['default'] = applyMiddleware;
 	
-	var _compose = __webpack_require__(/*! ./compose */ 313);
+	var _compose = __webpack_require__(/*! ./compose */ 316);
 	
 	var _compose2 = _interopRequireDefault(_compose);
 	
@@ -41857,7 +42401,7 @@
 	}
 
 /***/ },
-/* 313 */
+/* 316 */
 /*!********************************!*\
   !*** ./~/redux/lib/compose.js ***!
   \********************************/
@@ -41903,7 +42447,7 @@
 	}
 
 /***/ },
-/* 314 */
+/* 317 */
 /*!*******************************************!*\
   !*** ./src/containers/ProductDetails.jsx ***!
   \*******************************************/
@@ -41925,7 +42469,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _reactTinymceInput = __webpack_require__(/*! react-tinymce-input */ 317);
+	var _reactTinymceInput = __webpack_require__(/*! react-tinymce-input */ 243);
 	
 	var _reactTinymceInput2 = _interopRequireDefault(_reactTinymceInput);
 	
@@ -41949,7 +42493,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (ProductDetails.__proto__ || Object.getPrototypeOf(ProductDetails)).call(this, props));
 	
-	    _this.state = { product: { id: '', name: '', description: '', image: '', price: '' }, isLoggedIn: false };
+	    _this.state = { product: { id: '', name: '', description: '', image: '', price: '', category: '' }, isLoggedIn: false };
 	    return _this;
 	  }
 	
@@ -41979,7 +42523,8 @@
 	          product_info: this.state.product.info,
 	          product_price: this.state.product.price,
 	          product_quantity: (0, _jquery2.default)('.select-quantity').val(),
-	          product_color: (0, _jquery2.default)('.select-color').val()
+	          product_color: (0, _jquery2.default)('.select-color').val(),
+	          product_category: this.state.product.category
 	        };
 	        var url = '/users/api/cart/' + this.props.id() + '/' + this.state.product.id;
 	
@@ -42155,7 +42700,7 @@
 	exports.default = ProductDetails;
 
 /***/ },
-/* 315 */
+/* 318 */
 /*!*****************************************!*\
   !*** ./src/containers/ShoppingCart.jsx ***!
   \*****************************************/
@@ -42177,7 +42722,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _reactStripeCheckout = __webpack_require__(/*! react-stripe-checkout */ 245);
+	var _reactStripeCheckout = __webpack_require__(/*! react-stripe-checkout */ 248);
 	
 	var _reactStripeCheckout2 = _interopRequireDefault(_reactStripeCheckout);
 	
@@ -42345,7 +42890,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../~/process/browser.js */ 4)))
 
 /***/ },
-/* 316 */
+/* 319 */
 /*!****************************************!*\
   !*** ./src/containers/UserProfile.jsx ***!
   \****************************************/
@@ -42636,522 +43181,6 @@
 	}(_react.Component);
 	
 	exports.default = UserProfile;
-
-/***/ },
-/* 317 */
-/*!****************************************************!*\
-  !*** ./~/react-tinymce-input/dist/TinyMCEInput.js ***!
-  \****************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*global tinymce */
-	
-	// TinyMCE semi-controlled component.
-	//
-	// Limitations/Notes
-	// * `tinymce` be defined in the global scope.
-	// * `ignoreUpdatesWhenFocused` - sometimes TinyMCE has issues with cursor placement. This component tries very
-	//     hard to avoid such issues, but if the come up, this prop might help. Set it to true and the component
-	//     will only update the TinyMCE editor from new props when it does not have focus.
-	// * `onChange` - this is the main event you will want to handle. Note: unlike normal React onChange events,
-	//     it does not use a SyntheticEvent based event. It simply passes up the changed content.
-	// * events - the component listens for several events and maps them to something more React-like (ex. blur
-	//     => onBlur). Any event that changes the content should trigger both the original event plus onChange.
-	//     The event handler will receive the original tinymce event as a param.
-	//     [init, activate, deactivate, focus, blur, hide, remove reset, show, submit]
-	// * level of control - tinymce does not trigger an event on every character change. We could try binding to
-	//     a keyboard event. However, we have found that, in practice, getting changes in TinyMCE time is good enoug.
-	//     If you are trying to write a control that need per-character eventing, ex. a component that allows
-	//     multiple editors to work on the input at the same time, tinymce may not be right for you.
-	
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var React = __webpack_require__(/*! react */ 1),
-	    uuid = __webpack_require__(/*! uuid */ 318);
-	
-	var DIRECT_PASSTHROUGH_EVENTS = ['Activate', 'Deactivate', 'Focus', 'Hide', 'Init', 'Remove', 'Reset', 'Show', 'Submit', 'Click'];
-	var PSEUDO_HIDDEN = { position: 'absolute', left: -200, top: -200, height: 0 };
-	
-	var TinyMCEInput = React.createClass({
-	  displayName: 'TinyMCEInput',
-	  propTypes: {
-	    className: React.PropTypes.string,
-	    tinymceConfig: React.PropTypes.object.isRequired,
-	    name: React.PropTypes.string, // the form name for the input element
-	    value: React.PropTypes.string,
-	    rows: React.PropTypes.number,
-	    focus: React.PropTypes.bool, // focus the tinymce element if not already focused
-	    maxInitWaitTime: React.PropTypes.number, // [20000] maximum amount of time to wait, in ms, for tinymce to create an editor before giving up
-	    style: React.PropTypes.object,
-	    ignoreUpdatesWhenFocused: React.PropTypes.bool, // tinymce can sometimes have cursor position issues on updates, if you app does not need live updates from the backing model, then set the prop and it will only update when the editor does not have focus
-	
-	    pollInterval: React.PropTypes.number.isRequired, // [1000] inteval to wait between polling for changes in tinymce editor (since blur does not always work), changes are then synced if the editor is focused
-	
-	    // intercepted events
-	    onChange: React.PropTypes.func.isRequired, // this is a controlled component, we require onChange
-	    onBlur: React.PropTypes.func,
-	    onSetupEditor: React.PropTypes.func,
-	
-	    // direct pass through events
-	    onActivate: React.PropTypes.func,
-	    onClick: React.PropTypes.func,
-	    onDeactivate: React.PropTypes.func,
-	    onFocus: React.PropTypes.func,
-	    onHide: React.PropTypes.func,
-	    onInit: React.PropTypes.func,
-	    onRedo: React.PropTypes.func,
-	    onRemove: React.PropTypes.func,
-	    onReset: React.PropTypes.func,
-	    onShow: React.PropTypes.func,
-	    onSubmit: React.PropTypes.func,
-	    onUndo: React.PropTypes.func,
-	
-	    textareaProps: React.PropTypes.object.isRequired, // props passed through to the textarea
-	    otherEventHandlers: React.PropTypes.objectOf(React.PropTypes.func.isRequired).isRequired
-	
-	  },
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      tinymceConfig: {},
-	      maxInitWaitTime: 20000,
-	      pollInterval: 1000,
-	      textareaProps: {},
-	      otherEventHandlers: {},
-	      onChange: function onChange() {}
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      id: uuid(),
-	      value: this.props.value
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.initStartTime = Date.now();
-	    if (typeof tinymce !== 'undefined') {
-	      this.initTinyMCE();
-	    } else {
-	      this.initTimeout = setTimeout(this.initTinyMCE, 100);
-	    }
-	    this.updateInterval = setInterval(this.checkForChanges, this.props.pollInterval);
-	  },
-	  componentDidUpdate: function componentDidUpdate() {
-	    if (this.props.focus) {
-	      var editor = tinymce.get(this.state.id);
-	      if (editor) {
-	        editor.focus();
-	      }
-	    }
-	  },
-	  componentWillUnmount: function componentWillUnmount() {
-	    tinymce.remove(this.state.id);
-	    clearTimeout(this.initTimeout);
-	    clearInterval(this.updateInterval);
-	    this.initTimeout = undefined;
-	    this.initStartTime = undefined;
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (nextProps.value !== this.state.value) {
-	      var editor = tinymce.get(this.state.id);
-	      if (editor) {
-	        if (!this.props.ignoreUpdatesWhenFocused || tinymce.focusedEditor !== editor || this.isDropOverrideFlagged()) {
-	          var bookmark = editor.selection.getBookmark(2, true);
-	          editor.setContent(nextProps.value);
-	          editor.selection.moveToBookmark(bookmark);
-	        }
-	      }
-	      this.setState({ value: nextProps.value });
-	    }
-	  },
-	  setupPassthroughEvents: function setupPassthroughEvents(editor) {
-	    var _this = this,
-	        event;
-	
-	    /* eslint-disable no-loop-func */
-	    for (var i = 0, len = DIRECT_PASSTHROUGH_EVENTS.length; i < len; ++i) {
-	      event = DIRECT_PASSTHROUGH_EVENTS[i];
-	      editor.on(event.toLowerCase(), function (tinyMCEEvent) {
-	        var handler = _this.props['on' + event];
-	        if (typeof handler === 'function') {
-	          handler(tinyMCEEvent);
-	        }
-	      });
-	    }
-	    /* eslint-enable no-loop-func */
-	
-	    var handlers = this.props.otherEventHandlers;
-	    for (var eventName in handlers) {
-	      if (handlers.hasOwnProperty(eventName)) {
-	        editor.on(eventName, handlers[eventName]);
-	      }
-	    }
-	  },
-	  setupEditor: function setupEditor(editor) {
-	    editor.on('change', this.onTinyMCEChange);
-	    editor.on('blur', this.onTinyMCEBlur);
-	    editor.on('drop', this.onTinyMCEDrop);
-	    editor.on('undo', this.onTinyMCEUndo);
-	    editor.on('redo', this.onTinyMCERedo);
-	    this.setupPassthroughEvents(editor);
-	
-	    if (this.props.onSetupEditor) {
-	      this.props.onSetupEditor(editor);
-	    }
-	
-	    if (this.props.focus) {
-	      editor.focus();
-	    }
-	    this.initTimeout = undefined;
-	  },
-	  createMCEContextForComponent: function createMCEContextForComponent() {
-	    var tinymceConfig = Object.assign({}, this.props.tinymceConfig, {
-	      selector: '#' + this.state.id,
-	      setup: this.setupEditor
-	    });
-	    tinymce.init(tinymceConfig);
-	  },
-	  initTinyMCE: function initTinyMCE() {
-	    var currentTime = Date.now();
-	    if (!tinymce) {
-	      if (currentTime - this.initStartTime > this.props.maxInitWaitTime) {
-	        this.initTimeout = undefined;
-	      } else {
-	        this.initTimeout = setTimeout(this.initTinyMCE, 100);
-	      }
-	    } else {
-	      this.createMCEContextForComponent();
-	      this.initTimeout = undefined;
-	    }
-	  },
-	  clearDropOverride: function clearDropOverride() {
-	    this._tempDropOverride = undefined;
-	    var editor = tinymce.get(this.state.id);
-	    if (editor) {
-	      this.syncChange(editor.getContent());
-	    }
-	  },
-	  flagDropOverride: function flagDropOverride() {
-	    this._tempDropOverride = true;
-	    if (this._tempDropOverrideTimeout) {
-	      clearTimeout(this.clearDropOverride);
-	    }
-	    this._tempDropOverrideTimeout = setTimeout(this.clearDropOverride, 250);
-	  },
-	  isDropOverrideFlagged: function isDropOverrideFlagged() {
-	    return this._tempDropOverride;
-	  },
-	  syncChange: function syncChange(newValue) {
-	    if (newValue !== this.state.value) {
-	      if (this.props.onChange) {
-	        this.props.onChange(newValue);
-	      }
-	      this.setState({ value: newValue });
-	    }
-	  },
-	  triggerEventHandler: function triggerEventHandler(handler, event) {
-	    if (handler) {
-	      handler(event);
-	    }
-	  },
-	  checkForChanges: function checkForChanges() {
-	    var editor = tinymce.get(this.state.id);
-	    if (tinymce.focusedEditor === editor) {
-	      var content = editor.getContent();
-	      if (content !== this.state.value) {
-	        this.syncChange(content);
-	      }
-	    }
-	  },
-	  onTinyMCEChange: function onTinyMCEChange(tinyMCEEvent) {
-	    this.syncChange(tinyMCEEvent.target.getContent());
-	  },
-	  onTinyMCEBlur: function onTinyMCEBlur(tinyMCEEvent) {
-	    this.triggerEventHandler(this.props.onBlur, tinyMCEEvent);
-	    if (this.props.ignoreUpdatesWhenFocused) {
-	      // if we have been ignoring updates while focused (to preserve cursor position)
-	      // sync them now that we no longer have focus.
-	      tinyMCEEvent.target.setContent(this.state.value);
-	    }
-	    if (this.props.onBlur) {
-	      this.props.onBlur();
-	    }
-	  },
-	  onTinyMCEUndo: function onTinyMCEUndo(tinyMCEEvent) {
-	    this.triggerEventHandler(this.props.onUndo, tinyMCEEvent);
-	    this.syncChange(tinyMCEEvent.target.getContent());
-	  },
-	  onTinyMCERedo: function onTinyMCERedo(tinyMCEEvent) {
-	    this.triggerEventHandler(this.props.onRedo, tinyMCEEvent);
-	    this.syncChange(tinyMCEEvent.target.getContent());
-	  },
-	  onTinyMCEDrop: function onTinyMCEDrop() {
-	    // We want to process updates just after a drop, even if processUpdatesWhenFocused
-	    // is false. The processUpdatesWhenFocused flag exists to keep the cursor from
-	    // jumping around, and we do not cares so much if the cursor jumps after dropping
-	    // an image because that is a mouse event. However, ignoring updates right after a
-	    // drop means that anything that relies on knowing the content has changed is
-	    // won't actually know.
-	    this.flagDropOverride();
-	  },
-	  onTextareaChange: function onTextareaChange(e) {
-	    // should only be called when tinymce failed to load and we are getting changes directly in the textarea (fallback mode?)
-	    this.syncChange(e.target.value);
-	  },
-	  render: function render() {
-	    // the textarea is controlled by tinymce... and react, neither of which agree on the value
-	    // solution: keep a separate input element, controlled by just react, that will actually be submitted
-	    return React.createElement(
-	      'div',
-	      { className: this.props.className, style: this.props.style },
-	      React.createElement('input', { type: 'hidden', name: this.props.name, value: this.state.value, readOnly: true }),
-	      React.createElement('textarea', _extends({
-	        id: this.state.id,
-	        defaultValue: this.state.value,
-	        onChange: this.onTextareaChange,
-	        rows: this.props.rows,
-	        style: PSEUDO_HIDDEN
-	      }, this.props.textareaProps))
-	    );
-	  }
-	});
-	
-	module.exports = TinyMCEInput;
-
-/***/ },
-/* 318 */
-/*!************************!*\
-  !*** ./~/uuid/uuid.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	//     uuid.js
-	//
-	//     Copyright (c) 2010-2012 Robert Kieffer
-	//     MIT License - http://opensource.org/licenses/mit-license.php
-	
-	// Unique ID creation requires a high quality random # generator.  We feature
-	// detect to determine the best RNG source, normalizing to a function that
-	// returns 128-bits of randomness, since that's what's usually required
-	var _rng = __webpack_require__(/*! ./rng */ 319);
-	
-	// Maps for number <-> hex string conversion
-	var _byteToHex = [];
-	var _hexToByte = {};
-	for (var i = 0; i < 256; i++) {
-	  _byteToHex[i] = (i + 0x100).toString(16).substr(1);
-	  _hexToByte[_byteToHex[i]] = i;
-	}
-	
-	// **`parse()` - Parse a UUID into it's component bytes**
-	function parse(s, buf, offset) {
-	  var i = (buf && offset) || 0, ii = 0;
-	
-	  buf = buf || [];
-	  s.toLowerCase().replace(/[0-9a-f]{2}/g, function(oct) {
-	    if (ii < 16) { // Don't overflow!
-	      buf[i + ii++] = _hexToByte[oct];
-	    }
-	  });
-	
-	  // Zero out remaining bytes if string was short
-	  while (ii < 16) {
-	    buf[i + ii++] = 0;
-	  }
-	
-	  return buf;
-	}
-	
-	// **`unparse()` - Convert UUID byte array (ala parse()) into a string**
-	function unparse(buf, offset) {
-	  var i = offset || 0, bth = _byteToHex;
-	  return  bth[buf[i++]] + bth[buf[i++]] +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] + '-' +
-	          bth[buf[i++]] + bth[buf[i++]] +
-	          bth[buf[i++]] + bth[buf[i++]] +
-	          bth[buf[i++]] + bth[buf[i++]];
-	}
-	
-	// **`v1()` - Generate time-based UUID**
-	//
-	// Inspired by https://github.com/LiosK/UUID.js
-	// and http://docs.python.org/library/uuid.html
-	
-	// random #'s we need to init node and clockseq
-	var _seedBytes = _rng();
-	
-	// Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-	var _nodeId = [
-	  _seedBytes[0] | 0x01,
-	  _seedBytes[1], _seedBytes[2], _seedBytes[3], _seedBytes[4], _seedBytes[5]
-	];
-	
-	// Per 4.2.2, randomize (14 bit) clockseq
-	var _clockseq = (_seedBytes[6] << 8 | _seedBytes[7]) & 0x3fff;
-	
-	// Previous uuid creation time
-	var _lastMSecs = 0, _lastNSecs = 0;
-	
-	// See https://github.com/broofa/node-uuid for API details
-	function v1(options, buf, offset) {
-	  var i = buf && offset || 0;
-	  var b = buf || [];
-	
-	  options = options || {};
-	
-	  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
-	
-	  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-	  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
-	  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-	  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-	  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
-	
-	  // Per 4.2.1.2, use count of uuid's generated during the current clock
-	  // cycle to simulate higher resolution clock
-	  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
-	
-	  // Time since last uuid creation (in msecs)
-	  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
-	
-	  // Per 4.2.1.2, Bump clockseq on clock regression
-	  if (dt < 0 && options.clockseq === undefined) {
-	    clockseq = clockseq + 1 & 0x3fff;
-	  }
-	
-	  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-	  // time interval
-	  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-	    nsecs = 0;
-	  }
-	
-	  // Per 4.2.1.2 Throw error if too many uuids are requested
-	  if (nsecs >= 10000) {
-	    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
-	  }
-	
-	  _lastMSecs = msecs;
-	  _lastNSecs = nsecs;
-	  _clockseq = clockseq;
-	
-	  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
-	  msecs += 12219292800000;
-	
-	  // `time_low`
-	  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-	  b[i++] = tl >>> 24 & 0xff;
-	  b[i++] = tl >>> 16 & 0xff;
-	  b[i++] = tl >>> 8 & 0xff;
-	  b[i++] = tl & 0xff;
-	
-	  // `time_mid`
-	  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
-	  b[i++] = tmh >>> 8 & 0xff;
-	  b[i++] = tmh & 0xff;
-	
-	  // `time_high_and_version`
-	  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
-	  b[i++] = tmh >>> 16 & 0xff;
-	
-	  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-	  b[i++] = clockseq >>> 8 | 0x80;
-	
-	  // `clock_seq_low`
-	  b[i++] = clockseq & 0xff;
-	
-	  // `node`
-	  var node = options.node || _nodeId;
-	  for (var n = 0; n < 6; n++) {
-	    b[i + n] = node[n];
-	  }
-	
-	  return buf ? buf : unparse(b);
-	}
-	
-	// **`v4()` - Generate random UUID**
-	
-	// See https://github.com/broofa/node-uuid for API details
-	function v4(options, buf, offset) {
-	  // Deprecated - 'format' argument, as supported in v1.2
-	  var i = buf && offset || 0;
-	
-	  if (typeof(options) == 'string') {
-	    buf = options == 'binary' ? new Array(16) : null;
-	    options = null;
-	  }
-	  options = options || {};
-	
-	  var rnds = options.random || (options.rng || _rng)();
-	
-	  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-	  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-	  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-	
-	  // Copy bytes to buffer, if provided
-	  if (buf) {
-	    for (var ii = 0; ii < 16; ii++) {
-	      buf[i + ii] = rnds[ii];
-	    }
-	  }
-	
-	  return buf || unparse(rnds);
-	}
-	
-	// Export public API
-	var uuid = v4;
-	uuid.v1 = v1;
-	uuid.v4 = v4;
-	uuid.parse = parse;
-	uuid.unparse = unparse;
-	
-	module.exports = uuid;
-
-
-/***/ },
-/* 319 */
-/*!*******************************!*\
-  !*** ./~/uuid/rng-browser.js ***!
-  \*******************************/
-/***/ function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {
-	var rng;
-	
-	var crypto = global.crypto || global.msCrypto; // for IE 11
-	if (crypto && crypto.getRandomValues) {
-	  // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
-	  // Moderately fast, high quality
-	  var _rnds8 = new Uint8Array(16);
-	  rng = function whatwgRNG() {
-	    crypto.getRandomValues(_rnds8);
-	    return _rnds8;
-	  };
-	}
-	
-	if (!rng) {
-	  // Math.random()-based (RNG)
-	  //
-	  // If all else fails, use Math.random().  It's fast, but is of unspecified
-	  // quality.
-	  var  _rnds = new Array(16);
-	  rng = function() {
-	    for (var i = 0, r; i < 16; i++) {
-	      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-	      _rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-	    }
-	
-	    return _rnds;
-	  };
-	}
-	
-	module.exports = rng;
-	
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }
 /******/ ]);
