@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
+import TinyMCEInput from 'react-tinymce-input';
 import axios from 'axios';
 
 class ProductDetails extends Component{
 
   constructor(props) {
     super(props);
-    this.state = {product:{id:'', name:'', info: '', image: '', price: ''}, isLoggedIn: false};
-    console.log(this.props.id());
+    this.state = {product:{id:'', name:'', description: '', image: '', price: ''}, isLoggedIn: false};
   }
 
   componentDidMount(){
@@ -16,12 +16,13 @@ class ProductDetails extends Component{
         product: data
       });
     }.bind(this));
-    console.log(this.props.id())
+    
     if(this.props.id() !== 0 && this.props.id() !== undefined && this.props.id() !== null){
       this.setState({isLoggedIn: true})
     }
   }
 
+  
   addToCart(){
 
     if(this.state.isLoggedIn){
@@ -66,7 +67,9 @@ class ProductDetails extends Component{
             
             <div className="product-description">
               <h3>{this.state.product.name}</h3>
-              <p>{this.state.product.info}</p>
+             
+              <div dangerouslySetInnerHTML={{ __html: this.state.product.description }} />
+              
             </div>
 
           </div>
@@ -99,7 +102,6 @@ class ProductDetails extends Component{
               <button className="buy-button" onClick={this.addToCart.bind(this)}>BUY</button>
               <button><a href={`/api/product/delete/${this.state.product.id}`}>DELETE</a></button> 
             </div>
-         
         </div>
       </div>
     )

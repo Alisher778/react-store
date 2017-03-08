@@ -42,4 +42,6 @@ app.get('*', (req,res)=>{
 	res.sendFile(path.join(__dirname,'public/index.html'))
 })
 
-app.listen(3000,()=>console.log('running on localhost:3000'))
+sequelize.sync().then(() =>{
+  app.listen(3000,()=>console.log('running on localhost:3000'))
+})

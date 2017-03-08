@@ -1,4 +1,4 @@
-  const express     = require('express');
+const express     = require('express');
 const router      = express.Router();
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
@@ -78,8 +78,8 @@ router.get('/api/user/:id', function(req, res){
 
 // ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
-  sequelize.sync().then(function() {
-    return User.create({
+
+   User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       email: req.body.email,
@@ -89,7 +89,7 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       req.session.username = user.id;
       res.redirect(`/profile/${user.id}`)
     })
-  })
+ 
 })
 
 // ********************** Login function ******************************************
@@ -135,8 +135,8 @@ router.get('/logout', function(req, res){
 // Create Users address*********************************************************
 
 router.post('/api/user/:id/address', function(req, res){
-  sequelize.sync().then(function(){
-    return Address.create({
+  
+    Address.create({
       user_id:   req.params.id,
       full_name: req.body.full_name,
       street:    req.body.street,
@@ -151,7 +151,7 @@ router.post('/api/user/:id/address', function(req, res){
       req.session.username;
       res.json(result)
     })
-  })
+
 })
 
 router.get('/api/user/address/:user_id', function(req, res){
@@ -171,8 +171,8 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
    }).then(function(data){
      console.log("find cart ----",data.length)
      if(data.length == 0){
-       sequelize.sync().then(function(){
-         return Cart.create({
+       
+       Cart.create({
            user_id: req.params.user_id,
            product_id: req.params.product_id,
            product_name: req.body.product_name,
@@ -184,7 +184,7 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
          }).then(function(result){
            res.json(result);
          })
-       })
+     
      }else{
       console.log("User id before ----", data)
        return data[0].increment({

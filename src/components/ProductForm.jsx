@@ -1,9 +1,20 @@
 import  React, { Component } from 'react';
-import TinyMCE from 'react-tinymce';
+import TinyMCEInput from 'react-tinymce-input';
 import $ from 'jquery';
 
 class ProductForm extends Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {text: ""}
+  }
+  
+  onChange(newValue) {
+    this.setState({ value: newValue });
+  }
+  onTextAreaChange(e) {
+    this.setState({ value: e.target.value });
+  }
+ 
   render() {
     return(
       <div className="new-products-form">
@@ -13,8 +24,20 @@ class ProductForm extends Component {
           <div className="form-items"><label>Price:</label><input type="number" name="price" id="price" placeholder="price in USD"/></div>
           <div className="form-items">
             <label>Details:</label>
-              <textarea  rows="6" cols="50" type="text" name="info" id="info" placeholder="Product details">
-          </textarea ></div>
+             <TinyMCEInput value={this.state.value} onChange={this.onChange.bind(this)} tinymceConfig={{
+                'language'  : 'en',
+                'theme'     : 'modern',
+                'toolbar'   : 'bold italic underline strikethrough hr | bullist numlist | link unlink | undo redo | spellchecker code',
+                'menubar'   : false,
+                'statusbar' : true,
+                'resize'    : true,
+                'plugins'   : 'link,spellchecker,paste',
+                'theme_modern_toolbar_location' : 'top',
+                'theme_modern_toolbar_align': 'left'
+              }} />
+              <textarea id="text" name="description" value={this.state.value} onChange={this.onTextAreaChange.bind(this)} cols={1} rows={2} >{this.state.value}</textarea>
+              </div>
+              <div dangerouslySetInnerHTML={{ __html: this.state.value }} />
           <div className="form-items button"><button type="submit">ADD NEW PRODUCT</button></div>
         </form>
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import StripeCheckout from 'react-stripe-checkout';
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class ShoppingCart extends Component {
       product_quantity: 2,
       product_color: 'black',
       product_price: 699
-    }]}
+    }], payment :{name: "Hello.", description: "Big Data Stuff", image: "https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png", amount: 1, email: "info@vidhub.co"}}
 
   }
 
@@ -25,10 +26,23 @@ class ShoppingCart extends Component {
       });
     }.bind(this))
   }
+  onToken(token){
+    fetch('/save-stripe-token', {
+      method: 'POST',
+      body: JSON.stringify(token),
+    }).then(response => {
+      response.json().then(data => {
+        alert(`We are in business, ${data.email}`);
+      });
+    });
+  }
+
+
+
   render() {
     return(
       <div>
-        <h1>Your have {this.state.items.length}Items in the cart!</h1>
+        <h1>Your have {this.state.items.length} item(s) in your cart!</h1>
         { this.state.items.map((item)=>{
             return(
               <div key={item.id}>
@@ -46,6 +60,18 @@ class ShoppingCart extends Component {
                   <li id={item.product_price}>
                     <div>Unit Price: ${item.product_price}</div>
                     <div><b>Total:</b> ${item.product_price * item.product_quantity}</div>
+                    <StripeCheckout
+                      token={this.onToken}
+                      stripeKey={process.env.StripePK}
+                      name={item.product_name}
+                      description={item.product_info}
+                      image={item.product_image}
+                      panelLabel="Pay"
+                      amount={item.product_price * item.product_quantity * 100}
+                      currency="USD"
+                      locale="auto"
+                      email="your_email@mail.com"
+                    />
                   </li>
                 </ul>
                 <a href={`/users/api/cart/${item.id}/delete`}>Remove</a>
@@ -53,7 +79,6 @@ class ShoppingCart extends Component {
             )
           })
         }
-        <h1>Total: {}</h1>
       </div>
     )
   }
