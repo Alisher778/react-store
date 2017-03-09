@@ -16,7 +16,7 @@ class ShoppingCart extends Component {
       product_color: 'black',
       product_price: 699
     }], payment :{name: "Hello.", description: "Big Data Stuff", image: "https://www.vidhub.co/assets/logos/vidhub-icon-2e5c629f64ced5598a56387d4e3d0c7c.png", amount: 1, email: "info@vidhub.co"}}
-
+    
   }
 
   componentDidMount() {
@@ -27,10 +27,12 @@ class ShoppingCart extends Component {
     }.bind(this))
   }
   onToken(token){
+
     fetch('/save-stripe-token', {
       method: 'POST',
       body: JSON.stringify(token),
     }).then(response => {
+      
       response.json().then(data => {
         alert(`We are in business, ${data.email}`);
       });
@@ -62,7 +64,8 @@ class ShoppingCart extends Component {
                     <div><b>Total:</b> ${item.product_price * item.product_quantity}</div>
                     <StripeCheckout
                       token={this.onToken}
-                      stripeKey={process.env.StripePK}
+                      key={process.env.StripeTestPK}
+                      stripeKey='pk_test_VCJX2yAn6WuBGy6nHIyv1VGC'
                       name={item.product_name}
                       description={item.product_info}
                       image={item.product_image}
@@ -70,7 +73,7 @@ class ShoppingCart extends Component {
                       amount={item.product_price * item.product_quantity * 100}
                       currency="USD"
                       locale="auto"
-                      email="your_email@mail.com"
+                      email="alisher.musurmonov89@gmail.com"
                     />
                   </li>
                 </ul>

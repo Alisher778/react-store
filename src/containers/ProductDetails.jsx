@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 import TinyMCEInput from 'react-tinymce-input';
 import axios from 'axios';
+import {Link, browserHistory} from 'react-router';
 
-class ProductDetails extends Component{
+
+export default class ProductDetails extends Component{
 
   constructor(props) {
     super(props);
@@ -68,11 +70,11 @@ class ProductDetails extends Component{
             
             <div className="product-description">
               <h3>{this.state.product.name}</h3>
-             
+             <span><a href={`/${this.state.product.category}s`}>{this.state.product.category}</a></span>
               <div dangerouslySetInnerHTML={{ __html: this.state.product.description }} />
               
             </div>
-
+            {this.props.children}
           </div>
           
             <div className="side-bar">
@@ -108,5 +110,3 @@ class ProductDetails extends Component{
     )
   }
 }
-
-export default ProductDetails

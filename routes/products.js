@@ -92,15 +92,18 @@ router.get('/api/product/:id', function(req, res){
   })
 })
 
-// ################# Update by Id ###################
-router.post('/api/product/:id', (req, res)=>{
-  Product.update({where: {id: req.params.id}})
-    .then((result)=>{
-      res.json(result)
-    }).catch((error)=>{
-      console.log(error)
+
+// ################# Find Product By Category###################
+router.get('/api/products/:category', (req, res)=>{
+  console.log("Find by Ctaegory Before route requested ----")
+  Product.findAll({where: {category: req.params.category}})
+    .then((products)=>{
+      res.json(products)
+        console.log("Find by Ctaegory Before route requested ----")
+
     })
 })
+
 
 
 module.exports = router;

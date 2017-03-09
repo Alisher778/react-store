@@ -81,15 +81,31 @@
 	
 	var _Products2 = _interopRequireDefault(_Products);
 	
-	var _ProductDetails = __webpack_require__(/*! ./containers/ProductDetails.jsx */ 317);
+	var _Bags = __webpack_require__(/*! ./containers/Bags.jsx */ 317);
+	
+	var _Bags2 = _interopRequireDefault(_Bags);
+	
+	var _Shoes = __webpack_require__(/*! ./containers/Shoes.jsx */ 318);
+	
+	var _Shoes2 = _interopRequireDefault(_Shoes);
+	
+	var _Jeweleries = __webpack_require__(/*! ./containers/Jeweleries.jsx */ 319);
+	
+	var _Jeweleries2 = _interopRequireDefault(_Jeweleries);
+	
+	var _Accessories = __webpack_require__(/*! ./containers/Accessories.jsx */ 320);
+	
+	var _Accessories2 = _interopRequireDefault(_Accessories);
+	
+	var _ProductDetails = __webpack_require__(/*! ./containers/ProductDetails.jsx */ 321);
 	
 	var _ProductDetails2 = _interopRequireDefault(_ProductDetails);
 	
-	var _ShoppingCart = __webpack_require__(/*! ./containers/ShoppingCart.jsx */ 318);
+	var _ShoppingCart = __webpack_require__(/*! ./containers/ShoppingCart.jsx */ 322);
 	
 	var _ShoppingCart2 = _interopRequireDefault(_ShoppingCart);
 	
-	var _UserProfile = __webpack_require__(/*! ./containers/UserProfile.jsx */ 319);
+	var _UserProfile = __webpack_require__(/*! ./containers/UserProfile.jsx */ 323);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
@@ -103,21 +119,33 @@
 	
 	
 	(0, _reactDom.render)(_react2.default.createElement(
-	  _reactRouter.Router,
-	  { history: _reactRouter.browserHistory },
-	  _react2.default.createElement(
-	    _reactRouter.Route,
-	    { path: '/', component: _App2.default },
-	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Products2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _Products2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/cart/:id', component: _ShoppingCart2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/sign_up', component: _UserRegister2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _LoginForm2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/profile/:id', component: _UserProfile2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
-	  )
+	    _reactRouter.Router,
+	    { history: _reactRouter.browserHistory },
+	    _react2.default.createElement(
+	        _reactRouter.Route,
+	        { path: '/', component: _App2.default },
+	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Products2.default }),
+	        '// ---------------- Routes for Nav bar ------------------',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/bags', component: _Bags2.default }),
+	        '                  //',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/shoes', component: _Shoes2.default }),
+	        '                //',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/jeweleries', component: _Jeweleries2.default }),
+	        '          //',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/accessories', component: _Accessories2.default }),
+	        '    // // ============================================================',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/cart/:id', component: _ShoppingCart2.default }),
+	        '// ------------------- User Sign/Log In ------------------------',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/sign_up', component: _UserRegister2.default }),
+	        '        //',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _LoginForm2.default }),
+	        '             //',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/profile/:id', component: _UserProfile2.default }),
+	        '     // //==============================================================',
+	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
+	    )
 	), document.getElementById('app'));
 	// import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath';
 	// Components
@@ -25774,8 +25802,35 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/products' },
-	                'Products'
+	                { to: '/accessories' },
+	                'Accessories'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/bags' },
+	                'Bags'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/shoes' },
+	                'Shoes'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/jeweleries' },
+	                'Jeweleries'
 	              )
 	            )
 	          ),
@@ -37725,7 +37780,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'select',
-	              { 'class': 'category', name: '<category></category>' },
+	              { className: 'category', name: 'category' },
 	              _react2.default.createElement(
 	                'option',
 	                { value: 'bag' },
@@ -37738,7 +37793,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'option',
-	                { value: 'jewelry' },
+	                { value: 'jewelery' },
 	                'Jewelry'
 	              ),
 	              _react2.default.createElement(
@@ -42448,6 +42503,462 @@
 
 /***/ },
 /* 317 */
+/*!*********************************!*\
+  !*** ./src/containers/Bags.jsx ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _redux = __webpack_require__(/*! redux */ 296);
+	
+	var _axios = __webpack_require__(/*! axios */ 217);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Bags = function (_Component) {
+	  _inherits(Bags, _Component);
+	
+	  function Bags(props) {
+	    _classCallCheck(this, Bags);
+	
+	    var _this = _possibleConstructorReturn(this, (Bags.__proto__ || Object.getPrototypeOf(Bags)).call(this, props));
+	
+	    _this.state = { products: [{
+	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
+	      }] };
+	    return _this;
+	  }
+	
+	  _createClass(Bags, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/api/products/bag', function (data) {
+	        this.setState({ products: data });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'deleteProduct',
+	    value: function deleteProduct(event) {
+	      event.preventDefault();
+	      var productId = (0, _jquery2.default)('');
+	      _jquery2.default.ajax({
+	        url: '/api/product/delete/',
+	        type: 'DELETE',
+	        success: function success(result) {
+	          console.log(result);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'all-products' },
+	          this.state.products.map(function (product, i) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: i, className: 'products-list' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/product/' + product.id },
+	                _react2.default.createElement('img', { src: product.image, alt: product.name }),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-name' },
+	                  product.name
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-price' },
+	                  '$',
+	                  product.price
+	                )
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Bags;
+	}(_react.Component);
+	
+	exports.default = Bags;
+
+/***/ },
+/* 318 */
+/*!**********************************!*\
+  !*** ./src/containers/Shoes.jsx ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _redux = __webpack_require__(/*! redux */ 296);
+	
+	var _axios = __webpack_require__(/*! axios */ 217);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Shoes = function (_Component) {
+	  _inherits(Shoes, _Component);
+	
+	  function Shoes(props) {
+	    _classCallCheck(this, Shoes);
+	
+	    var _this = _possibleConstructorReturn(this, (Shoes.__proto__ || Object.getPrototypeOf(Shoes)).call(this, props));
+	
+	    _this.state = { products: [{
+	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
+	      }] };
+	    return _this;
+	  }
+	
+	  _createClass(Shoes, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/api/products/shoe', function (data) {
+	        this.setState({ products: data });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'deleteProduct',
+	    value: function deleteProduct(event) {
+	      event.preventDefault();
+	      var productId = (0, _jquery2.default)('');
+	      _jquery2.default.ajax({
+	        url: '/api/product/delete/',
+	        type: 'DELETE',
+	        success: function success(result) {
+	          console.log(result);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'all-products' },
+	          this.state.products.map(function (product, i) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: i, className: 'products-list' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/product/' + product.id },
+	                _react2.default.createElement('img', { src: product.image, alt: product.name }),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-name' },
+	                  product.name
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-price' },
+	                  '$',
+	                  product.price
+	                )
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Shoes;
+	}(_react.Component);
+	
+	exports.default = Shoes;
+
+/***/ },
+/* 319 */
+/*!***************************************!*\
+  !*** ./src/containers/Jeweleries.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _redux = __webpack_require__(/*! redux */ 296);
+	
+	var _axios = __webpack_require__(/*! axios */ 217);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Jeweleries = function (_Component) {
+	  _inherits(Jeweleries, _Component);
+	
+	  function Jeweleries(props) {
+	    _classCallCheck(this, Jeweleries);
+	
+	    var _this = _possibleConstructorReturn(this, (Jeweleries.__proto__ || Object.getPrototypeOf(Jeweleries)).call(this, props));
+	
+	    _this.state = { products: [{
+	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
+	      }] };
+	    return _this;
+	  }
+	
+	  _createClass(Jeweleries, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/api/products/jewelery', function (data) {
+	        this.setState({ products: data });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'deleteProduct',
+	    value: function deleteProduct(event) {
+	      event.preventDefault();
+	      var productId = (0, _jquery2.default)('');
+	      _jquery2.default.ajax({
+	        url: '/api/product/delete/',
+	        type: 'DELETE',
+	        success: function success(result) {
+	          console.log(result);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'all-products' },
+	          this.state.products.map(function (product, i) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: i, className: 'products-list' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/product/' + product.id },
+	                _react2.default.createElement('img', { src: product.image, alt: product.name }),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-name' },
+	                  product.name
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-price' },
+	                  '$',
+	                  product.price
+	                )
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Jeweleries;
+	}(_react.Component);
+	
+	exports.default = Jeweleries;
+
+/***/ },
+/* 320 */
+/*!****************************************!*\
+  !*** ./src/containers/Accessories.jsx ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _redux = __webpack_require__(/*! redux */ 296);
+	
+	var _axios = __webpack_require__(/*! axios */ 217);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Accessories = function (_Component) {
+	  _inherits(Accessories, _Component);
+	
+	  function Accessories(props) {
+	    _classCallCheck(this, Accessories);
+	
+	    var _this = _possibleConstructorReturn(this, (Accessories.__proto__ || Object.getPrototypeOf(Accessories)).call(this, props));
+	
+	    _this.state = { products: [{
+	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
+	      }] };
+	    return _this;
+	  }
+	
+	  _createClass(Accessories, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/api/products/accessory', function (data) {
+	        this.setState({ products: data });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'deleteProduct',
+	    value: function deleteProduct(event) {
+	      event.preventDefault();
+	      var productId = (0, _jquery2.default)('');
+	      _jquery2.default.ajax({
+	        url: '/api/product/delete/',
+	        type: 'DELETE',
+	        success: function success(result) {
+	          console.log(result);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'all-products' },
+	          this.state.products.map(function (product, i) {
+	            return _react2.default.createElement(
+	              'li',
+	              { key: i, className: 'products-list' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/product/' + product.id },
+	                _react2.default.createElement('img', { src: product.image, alt: product.name }),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-name' },
+	                  product.name
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'product-price' },
+	                  '$',
+	                  product.price
+	                )
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Accessories;
+	}(_react.Component);
+	
+	exports.default = Accessories;
+
+/***/ },
+/* 321 */
 /*!*******************************************!*\
   !*** ./src/containers/ProductDetails.jsx ***!
   \*******************************************/
@@ -42476,6 +42987,8 @@
 	var _axios = __webpack_require__(/*! axios */ 217);
 	
 	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -42571,8 +43084,18 @@
 	                null,
 	                this.state.product.name
 	              ),
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '/' + this.state.product.category + 's' },
+	                  this.state.product.category
+	                )
+	              ),
 	              _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.state.product.description } })
-	            )
+	            ),
+	            this.props.children
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -42700,7 +43223,7 @@
 	exports.default = ProductDetails;
 
 /***/ },
-/* 318 */
+/* 322 */
 /*!*****************************************!*\
   !*** ./src/containers/ShoppingCart.jsx ***!
   \*****************************************/
@@ -42769,10 +43292,12 @@
 	  }, {
 	    key: 'onToken',
 	    value: function onToken(token) {
+	
 	      fetch('/save-stripe-token', {
 	        method: 'POST',
 	        body: JSON.stringify(token)
 	      }).then(function (response) {
+	
 	        response.json().then(function (data) {
 	          alert('We are in business, ' + data.email);
 	        });
@@ -42860,7 +43385,8 @@
 	                ),
 	                _react2.default.createElement(_reactStripeCheckout2.default, {
 	                  token: _this2.onToken,
-	                  stripeKey: process.env.StripePK,
+	                  key: process.env.StripeTestPK,
+	                  stripeKey: 'pk_test_VCJX2yAn6WuBGy6nHIyv1VGC',
 	                  name: item.product_name,
 	                  description: item.product_info,
 	                  image: item.product_image,
@@ -42868,7 +43394,7 @@
 	                  amount: item.product_price * item.product_quantity * 100,
 	                  currency: 'USD',
 	                  locale: 'auto',
-	                  email: 'your_email@mail.com'
+	                  email: 'alisher.musurmonov89@gmail.com'
 	                })
 	              )
 	            ),
@@ -42890,7 +43416,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../~/process/browser.js */ 4)))
 
 /***/ },
-/* 319 */
+/* 323 */
 /*!****************************************!*\
   !*** ./src/containers/UserProfile.jsx ***!
   \****************************************/
