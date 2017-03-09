@@ -70,11 +70,11 @@ export default class ProductDetails extends Component{
             
             <div className="product-description">
               <h3>{this.state.product.name}</h3>
-             <span><a href={`/${this.state.product.category}s`}>{this.state.product.category}</a></span>
+             <span><a href={`/${this.state.product.category}`}>{this.state.product.category}</a></span>
               <div dangerouslySetInnerHTML={{ __html: this.state.product.description }} />
               
             </div>
-            {this.props.children}
+        
           </div>
           
             <div className="side-bar">

@@ -6,12 +6,12 @@ class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {user: {id: '1',
-                          first_name: 'Ali',
-                          last_name: 'Ali',
-                          password: 'password',
-                          email: 'example@eaxmple.com',
-                          password: 'password',
-                          avatar: 'https://s3.amazonaws.com/my-final-store/users/avatar.png'
+                          first_name: '',
+                          last_name: '',
+                          password: '',
+                          email: '',
+                          password: '',
+                          avatar: ''
                         },
                   address: [{
                             id: '',

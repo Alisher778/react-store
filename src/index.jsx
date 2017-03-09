@@ -31,10 +31,10 @@ render(
       <Route path="/" component={App}>
         <IndexRoute component={Products} />
         // ---------------- Routes for Nav bar ------------------
-        <Route path="/bags" component={Bags} />                  //
-        <Route path="/shoes" component={Shoes} />                //
-        <Route path="/jeweleries" component={Jeweleries} />          //   
-        <Route path="/accessories" component={Accessories} />    //
+        <Route path="/bag" component={Bags} />                  //
+        <Route path="/shoe" component={Shoes} />                //
+        <Route path="/jewelery" component={Jeweleries} />          //   
+        <Route path="/accessory" component={Accessories} />    //
     // ============================================================
 
         <Route path="/product/:product_id" component={ProductDetails} />

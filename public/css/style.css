@@ -19,9 +19,10 @@ ul li{
 /*======================================= Nav Bar =========================================*/
 nav{
   display: flex;
-  height: 50px;
+  height: 60px;
   /*background: linear-gradient(-34deg, rgb(22, 235, 237), rgb(23, 175, 150));*/
   background-color: #1fa67a;
+  margin-bottom: 5vh;
 }
 nav li{
   list-style-type: none;
@@ -248,24 +249,92 @@ input#image {
 
 /*============================ Shopping Cart==========================*/
 
-.item-details{
+.shopping-cart{
   display: flex;
-  border: 1px solid;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+}
+.shopping-cart h1{
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+}
+.your-cart{
+  text-align: left;
+  background-color: #f6f7f8;
+  width: 690px;
+  align-self: center;
+  border: 1px solid #d5d8db;
+  padding: 9px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 18px;
+}
+section{
+  align-self: center;
+  display: flex;
   justify-content: space-around;
+  max-width: 690px;
+  min-width: 690px;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  flex-grow: 1;
+  min-height: 160px;
+  max-height: 160px;
+  border: 1px solid #d5d8db;
 }
-item-details li:nth-child(1){
-  flex-grow: 2;
+section:last-of-type{
+  border-bottom: 1px solid #d5d8db;
+  border-radius: 2px;
 }
-item-details li:nth-child(2){
-  flex-flow: 3;
-}
-item-details li:nth-child(3){
-  flex-grow: 2
-}
-.image-src img{
-  width: 100px;
+button.StripeCheckout{
+  position: relative;
+  bottom: -25px;
 }
 
+.cart-items-wrapper {
+  max-width: 700px;
+  min-width: 400px;
+  flex-wrap: wrap;
+  flex-basis: auto;
+  flex-grow: 1;
+  display: flex;
+}
+.item-img{
+  align-self: center;
+}
+.item-img img{
+  width: 150px;
+  padding: 5px;
+}
+.item-details{
+  align-self: center;
+  margin-left: 30px;
+}
+.qty{
+  width: 29px;
+  display: inline-block;
+  border-radius: 3px;
+  margin-left: 6px;
+  padding: 4px;
+  border: 1px solid;
+  text-align: center;
+}
+.item-amount{
+  align-self: center;
+  padding: 15px;
+  margin-left: auto;
+}
+
+.remove-cart-btn{
+  text-decoration: none;
+  display: inline-block;
+  color: #0093ea;
+  font-size: 15px;
+  margin-top: 12px;
+  font-weight: 200;
+}
 
 
 /*=========================== User Profile =============================*/

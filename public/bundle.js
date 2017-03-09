@@ -126,13 +126,13 @@
 	        { path: '/', component: _App2.default },
 	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _Products2.default }),
 	        '// ---------------- Routes for Nav bar ------------------',
-	        _react2.default.createElement(_reactRouter.Route, { path: '/bags', component: _Bags2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/bag', component: _Bags2.default }),
 	        '                  //',
-	        _react2.default.createElement(_reactRouter.Route, { path: '/shoes', component: _Shoes2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/shoe', component: _Shoes2.default }),
 	        '                //',
-	        _react2.default.createElement(_reactRouter.Route, { path: '/jeweleries', component: _Jeweleries2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/jewelery', component: _Jeweleries2.default }),
 	        '          //',
-	        _react2.default.createElement(_reactRouter.Route, { path: '/accessories', component: _Accessories2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/accessory', component: _Accessories2.default }),
 	        '    // // ============================================================',
 	        _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default }),
@@ -25802,7 +25802,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/accessories' },
+	                { to: '/accessory' },
 	                'Accessories'
 	              )
 	            ),
@@ -25811,7 +25811,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/bags' },
+	                { to: '/bag' },
 	                'Bags'
 	              )
 	            ),
@@ -25820,7 +25820,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/shoes' },
+	                { to: '/shoe' },
 	                'Shoes'
 	              )
 	            ),
@@ -25829,7 +25829,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/jeweleries' },
+	                { to: '/jewelery' },
 	                'Jeweleries'
 	              )
 	            )
@@ -43089,13 +43089,12 @@
 	                null,
 	                _react2.default.createElement(
 	                  'a',
-	                  { href: '/' + this.state.product.category + 's' },
+	                  { href: '/' + this.state.product.category },
 	                  this.state.product.category
 	                )
 	              ),
 	              _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.state.product.description } })
-	            ),
-	            this.props.children
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -43310,7 +43309,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'shopping-cart' },
 	        _react2.default.createElement(
 	          'h1',
 	          null,
@@ -43318,58 +43317,75 @@
 	          this.state.items.length,
 	          ' item(s) in your cart!'
 	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'your-cart' },
+	          'Your Cart'
+	        ),
 	        this.state.items.map(function (item) {
 	          return _react2.default.createElement(
-	            'div',
+	            'section',
 	            { key: item.id },
 	            _react2.default.createElement(
-	              'ul',
-	              { className: 'item-details' },
+	              'div',
+	              { className: 'cart-items-wrapper' },
 	              _react2.default.createElement(
-	                'li',
-	                { className: 'image-src', id: item.product_name },
+	                'div',
+	                { className: 'item-img' },
 	                _react2.default.createElement('img', { src: item.product_image, alt: 'product default image' })
 	              ),
 	              _react2.default.createElement(
-	                'li',
-	                { id: item.product_id },
+	                'div',
+	                { className: 'item-details' },
 	                _react2.default.createElement(
-	                  'ul',
-	                  { className: 'product-details' },
+	                  'div',
+	                  { id: item.product_name },
+	                  item.product_name
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { id: item.product_quantity },
 	                  _react2.default.createElement(
-	                    'li',
-	                    { id: item.product_name },
-	                    item.product_name
+	                    'strong',
+	                    null,
+	                    'Qty:'
 	                  ),
+	                  ' ',
 	                  _react2.default.createElement(
-	                    'li',
-	                    { id: item.product_quantity },
-	                    _react2.default.createElement(
-	                      'span',
-	                      null,
-	                      item.product_quantity,
-	                      ' '
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'li',
-	                    { id: item.product_color },
-	                    _react2.default.createElement(
-	                      'span',
-	                      null,
-	                      item.product_color,
-	                      ' '
-	                    )
+	                    'span',
+	                    { className: 'qty' },
+	                    item.product_quantity,
+	                    ' '
 	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { id: item.product_color },
+	                  _react2.default.createElement(
+	                    'strong',
+	                    null,
+	                    'Color: '
+	                  ),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'item-color' },
+	                    item.product_color,
+	                    ' '
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '/users/api/cart/' + item.id + '/delete', className: 'remove-cart-btn' },
+	                  'Remove'
 	                )
 	              ),
 	              _react2.default.createElement(
-	                'li',
-	                { id: item.product_price },
+	                'div',
+	                { className: 'item-amount' },
 	                _react2.default.createElement(
 	                  'div',
 	                  null,
-	                  'Unit Price: $',
+	                  '$',
 	                  item.product_price
 	                ),
 	                _react2.default.createElement(
@@ -43397,11 +43413,6 @@
 	                  email: 'alisher.musurmonov89@gmail.com'
 	                })
 	              )
-	            ),
-	            _react2.default.createElement(
-	              'a',
-	              { href: '/users/api/cart/' + item.id + '/delete' },
-	              'Remove'
 	            )
 	          );
 	        })
@@ -43459,11 +43470,11 @@
 	    var _this = _possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).call(this, props));
 	
 	    _this.state = { user: (_user = { id: '1',
-	        first_name: 'Ali',
-	        last_name: 'Ali',
-	        password: 'password',
-	        email: 'example@eaxmple.com'
-	      }, _defineProperty(_user, 'password', 'password'), _defineProperty(_user, 'avatar', 'https://s3.amazonaws.com/my-final-store/users/avatar.png'), _user),
+	        first_name: '',
+	        last_name: '',
+	        password: '',
+	        email: ''
+	      }, _defineProperty(_user, 'password', ''), _defineProperty(_user, 'avatar', ''), _user),
 	      address: [{
 	        id: '',
 	        user_id: '',

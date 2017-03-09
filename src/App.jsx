@@ -83,10 +83,10 @@ export default class App extends Component {
             <li id="logo"><Link to="/" activeClassName="active">Home</Link></li>
           </div>
           <div className="nav-list">
-            <li><Link to="/accessories">Accessories</Link></li>
-            <li><Link to="/bags">Bags</Link></li>
-            <li><Link to="/shoes">Shoes</Link></li>
-            <li><Link to="/jeweleries">Jeweleries</Link></li>
+            <li><Link to="/accessory">Accessories</Link></li>
+            <li><Link to="/bag">Bags</Link></li>
+            <li><Link to="/shoe">Shoes</Link></li>
+            <li><Link to="/jewelery">Jeweleries</Link></li>
           </div>
           <ul className="user-bar">
             <ul className="user-cart">

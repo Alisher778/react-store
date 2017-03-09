@@ -43,26 +43,29 @@ class ShoppingCart extends Component {
 
   render() {
     return(
-      <div>
+      <div className="shopping-cart">
         <h1>Your have {this.state.items.length} item(s) in your cart!</h1>
+        <div className="your-cart">Your Cart</div>
         { this.state.items.map((item)=>{
             return(
-              <div key={item.id}>
-                <ul className="item-details">
-                  <li className="image-src" id={item.product_name}>
-                    <img src={item.product_image} alt="product default image" />
-                  </li>
-                  <li id={item.product_id}>
-                    <ul className="product-details">
-                      <li id={item.product_name}>{item.product_name}</li>
-                      <li id={item.product_quantity}><span>{item.product_quantity} </span></li>
-                      <li id={item.product_color}><span>{item.product_color} </span></li>
-                    </ul>
-                  </li>
-                  <li id={item.product_price}>
-                    <div>Unit Price: ${item.product_price}</div>
-                    <div><b>Total:</b> ${item.product_price * item.product_quantity}</div>
-                    <StripeCheckout
+              <section key={item.id}>
+              <div className="cart-items-wrapper">
+                
+                <div className="item-img">
+                  <img src={item.product_image} alt="product default image" />
+                </div>
+
+                <div className="item-details">
+                  <div id={item.product_name}>{item.product_name}</div>
+                  <div id={item.product_quantity}><strong>Qty:</strong> <span className="qty">{item.product_quantity} </span></div>
+                  <div id={item.product_color}><strong>Color: </strong><span className="item-color">{item.product_color} </span></div>
+                  <a href={`/users/api/cart/${item.id}/delete`} className="remove-cart-btn">Remove</a>
+                </div> 
+
+                <div className="item-amount">
+                  <div>${item.product_price}</div>
+                  <div><b>Total:</b> ${item.product_price * item.product_quantity}</div>
+                  <StripeCheckout
                       token={this.onToken}
                       key={process.env.StripeTestPK}
                       stripeKey='pk_test_VCJX2yAn6WuBGy6nHIyv1VGC'
@@ -75,10 +78,10 @@ class ShoppingCart extends Component {
                       locale="auto"
                       email="alisher.musurmonov89@gmail.com"
                     />
-                  </li>
-                </ul>
-                <a href={`/users/api/cart/${item.id}/delete`}>Remove</a>
+                </div>
+
               </div>
+              </section>
             )
           })
         }
