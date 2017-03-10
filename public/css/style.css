@@ -42,6 +42,14 @@ nav li a{
     align-items: center;
 }
 
+#logo{
+  font-family: 'Pacifico', cursive;
+  font-size: 25px;
+  text-decoration: underline;
+  color: #0f1212;
+  font-weight: 200;
+  text-shadow: 3px 2px 0px #fff;
+}
 .nav-list {
     display: flex;
     justify-content: space-around;

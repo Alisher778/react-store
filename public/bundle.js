@@ -25786,11 +25786,11 @@
 	            { className: 'logo' },
 	            _react2.default.createElement(
 	              'li',
-	              { id: 'logo' },
+	              null,
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/', activeClassName: 'active' },
-	                'Home'
+	                { to: '/', activeClassName: 'active', id: 'logo' },
+	                'Rstore'
 	              )
 	            )
 	          ),

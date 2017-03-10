@@ -80,7 +80,7 @@ export default class App extends Component {
       <div>
         <nav>
           <div className="logo">
-            <li id="logo"><Link to="/" activeClassName="active">Home</Link></li>
+            <li ><Link to="/" activeClassName="active" id="logo">Rstore</Link></li>
           </div>
           <div className="nav-list">
             <li><Link to="/accessory">Accessories</Link></li>
