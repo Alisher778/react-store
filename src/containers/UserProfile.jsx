@@ -41,17 +41,11 @@ class UserProfile extends Component {
   }
   
   addAddress(){
-    $('.add-address').click(function(e){
-      e.preventDefault();
       $('.address-hidden').toggle();
-    })
   }
 
   closeAddress(){
-    $('.close-address').click(function(e){
-      e.preventDefault();
-      $('.address-hidden').toggle();
-    })
+    $('.address-hidden').toggle();
   }
 
   

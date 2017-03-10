@@ -57,6 +57,12 @@ export default class ProductDetails extends Component{
     
   }
 
+  isAdmin(){
+    if(this.props.id() == 1){
+      return <button><a href={`/api/product/delete/${this.state.product.id}`}>DELETE</a></button>
+    }
+  }
+
   render() {
     return(
       <div className="product-details">
@@ -103,7 +109,7 @@ export default class ProductDetails extends Component{
                 </select>
               </div>
               <button className="buy-button" onClick={this.addToCart.bind(this)}>BUY</button>
-              <button><a href={`/api/product/delete/${this.state.product.id}`}>DELETE</a></button> 
+              {this.isAdmin()} 
             </div>
         </div>
       </div>

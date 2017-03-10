@@ -48,8 +48,9 @@ nav li a{
   text-decoration: underline;
   color: #0f1212;
   font-weight: 200;
-  text-shadow: 3px 2px 0px #fff;
+  text-shadow: 0px 1px 13px #fff;
 }
+
 .nav-list {
     display: flex;
     justify-content: space-around;
@@ -103,6 +104,10 @@ span.cart-number {
   justify-content: flex-start;
   padding-left: 0;
 }
+
+#menu-bar{
+  display: none;
+}
 /*------------------------------------------------------------------------------------------*/
 /*=============================== Products.jsx =======================================*/
 .all-products{
@@ -118,7 +123,7 @@ span.cart-number {
   margin: 2px;
   margin: 12px 15px;
   padding-bottom: 15px;
-  border-bottom: 2px solid #bebcbc;
+  border-bottom: 3px solid black;
 }
 .products-list a{
   text-decoration: none;
@@ -126,17 +131,19 @@ span.cart-number {
 .products-list img{
   width: 250px;
   height: 200px;
-  margin-top: 25px;
+  margin-top: 5px;
 }
 .product-name{
   color: black;
-  font-size: 1.2em;
-  font-weight: 600;
+  font-size: 1em;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
 .product-price{
-  color: #119185;
-  font-size: 1.3em;
-  font-weight: 900;
+  color: #33b724;
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 10px;
 }
 
 /*=============================== ProductForm.jsx ========================================*/
@@ -526,7 +533,7 @@ button.StripeCheckout{
 }
 .sign-up-page p input{
   flex-grow: 1;
-  border-radius: 2px;
+  border-radius: 6px;
   height: 51px;
   padding: 2px 0 2px 16px;
   font-size: 18px;
@@ -535,6 +542,12 @@ button.StripeCheckout{
 .sign-up-page p input[type=file]{
   padding-top: 8px;
   height: 41px;
+}
+.sign-up-page i.fa{
+  position: absolute;
+  align-self: center;
+  right: 15px;
+  font-size: 24px;
 }
 .sign-up-page button{
   height: 47px;
@@ -548,8 +561,26 @@ button.StripeCheckout{
 }
 
 
+/*###############################################################################*/
+/*###############################################################################*/
+/*#################### Media Queries  ###########################################*/
 
+@media screen and (max-width: 725px){
+  #menu-bar{
+    display: block;
+    position: relative;
+    right: 37px;
+    font-size: 24px;
+    align-self: center;
+  }
+  .user-bar, .nav-list{
+    display: none;
+  }
 
+  #menu-bar:hover .user-bar{
+    display: block;
+  }
+}
 
 
 

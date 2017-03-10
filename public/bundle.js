@@ -25866,7 +25866,8 @@
 	            ),
 	            this.isLoggedInFunc(),
 	            this.isAdmin()
-	          )
+	          ),
+	          _react2.default.createElement('i', { className: 'fa fa-bars', 'aria-hidden': 'true', id: 'menu-bar' })
 	        ),
 	        this.props.children && _react2.default.cloneElement(this.props.children, {
 	          incrementCart: this.incrementCart.bind(this),
@@ -38431,22 +38432,28 @@
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement('input', { type: 'text', name: 'firstName', placeholder: 'First Name' })
+	            _react2.default.createElement('input', { type: 'text', name: 'firstName', placeholder: 'First Name' }),
+	            _react2.default.createElement('i', { className: 'fa fa-user-o', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement('input', { type: 'text', name: 'lastName', placeholder: 'Last Name' })
+	            _react2.default.createElement('input', { type: 'text', name: 'lastName', placeholder: 'Last Name' }),
+	            _react2.default.createElement('i', { className: 'fa fa-user-o', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement('input', { type: 'email', name: 'email', placeholder: 'Email' })
+	            _react2.default.createElement('input', { type: 'email', name: 'email', placeholder: 'Email' }),
+	            ' ',
+	            _react2.default.createElement('i', { className: 'fa fa-envelope-o', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: 'Password' })
+	            _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: 'Password' }),
+	            ' ',
+	            _react2.default.createElement('i', { className: 'fa fa-key', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
@@ -38521,6 +38528,9 @@
 	  }
 	
 	  _createClass(LoginForm, [{
+	    key: 'onFormSubmit',
+	    value: function onFormSubmit(e) {}
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -38533,7 +38543,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { action: '/users/api/login', method: 'post' },
+	          { action: '/users/api/login', method: 'post', onSubmit: this.onFormSubmit },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'input-wrap' },
@@ -43040,6 +43050,21 @@
 	      }
 	    }
 	  }, {
+	    key: 'isAdmin',
+	    value: function isAdmin() {
+	      if (this.props.id() == 1) {
+	        return _react2.default.createElement(
+	          'button',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '/api/product/delete/' + this.state.product.id },
+	            'DELETE'
+	          )
+	        );
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -43186,15 +43211,7 @@
 	              { className: 'buy-button', onClick: this.addToCart.bind(this) },
 	              'BUY'
 	            ),
-	            _react2.default.createElement(
-	              'button',
-	              null,
-	              _react2.default.createElement(
-	                'a',
-	                { href: '/api/product/delete/' + this.state.product.id },
-	                'DELETE'
-	              )
-	            )
+	            this.isAdmin()
 	          )
 	        )
 	      );
@@ -43492,18 +43509,12 @@
 	  }, {
 	    key: 'addAddress',
 	    value: function addAddress() {
-	      (0, _jquery2.default)('.add-address').click(function (e) {
-	        e.preventDefault();
-	        (0, _jquery2.default)('.address-hidden').toggle();
-	      });
+	      (0, _jquery2.default)('.address-hidden').toggle();
 	    }
 	  }, {
 	    key: 'closeAddress',
 	    value: function closeAddress() {
-	      (0, _jquery2.default)('.close-address').click(function (e) {
-	        e.preventDefault();
-	        (0, _jquery2.default)('.address-hidden').toggle();
-	      });
+	      (0, _jquery2.default)('.address-hidden').toggle();
 	    }
 	  }, {
 	    key: 'render',

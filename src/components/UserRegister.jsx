@@ -17,16 +17,16 @@ class UserRegister extends Component {
         <h2>Sign Up</h2>
         <form action="/users/api/register" method="post" encType="multipart/form-data">
           <p>
-            <input type="text" name="firstName" placeholder="First Name" />
+            <input type="text" name="firstName" placeholder="First Name" /><i className="fa fa-user-o" aria-hidden="true"></i>
           </p>
           <p>
-            <input type="text" name="lastName" placeholder="Last Name" />
+            <input type="text" name="lastName" placeholder="Last Name" /><i className="fa fa-user-o" aria-hidden="true"></i>
           </p>
           <p>
-            <input type="email" name="email" placeholder="Email" />
+            <input type="email" name="email" placeholder="Email" /> <i className="fa fa-envelope-o" aria-hidden="true"></i>
           </p>
           <p>
-            <input type="password" name="password"  placeholder="Password" />
+            <input type="password" name="password"  placeholder="Password" /> <i className="fa fa-key" aria-hidden="true"></i>
           </p>
           <p>
             <input type="file" name="avatar" />

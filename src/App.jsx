@@ -96,7 +96,7 @@ export default class App extends Component {
             {this.isLoggedInFunc()}
             {this.isAdmin()}
           </ul>
-          
+          <i className="fa fa-bars" aria-hidden="true" id="menu-bar"></i>
         </nav>
         {this.props.children && React.cloneElement(this.props.children, {
               incrementCart: this.incrementCart.bind(this),
