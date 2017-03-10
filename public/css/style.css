@@ -110,7 +110,7 @@ span.cart-number {
   margin: 2px;
   margin: 12px 15px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #bebcbc;
+  border-bottom: 2px solid #bebcbc;
 }
 .products-list a{
   text-decoration: none;
@@ -342,29 +342,120 @@ button.StripeCheckout{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+}
+
+.user-info{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid;
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 600px;
+}
+.user-info h3, p{
+  margin: 0 auto 5px auto;
+}
+.user-profile-img{
+  width: 150px
+}
+.user-detail{
+  margin-left: 15px;
+  flex-grow: 1;
+  padding-top: 14px;
+}
+.user-address{
+  display: flex;
+  justify-content: center;
+}
+.address-details{
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  margin: 11px;
+  padding: 3px;
+}
+.address-details span{
+  font-size: 14px;
+  font-weight: 300;
+}
+.address-details a{
+  color: #ee1111;
+  margin-top: 17px;
+}
+.address-details span i{
+  font-weight: 500;
+}
+.user-profile-img img{
+  width: 150px;
 }
 .address-hidden{
   display: none;
-
+  position: fixed;
+  z-index: 999;
+  background-color: rgba(17, 18, 18, 0.85);
+  width: 100vw;
+  top: 0;
+  left: 0;
+  height: 100vh;
+}
+.address-hidden form{
+  position: relative;
+  margin: 10% auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 .address-hidden label{
-  width: 115px;
+  
 }
 .address-hidden input{
-  width: 75%;
+  width: 400px;
+  height: 40px;
+  padding: 2px 0 2px 10px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: 1px solid black;
+
+}
+.address-hidden textarea{
+  width: 400px;
+  height: 80px;
+  border-radius: 3px;
 }
 
+.address-hidden button{
+  width: 400px;
+  height: 50px;
+  padding: 5px;
+  background: green;
+  border: 1px solid green;
+  color: #fff;
+  border-radius: 3px;
+}
+.address-hidden button.close-address{
+  position: absolute;
+  right: 5vw;
+  top: 5vh;
+  height: 20px;
+  width: 20px;
+  font-size: 18px;
+  text-align: center;
+  padding: 0;
+}
+
+/*========================== Login Form ===================================*/
 .login-form{
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+.login-form h2{
+  text-align: center;
+}
 .login-form form{
   align-self: center;
   display: flex;
   flex-direction: column;
-  margin-top: 10vh;
   width: 300px;
   max-width: 325px;
 } 
@@ -405,6 +496,48 @@ button.StripeCheckout{
 }
 
 
+/*======================= Sign Up page =================================*/
+
+.sign-up-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sign-up-page h2{
+  text-align: center;
+}
+.sign-up-page form{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+.sign-up-page p{
+  display: flex;
+  position: relative;
+  margin: 10px 0;
+}
+.sign-up-page p input{
+  flex-grow: 1;
+  border-radius: 2px;
+  height: 51px;
+  padding: 2px 0 2px 16px;
+  font-size: 18px;
+  border: 1px solid #a4a3a3;
+}
+.sign-up-page p input[type=file]{
+  padding-top: 8px;
+  height: 41px;
+}
+.sign-up-page button{
+  height: 47px;
+  background-color: #18ad59;
+  border: 1px solid #24a97e;
+  font-weight: 400;
+  font-size: 18px;
+  padding: 3px;
+  color: #fff;
+  border-radius: 3px;
+}
 
 
 

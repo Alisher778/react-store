@@ -38419,58 +38419,38 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'sign-up-page' },
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Sign Up'
+	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { action: '/users/api/register', method: 'post', encType: 'multipart/form-data' },
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'First Name:'
-	            ),
-	            _react2.default.createElement('input', { type: 'text', name: 'firstName' })
+	            _react2.default.createElement('input', { type: 'text', name: 'firstName', placeholder: 'First Name' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'Last Name:'
-	            ),
-	            _react2.default.createElement('input', { type: 'text', name: 'lastName' })
+	            _react2.default.createElement('input', { type: 'text', name: 'lastName', placeholder: 'Last Name' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'Email:'
-	            ),
-	            _react2.default.createElement('input', { type: 'email', name: 'email' })
+	            _react2.default.createElement('input', { type: 'email', name: 'email', placeholder: 'Email' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'Password:'
-	            ),
-	            _react2.default.createElement('input', { type: 'password', name: 'password' })
+	            _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: 'Password' })
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            _react2.default.createElement(
-	              'label',
-	              null,
-	              'Avatar:'
-	            ),
 	            _react2.default.createElement('input', { type: 'file', name: 'avatar' })
 	          ),
 	          _react2.default.createElement(
@@ -38546,6 +38526,11 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'login-form' },
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Log In'
+	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { action: '/users/api/login', method: 'post' },
@@ -43513,182 +43498,185 @@
 	      });
 	    }
 	  }, {
+	    key: 'closeAddress',
+	    value: function closeAddress() {
+	      (0, _jquery2.default)('.close-address').click(function (e) {
+	        e.preventDefault();
+	        (0, _jquery2.default)('.address-hidden').toggle();
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'user-profile' },
 	        _react2.default.createElement(
-	          'p',
-	          null,
-	          this.state.user.first_name
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          this.state.user.last_name
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          this.state.user.email
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          this.state.user.password
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          _react2.default.createElement('img', { src: this.state.user.avatar, alt: this.state.user.first_name, style: { width: "100px" } })
-	        ),
-	        this.state.address.map(function (address) {
-	          return _react2.default.createElement(
+	          'div',
+	          { className: 'user-info' },
+	          _react2.default.createElement(
 	            'div',
-	            { className: 'address-details', key: address.id },
+	            { className: 'user-profile-img' },
+	            _react2.default.createElement('img', { src: this.state.user.avatar, alt: this.state.user.first_name })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'user-detail' },
 	            _react2.default.createElement(
-	              'p',
+	              'h3',
 	              null,
-	              address.full_name
+	              this.state.user.first_name,
+	              ' ',
+	              this.state.user.last_name
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              address.street
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.apartment
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.city
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.state
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.zip
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.country
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.phone
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              address.note
+	              _react2.default.createElement('i', { className: 'fa fa-envelope-o', 'aria-hidden': 'true' }),
+	              this.state.user.email
 	            )
-	          );
-	        }),
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'user-address' },
+	            this.state.address.map(function (address) {
+	              return _react2.default.createElement(
+	                'div',
+	                { className: 'address-details', key: address.id },
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  _react2.default.createElement(
+	                    'b',
+	                    null,
+	                    address.full_name
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  address.street
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  address.apartment
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  address.city
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  address.state
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  address.zip
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  address.country
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  _react2.default.createElement(
+	                    'i',
+	                    null,
+	                    'Phone number:'
+	                  ),
+	                  ' ',
+	                  address.phone
+	                ),
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  _react2.default.createElement(
+	                    'i',
+	                    null,
+	                    'Special note:'
+	                  ),
+	                  ' ',
+	                  address.note
+	                ),
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '/users/api/user/address/' + address.id + '/delete' },
+	                  'Delete'
+	                )
+	              );
+	            })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'add-address' },
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: this.addAddress.bind(this) },
+	              'Add New Address'
+	            )
+	          )
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'address-hidden' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'close-address', onClick: this.closeAddress.bind(this) },
+	            'X'
+	          ),
 	          _react2.default.createElement(
 	            'form',
 	            { action: '/users/api/user/' + this.state.user.id + '/address', method: 'post' },
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Full Name'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'full_name' })
+	              _react2.default.createElement('input', { type: 'text', name: 'full_name', placeholder: 'Full Name' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Street'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'street' })
+	              _react2.default.createElement('input', { type: 'text', name: 'street', placeholder: 'Street' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Apartment/suit'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'apartment' })
+	              _react2.default.createElement('input', { type: 'text', name: 'apartment', placeholder: 'Apartment ' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'City'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'city' })
+	              _react2.default.createElement('input', { type: 'text', name: 'city', placeholder: 'City' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'State'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'state' })
+	              _react2.default.createElement('input', { type: 'text', name: 'state', placeholder: 'State' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Zip/Postal'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'zip' })
+	              _react2.default.createElement('input', { type: 'text', name: 'zip', placeholder: 'Zip/Postal code' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Country'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'country' })
+	              _react2.default.createElement('input', { type: 'text', name: 'country', placeholder: 'Country' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Phone'
-	              ),
-	              _react2.default.createElement('input', { type: 'text', name: 'phone' })
+	              _react2.default.createElement('input', { type: 'text', name: 'phone', placeholder: 'Phone' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement(
-	                'label',
-	                null,
-	                'Notes'
-	              ),
-	              _react2.default.createElement('textarea', { type: 'text', name: 'note' })
+	              _react2.default.createElement('textarea', { type: 'text', name: 'note', placeholder: 'Special Notes' })
 	            ),
 	            _react2.default.createElement(
 	              'p',
@@ -43699,15 +43687,6 @@
 	                'Add Address'
 	              )
 	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'add-address' },
-	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.addAddress.bind(this) },
-	            'Add Address'
 	          )
 	        )
 	      );

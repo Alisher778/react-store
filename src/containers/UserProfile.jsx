@@ -47,49 +47,63 @@ class UserProfile extends Component {
     })
   }
 
+  closeAddress(){
+    $('.close-address').click(function(e){
+      e.preventDefault();
+      $('.address-hidden').toggle();
+    })
+  }
+
   
   render() {
     return(
       <div className="user-profile">
-        <p>{this.state.user.first_name}</p>
-        <p>{this.state.user.last_name}</p>
-        <p>{this.state.user.email}</p>
-        <p>{this.state.user.password}</p>
-        <p><img src={this.state.user.avatar} alt={this.state.user.first_name} style={{width: "100px"}}/></p>
-        
-        { this.state.address.map((address)=>{
-          return(
-              <div className="address-details" key={address.id}>
-                <p>{address.full_name}</p>
-                <p>{address.street}</p>
-                <p>{address.apartment}</p>
-                <p>{address.city}</p>
-                <p>{address.state}</p>
-                <p>{address.zip}</p>
-                <p>{address.country}</p>
-                <p>{address.phone}</p>
-                <p>{address.note}</p>
-              </div> 
-            )
-        })}
-        
+        <div className="user-info">
+          <div className="user-profile-img">
+            <img src={this.state.user.avatar} alt={this.state.user.first_name} />
+          </div>
+          <div className="user-detail">
+            <h3>{this.state.user.first_name} {this.state.user.last_name}</h3>
+            <p><i className="fa fa-envelope-o" aria-hidden="true"></i>{this.state.user.email}</p>
+          </div>
+          <div className="user-address">
+            { this.state.address.map((address)=>{
+              return(
+                <div className="address-details" key={address.id}>
+                  <span><b>{address.full_name}</b></span>
+                  <span>{address.street}</span>
+                  <span>{address.apartment}</span>
+                  <span>{address.city}</span>
+                  <span>{address.state}</span>
+                  <span>{address.zip}</span>
+                  <span>{address.country}</span>
+                  <span><i>Phone number:</i> {address.phone}</span>
+                  <span><i>Special note:</i> {address.note}</span>
+                  <a href={`/users/api/user/address/${address.id}/delete`}>Delete</a>
+                </div> 
+              )
+            })}
+          </div>
+          <div className="add-address">
+            <button onClick={this.addAddress.bind(this)}>Add New Address</button>
+          </div>
+        </div>        
         
         <div className="address-hidden">
+          <button className="close-address" onClick={this.closeAddress.bind(this)}>X</button>
           <form action={`/users/api/user/${this.state.user.id}/address`} method="post">
-            <p><label>Full Name</label><input type="text" name="full_name" /></p>
-            <p><label>Street</label><input type="text" name="street" /></p>
-            <p><label>Apartment/suit</label><input type="text" name="apartment" /></p>
-            <p><label>City</label><input type="text" name="city" /></p>
-            <p><label>State</label><input type="text" name="state" /></p>
-            <p><label>Zip/Postal</label><input type="text" name="zip" /></p>
-            <p><label>Country</label><input type="text" name="country" /></p>
-            <p><label>Phone</label><input type="text" name="phone" /></p>
-            <p><label>Notes</label><textarea type="text" name="note"></textarea></p>
+            <p><input type="text" name="full_name" placeholder="Full Name" /></p>
+            <p><input type="text" name="street" placeholder="Street"/></p>
+            <p><input type="text" name="apartment" placeholder="Apartment
+            "/></p>
+            <p><input type="text" name="city" placeholder="City"/></p>
+            <p><input type="text" name="state" placeholder="State" /></p>
+            <p><input type="text" name="zip" placeholder="Zip/Postal code" /></p>
+            <p><input type="text" name="country" placeholder="Country" /></p>
+            <p><input type="text" name="phone" placeholder="Phone"/></p>
+            <p><textarea type="text" name="note" placeholder="Special Notes"></textarea></p>
             <p><button type="submit">Add Address</button></p>
           </form>
-        </div>
-        <div className="add-address">
-          <button onClick={this.addAddress.bind(this)}>Add Address</button>
         </div>
       </div>
     )

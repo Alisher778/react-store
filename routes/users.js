@@ -166,6 +166,15 @@ router.get('/api/user/address/:user_id', function(req, res){
     })
 })
 
+//  Delete the address by Id
+router.get('/api/user/address/:id/delete', function(req, res){
+  Address.destroy({where: {id: req.params.id}})
+    .then(function(result){
+      console.log(result)
+      res.redirect('/')
+    })
+})
+
 
 // Create Shopping cart ***********************************************************
 

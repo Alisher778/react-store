@@ -13,22 +13,23 @@ class UserRegister extends Component {
 
   render() {
     return(
-      <div>
+      <div className="sign-up-page">
+        <h2>Sign Up</h2>
         <form action="/users/api/register" method="post" encType="multipart/form-data">
           <p>
-            <label >First Name:</label><input type="text" name="firstName" />
+            <input type="text" name="firstName" placeholder="First Name" />
           </p>
           <p>
-            <label >Last Name:</label><input type="text" name="lastName" />
+            <input type="text" name="lastName" placeholder="Last Name" />
           </p>
           <p>
-            <label >Email:</label><input type="email" name="email" />
+            <input type="email" name="email" placeholder="Email" />
           </p>
           <p>
-            <label >Password:</label><input type="password" name="password" />
+            <input type="password" name="password"  placeholder="Password" />
           </p>
           <p>
-            <label >Avatar:</label><input type="file" name="avatar" />
+            <input type="file" name="avatar" />
           </p>
           <button type="submit">SIGN UP</button>
         </form>
