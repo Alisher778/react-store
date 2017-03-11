@@ -24,6 +24,7 @@ export default class Products extends Component {
       this.setState({products: data.slice(index1,index2), maxProduct: data.length})
     }.bind(this));
   }
+  
   onClickEvent(e){
     e.preventDefault();
     const index1 = e.target.dataset.index1;
@@ -38,18 +39,18 @@ export default class Products extends Component {
 
   // Pagination exampple
   printButton(e){
+
     let buttons = [];
-    
     for(let i = 0; i < this.state.maxProduct /2; i++){
             const num1 = i*1;
             const num2 = num1 + 2;
-            buttons.push(<li onClick={this.onClickEvent.bind(this)} data-index1={num1} data-index2={num2}>{i}</li>)
+            buttons.push(<li onClick={this.onClickEvent.bind(this)} id={`btn-${i+1}`} data-index1={num1} data-index2={num2}>{i+1}</li>)
           }
     return(
       <ul className="pagination">
-        
+        <li id="prevBtn" data-index1="" data-index2=""><i className="fa fa-angle-double-left" aria-hidden="true"></i></li>
         {buttons}
-       
+        <li id="lastBtn"><i className="fa fa-angle-double-right" aria-hidden="true"></i></li>
       </ul>
       )
   }
@@ -71,6 +72,7 @@ export default class Products extends Component {
               )
           })}
         </ul>
+          
           {this.printButton()}
       </div>
     )

@@ -148,18 +148,24 @@ span.cart-number {
 
 .pagination{
   display: flex;
-  justify-content: space-between;
-  max-width: 300px;
+  justify-content: center;
 }
 
 .pagination li{
   display: inline-block;
-  padding: 15px;
-  background-color: #2E8DEB;
+  padding: 13px;
   cursor: pointer;
+  border: 1px solid #1fa67a;
+  margin: 0 3px;
+  border-radius: 4px;
 }
 
-
+.pagination .active{
+  background: #8BC34A;
+  border: 1px solid #8bc34a;
+  color: #fdfdfc;
+  font-weight: 900;
+}
 /*=============================== ProductForm.jsx ========================================*/
 
 .new-products-form{

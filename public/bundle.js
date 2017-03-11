@@ -41459,21 +41459,31 @@
 	  }, {
 	    key: 'printButton',
 	    value: function printButton(e) {
-	      var buttons = [];
 	
+	      var buttons = [];
 	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
 	        var num1 = i * 1;
 	        var num2 = num1 + 2;
 	        buttons.push(_react2.default.createElement(
 	          'li',
-	          { onClick: this.onClickEvent.bind(this), 'data-index1': num1, 'data-index2': num2 },
-	          i
+	          { onClick: this.onClickEvent.bind(this), id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
+	          i + 1
 	        ));
 	      }
 	      return _react2.default.createElement(
 	        'ul',
 	        { className: 'pagination' },
-	        buttons
+	        _react2.default.createElement(
+	          'li',
+	          { id: 'prevBtn', 'data-index1': '', 'data-index2': '' },
+	          _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
+	        ),
+	        buttons,
+	        _react2.default.createElement(
+	          'li',
+	          { id: 'lastBtn' },
+	          _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
+	        )
 	      );
 	    }
 	  }, {
