@@ -146,6 +146,20 @@ span.cart-number {
   margin-top: 10px;
 }
 
+.pagination{
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+}
+
+.pagination li{
+  display: inline-block;
+  padding: 15px;
+  background-color: #2E8DEB;
+  cursor: pointer;
+}
+
+
 /*=============================== ProductForm.jsx ========================================*/
 
 .new-products-form{

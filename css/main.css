@@ -1,7 +1,3 @@
-body{
-  background-color: #B5F0B0;
-}
-ul li a{
-  color: red;
-}
+.pagination__pagination___6Q627{font-size:0;list-style-type:none;margin:0;padding:0;box-sizing:border-box}.pagination__pagination___6Q627 li{display:inline-block;font-size:16px;border-right:1px solid #d4d9d9;border-top:1px solid #d4d9d9;border-bottom:1px solid #d4d9d9;background-color:#fff;cursor:pointer;font-weight:600}.pagination__pagination___6Q627 li a{display:block;padding:6px 12px}.pagination__pagination___6Q627 li:hover{background-color:#ecefef}.pagination__pagination___6Q627 li:hover a{color:#1F8ACC}.pagination__pagination___6Q627 li:first-child{border-left:1px solid #d4d9d9;border-bottom-left-radius:4px;border-top-left-radius:4px}.pagination__pagination___6Q627 li:last-child{border-bottom-right-radius:4px;border-top-right-radius:4px}.pagination__pagination___6Q627 li.pagination__disabled___3-JrA{background-color:#fff;cursor:default}.pagination__pagination___6Q627 li.pagination__disabled___3-JrA a{cursor:default;color:#999}.pagination__pagination___6Q627 li.pagination__active___mO9wX{background-color:#1F8ACC;cursor:default}.pagination__pagination___6Q627 li.pagination__active___mO9wX a{cursor:default;color:#fff}
+
 /*# sourceMappingURL=main.css.map*/
