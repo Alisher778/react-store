@@ -18,6 +18,7 @@ const aws         = require('aws-sdk');
 const Sequelize = require('sequelize');
 const databaseURL   = 'sqlite://database.sqlite3';
 const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
+const port        = process.env.PORT || 3000;
 //use the public folder as the static directory. 
 app.use( express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,6 +43,5 @@ app.get('*', (req,res)=>{
 	res.sendFile(path.join(__dirname,'public/index.html'))
 })
 
-sequelize.sync().then(() =>{
-  app.listen(3000,()=>console.log('running on localhost:3000'))
-})
+
+app.listen(port, console.log("server started"))
