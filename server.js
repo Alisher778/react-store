@@ -39,12 +39,11 @@ app.use('/users', users);
 
 
 
-
 //send any route to index.html where the react app is mounted
 app.get('*', (req,res)=>{
 	res.sendFile(path.join(__dirname,'public/index.html'))
 })
 
-sequelize.sync({force: true}).then(function(){
+sequelize.sync().then(function(){
   app.listen(port, console.log("server started"))
 })

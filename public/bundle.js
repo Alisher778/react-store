@@ -41317,7 +41317,7 @@
 	    var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 	
 	    _this.state = { products: [{
-	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
+	        id: 0, name: "", image: "", price: 0, category: ''
 	      }] };
 	    return _this;
 	  }
