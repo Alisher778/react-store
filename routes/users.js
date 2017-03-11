@@ -78,7 +78,7 @@ router.get('/api/user/:id', function(req, res){
 
 // ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
-  sequelize.sync().then(()=>{
+  sequelize.sync({force: true}).then(()=>{
     return User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,

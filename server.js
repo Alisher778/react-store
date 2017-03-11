@@ -56,6 +56,6 @@ app.get('*', (req,res)=>{
 	res.sendFile(path.join(__dirname,'public/index.html'))
 })
 
-sequelize.sync().then(function(){
+sequelize.sync({force: true}).then(function(){
   app.listen(port, console.log("server started"))
 })

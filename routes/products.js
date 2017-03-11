@@ -71,7 +71,7 @@ router.get('/api/products', function(req, res){
 // ################# Post New Product ###################
 router.post('/api/new_product', productImages.single('image'), function(req, res){
  
- sequelize.sync().then(()=>{
+ sequelize.sync({force: true}).then(()=>{
   return Product.create({
     name: req.body.name,
     image: req.file.location,
