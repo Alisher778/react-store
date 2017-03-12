@@ -11,9 +11,11 @@ const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
 const morgan      = require('morgan');
 const models      = require('./models')
-
 const port        = process.env.PORT || 3000;
-const pg = require('pg');
+const pg          = require('pg');
+
+models.sequelize.sync();
+
 //use the public folder as the static directory. 
 app.use( express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));

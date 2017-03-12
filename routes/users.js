@@ -5,7 +5,11 @@ const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
 const passwordHash  = require('password-hash');
 
-const models = require('../models')
+const models = require('../models');
+
+models.sequelize.sync();
+
+// If you are using Heroku, make sure You pass process.env to heroku as "$heroku config:set SECRETACCESSKEY=783y27539984893uy49y9 "
 aws.config.update({
     secretAccessKey: process.env.SECRETACCESSKEY,
     accessKeyId: process.env.ACCESSKEYID,

@@ -6,10 +6,11 @@ const aws         = require('aws-sdk');
 const $           = require('jquery');
 const axios       = require('axios');
 const models      = require('../models');
+
 models.sequelize.sync();
 
 
-
+// If you are using Heroku, make sure You pass process.env to heroku as "$heroku config:set SECRETACCESSKEY=783y27539984893uy49y9 "
 aws.config.update({
     secretAccessKey: process.env.SECRETACCESSKEY,
     accessKeyId: process.env.ACCESSKEYID,
