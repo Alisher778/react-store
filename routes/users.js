@@ -7,7 +7,7 @@ const passwordHash  = require('password-hash');
 const Sequelize = require('sequelize');
 const databaseURL   = 'sqlite://database.sqlite3';
 const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
-
+const models = require('../models')
 aws.config.update({
     secretAccessKey: process.env.SECRETACCESSKEY,
     accessKeyId: process.env.ACCESSKEYID,
@@ -26,52 +26,52 @@ const userImage = multer({
     })
 });
 
-const User = sequelize.define('User', {
-  first_name: Sequelize.STRING,
-  last_name: Sequelize.TEXT,
-  email: Sequelize.TEXT,
-  password: Sequelize.STRING,
-  avatar: {type: Sequelize.TEXT, defaultValue: "https://s3.amazonaws.com/my-final-store/users/avatar.png"}
-});
+// const User = sequelize.define('User', {
+//   first_name: Sequelize.STRING,
+//   last_name: Sequelize.TEXT,
+//   email: Sequelize.TEXT,
+//   password: Sequelize.STRING,
+//   avatar: {type: Sequelize.TEXT, defaultValue: "https://s3.amazonaws.com/my-final-store/users/avatar.png"}
+// });
 
-const Address = sequelize.define('Address', {
-  user_id: Sequelize.INTEGER,
-  full_name: Sequelize.STRING,
-  street: Sequelize.TEXT,
-  apartment: Sequelize.TEXT,
-  city: Sequelize.STRING,
-  state: Sequelize.STRING,
-  zip: Sequelize.STRING,
-  country: Sequelize.STRING,
-  phone: Sequelize.STRING,
-  note: Sequelize.TEXT
-});
+// const Address = sequelize.define('Address', {
+//   user_id: Sequelize.INTEGER,
+//   full_name: Sequelize.STRING,
+//   street: Sequelize.TEXT,
+//   apartment: Sequelize.TEXT,
+//   city: Sequelize.STRING,
+//   state: Sequelize.STRING,
+//   zip: Sequelize.STRING,
+//   country: Sequelize.STRING,
+//   phone: Sequelize.STRING,
+//   note: Sequelize.TEXT
+// });
 
-const Cart = sequelize.define('Cart', {
-  user_id: Sequelize.INTEGER,
-  product_id: Sequelize.INTEGER,
-  product_name: Sequelize.STRING,
-  product_image: Sequelize.TEXT,
-  product_info: Sequelize.TEXT,
-  product_price: Sequelize.STRING,
-  product_quantity: Sequelize.INTEGER,
-  product_color: Sequelize.STRING,
-})
+// const Cart = sequelize.define('Cart', {
+//   user_id: Sequelize.INTEGER,
+//   product_id: Sequelize.INTEGER,
+//   product_name: Sequelize.STRING,
+//   product_image: Sequelize.TEXT,
+//   product_info: Sequelize.TEXT,
+//   product_price: Sequelize.STRING,
+//   product_quantity: Sequelize.INTEGER,
+//   product_color: Sequelize.STRING,
+// })
 
-// User.hasMany(Cart); 
-// Cart.belongsTo(User);
-// User.hasMany(Address);
-// Address.belongsTo(User);
+// // User.hasMany(Cart); 
+// // Cart.belongsTo(User);
+// // User.hasMany(Address);
+// // Address.belongsTo(User);
 
 router.get('/api/users', function(req, res){
-  User.findAll().then(function(users){
+  models.User.findAll().then(function(users){
     res.json(users)
   })
 });
 
 //Get a New User Form *******************************************************
 router.get('/api/user/:id', function(req, res){
-  User.findById(req.params.id).then(function(user){
+  models.User.findById(req.params.id).then(function(user){
     res.json(user);
   })
 });
@@ -79,7 +79,7 @@ router.get('/api/user/:id', function(req, res){
 // ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
   sequelize.sync().then(()=>{
-    return User.create({
+    return models.User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       email: req.body.email,
@@ -98,10 +98,10 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
 router.post('/api/login', function(req, res){
   const email = req.body.email;
   const password = req.body.password;
-  User.count({where: {email: email }})
+  models.User.count({where: {email: email }})
     .then(function(numberOfuser){
       if(!numberOfuser == 0){
-        User.findOne({ where: {email: email }})
+        models.User.findOne({ where: {email: email }})
           .then(function(user){
             const pass = passwordHash.verify(req.body.password, user.password);
             if(pass){
@@ -138,7 +138,7 @@ router.get('/logout', function(req, res){
 
 router.post('/api/user/:id/address', function(req, res){
   sequelize.sync().then(()=>{
-    return Address.create({
+    return models.Address.create({
       user_id:   req.params.id,
       full_name: req.body.full_name,
       street:    req.body.street,
@@ -159,7 +159,7 @@ router.post('/api/user/:id/address', function(req, res){
 })
 
 router.get('/api/user/address/:user_id', function(req, res){
-  Address.findAll({where: {user_id: req.params.user_id}})
+  models.Address.findAll({where: {user_id: req.params.user_id}})
     .then(function(result){
       req.session.username;
       res.json(result);
@@ -168,7 +168,7 @@ router.get('/api/user/address/:user_id', function(req, res){
 
 //  Delete the address by Id
 router.get('/api/user/address/:id/delete', function(req, res){
-  Address.destroy({where: {id: req.params.id}})
+  models.Address.destroy({where: {id: req.params.id}})
     .then(function(result){
       console.log(result)
       res.redirect('/')
@@ -179,13 +179,13 @@ router.get('/api/user/address/:id/delete', function(req, res){
 // Create Shopping cart ***********************************************************
 
 router.post("/api/cart/:user_id/:product_id", function(req, res){
-   Cart.findAll({
+   models.Cart.findAll({
      where: { user_id: req.params.user_id, product_id: req.params.product_id}
    }).then(function(data){
      console.log("find cart ----",data.length)
      if(data.length == 0){
        sequelize.sync().then(()=>{
-        return Cart.create({
+        return models.Cart.create({
            user_id: req.params.user_id,
            product_id: req.params.product_id,
            product_name: req.body.product_name,
@@ -214,14 +214,14 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
 
 router.get("/api/carts", function(req, res){
   req.session.username;
-  Cart.findAll().then(function(data){
+  models.Cart.findAll().then(function(data){
     res.json(data)
   })
 })
 
 router.get('/api/cart/:user_id', function(req, res){
   req.session.username;
-  Cart.findAll({where: {user_id: req.params.user_id}})
+  models.Cart.findAll({where: {user_id: req.params.user_id}})
     .then(function(data){
       res.json(data)
     })
@@ -229,7 +229,7 @@ router.get('/api/cart/:user_id', function(req, res){
 
 router.get('/api/cart/:id/delete', function(req, res){
   req.session.username;
-  Cart.destroy({
+  models.Cart.destroy({
     where: {id: req.params.id}
   }).then(function(data){
     res.redirect('/')

@@ -8,6 +8,7 @@ const databaseURL   = 'sqlite://database.sqlite3';
 const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 const $           = require('jquery');
 const axios       = require('axios');
+const models      = require('../models');
 
 const Product = sequelize.define('Product', {
   name: Sequelize.STRING,
@@ -39,7 +40,7 @@ var productImages = multer({
 
 // ################# DELETE Product By Id ###################
 router.get('/api/product/delete/:id', function(req, res){
-  Product.findById(req.params.id)
+  models.Product.findById(req.params.id)
     .then(function(respond){
       //Delete image using Axios ajax
       axios.delete(`${respond.image}`)
@@ -63,7 +64,7 @@ router.get('/api/product/delete/:id', function(req, res){
 
 // ################# Find All Products ###################
 router.get('/api/products', function(req, res){
-  Product.findAll().then(function(products){
+  models.Product.findAll().then(function(products){
     res.json(products);
   })
 });
@@ -72,7 +73,7 @@ router.get('/api/products', function(req, res){
 router.post('/api/new_product', productImages.single('image'), function(req, res){
  
  sequelize.sync().then(()=>{
-  return Product.create({
+  return models.Product.create({
     name: req.body.name,
     image: req.file.location,
     description: req.body.description,
@@ -87,7 +88,7 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
 
 // ################# Find Product By Id ###################
 router.get('/api/product/:id', function(req, res){
-  Product.findById(req.params.id).then(function(product){
+  models.Product.findById(req.params.id).then(function(product){
     res.json(product)
   })
 })
@@ -96,7 +97,7 @@ router.get('/api/product/:id', function(req, res){
 // ################# Find Product By Category###################
 router.get('/api/products/:category', (req, res)=>{
   console.log("Find by Ctaegory Before route requested ----")
-  Product.findAll({where: {category: req.params.category}})
+  models.Product.findAll({where: {category: req.params.category}})
     .then((products)=>{
       res.json(products)
         console.log("Find by Ctaegory Before route requested ----")

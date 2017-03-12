@@ -42919,7 +42919,7 @@
 	        { className: 'pagination' },
 	        _react2.default.createElement(
 	          'li',
-	          { id: 'prevBtn', 'data-index1': '', 'data-index2': '', onClick: this.onClickEvent.bind(this) },
+	          { id: 'prevBtn', 'data-index1': '0', 'data-index2': '', onClick: this.onClickEvent.bind(this) },
 	          _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
 	        ),
 	        buttons,

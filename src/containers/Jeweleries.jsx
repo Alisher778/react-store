@@ -48,7 +48,7 @@ export default class Products extends Component {
           }
     return(
       <ul className="pagination">
-        <li id="prevBtn" data-index1="" data-index2="" onClick={this.onClickEvent.bind(this)}><i className="fa fa-angle-double-left" aria-hidden="true"></i></li>
+        <li id="prevBtn" data-index1="0" data-index2="" onClick={this.onClickEvent.bind(this)}><i className="fa fa-angle-double-left" aria-hidden="true"></i></li>
         {buttons}
         <li id="lastBtn" onClick={this.onClickEvent.bind(this)}><i className="fa fa-angle-double-right" aria-hidden="true"></i></li>
       </ul>
