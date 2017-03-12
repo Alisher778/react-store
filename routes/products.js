@@ -3,20 +3,20 @@ const router      = express.Router();
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
-const Sequelize = require('sequelize');
-const databaseURL   = 'sqlite://database.sqlite3';
-const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
+// const Sequelize = require('sequelize');
+// const databaseURL   = 'sqlite://database.sqlite3';
+// const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 const $           = require('jquery');
 const axios       = require('axios');
 const models      = require('../models');
 
-const Product = sequelize.define('Product', {
-  name: Sequelize.STRING,
-  image: {type: Sequelize.STRING, allowNull: true},
-  description: Sequelize.TEXT,
-  price: Sequelize.STRING,
-  category: Sequelize.STRING
-})
+// const Product = sequelize.define('Product', {
+//   name: Sequelize.STRING,
+//   image: {type: Sequelize.STRING, allowNull: true},
+//   description: Sequelize.TEXT,
+//   price: Sequelize.STRING,
+//   category: Sequelize.STRING
+// })
 
 
 aws.config.update({
@@ -71,8 +71,6 @@ router.get('/api/products', function(req, res){
 
 // ################# Post New Product ###################
 router.post('/api/new_product', productImages.single('image'), function(req, res){
- 
- sequelize.sync().then(()=>{
   return models.Product.create({
     name: req.body.name,
     image: req.file.location,
@@ -81,9 +79,7 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
     category: req.body.category
   }).then(function(product){
       res.redirect('/')
-  })
- })
-  
+  })  
 })
 
 // ################# Find Product By Id ###################

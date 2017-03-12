@@ -15,9 +15,9 @@ const cookieParser = require('cookie-parser');
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
-const Sequelize = require('sequelize');
-const databaseURL   = 'sqlite://database.sqlite3';
-const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
+// const Sequelize = require('sequelize');
+// const databaseURL   = 'sqlite://database.sqlite3';
+// const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 const port        = process.env.PORT || 3000;
 const pg = require('pg');
 //use the public folder as the static directory. 
@@ -44,6 +44,6 @@ app.get('*', (req,res)=>{
 	res.sendFile(path.join(__dirname,'public/index.html'))
 })
 
-sequelize.sync().then(function(){
+// sequelize.sync().then(function(){
   app.listen(port, console.log("server started"))
-})
+// })

@@ -4,9 +4,9 @@ const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
 const passwordHash  = require('password-hash');
-const Sequelize = require('sequelize');
-const databaseURL   = 'sqlite://database.sqlite3';
-const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
+// const Sequelize = require('sequelize');
+// const databaseURL   = 'sqlite://database.sqlite3';
+// const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 const models = require('../models')
 aws.config.update({
     secretAccessKey: process.env.SECRETACCESSKEY,
@@ -78,8 +78,7 @@ router.get('/api/user/:id', function(req, res){
 
 // ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
-  sequelize.sync().then(()=>{
-    return models.User.create({
+  models.User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       email: req.body.email,
@@ -89,9 +88,6 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       req.session.username = user.id;
       res.redirect(`/profile/${user.id}`)
     })
-  })
-   
- 
 })
 
 // ********************** Login function ******************************************
@@ -137,8 +133,7 @@ router.get('/logout', function(req, res){
 // Create Users address*********************************************************
 
 router.post('/api/user/:id/address', function(req, res){
-  sequelize.sync().then(()=>{
-    return models.Address.create({
+    models.Address.create({
       user_id:   req.params.id,
       full_name: req.body.full_name,
       street:    req.body.street,
@@ -152,9 +147,7 @@ router.post('/api/user/:id/address', function(req, res){
     }).then(function(result){
       req.session.username;
       res.redirect(`/profile/${req.session.username}`)
-    })
-  })
-    
+    })  
 
 })
 
@@ -184,8 +177,7 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
    }).then(function(data){
      console.log("find cart ----",data.length)
      if(data.length == 0){
-       sequelize.sync().then(()=>{
-        return models.Cart.create({
+        models.Cart.create({
            user_id: req.params.user_id,
            product_id: req.params.product_id,
            product_name: req.body.product_name,
@@ -196,9 +188,7 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
            product_color: req.body.product_color
          }).then(function(result){
            res.json(result);
-         })
-       })
-     
+         })   
      }else{
       console.log("User id before ----", data)
        return data[0].increment({
