@@ -14,6 +14,8 @@ aws.config.update({
     region: 'us-east-1'
 });
 
+models.sequelize.sync();
+
 const s3 = new aws.S3();
 
 const userImage = multer({

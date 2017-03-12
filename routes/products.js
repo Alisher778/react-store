@@ -9,6 +9,8 @@ const aws         = require('aws-sdk');
 const $           = require('jquery');
 const axios       = require('axios');
 const models      = require('../models');
+models.sequelize.sync();
+
 
 // const Product = sequelize.define('Product', {
 //   name: Sequelize.STRING,
