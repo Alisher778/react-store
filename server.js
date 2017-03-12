@@ -1,11 +1,5 @@
 'use strict'
-/* 
-	Fallback server for supporting browserHistory
-	in your React application. 
-*/
 
-
-//instatiate path and express
 const express     = require('express')
 const path        = require('path')
 const app         = express();
@@ -17,9 +11,7 @@ const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
 const morgan      = require('morgan');
 const models      = require('./models')
-// const Sequelize = require('sequelize');
-// const databaseURL   = 'sqlite://database.sqlite3';
-// const sequelize     = new sequelize(process.env.DATABASE_URL || databaseURL);
+
 const port        = process.env.PORT || 3000;
 const pg = require('pg');
 //use the public folder as the static directory. 

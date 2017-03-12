@@ -4,9 +4,7 @@ const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
 const passwordHash  = require('password-hash');
-// const Sequelize = require('sequelize');
-// const databaseURL   = 'sqlite://database.sqlite3';
-// const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
+
 const models = require('../models')
 aws.config.update({
     secretAccessKey: process.env.SECRETACCESSKEY,
@@ -16,67 +14,18 @@ aws.config.update({
 
 models.sequelize.sync();
 
-// const s3 = new aws.S3();
+const s3 = new aws.S3();
 
-// const userImage = multer({
-//     storage: multerS3({
-//         s3: s3,
-//         bucket: 'my-final-store/users',
-//         key: function (req, file, cb) {
-//             cb(null, Date.now() + file.originalname);
-//         }
-//     })
-// });
-
-var userStorage = multer.diskStorage({
-        destination: function(req, file, cb) {
-            cb(null, './')
-        },
-        filename: function(req, file, cb) {
+const userImage = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'my-final-store/users',
+        key: function (req, file, cb) {
             cb(null, Date.now() + file.originalname);
         }
-    });
+    })
+});
 
-    var userImage = multer({
-        storage: userStorage
-    });
-
-// const User = sequelize.define('User', {
-//   first_name: Sequelize.STRING,
-//   last_name: Sequelize.TEXT,
-//   email: Sequelize.TEXT,
-//   password: Sequelize.STRING,
-//   avatar: {type: Sequelize.TEXT, defaultValue: "https://s3.amazonaws.com/my-final-store/users/avatar.png"}
-// });
-
-// const Address = sequelize.define('Address', {
-//   user_id: Sequelize.INTEGER,
-//   full_name: Sequelize.STRING,
-//   street: Sequelize.TEXT,
-//   apartment: Sequelize.TEXT,
-//   city: Sequelize.STRING,
-//   state: Sequelize.STRING,
-//   zip: Sequelize.STRING,
-//   country: Sequelize.STRING,
-//   phone: Sequelize.STRING,
-//   note: Sequelize.TEXT
-// });
-
-// const Cart = sequelize.define('Cart', {
-//   user_id: Sequelize.INTEGER,
-//   product_id: Sequelize.INTEGER,
-//   product_name: Sequelize.STRING,
-//   product_image: Sequelize.TEXT,
-//   product_info: Sequelize.TEXT,
-//   product_price: Sequelize.STRING,
-//   product_quantity: Sequelize.INTEGER,
-//   product_color: Sequelize.STRING,
-// })
-
-// // User.hasMany(Cart); 
-// // Cart.belongsTo(User);
-// // User.hasMany(Address);
-// // Address.belongsTo(User);
 
 router.get('/api/users', function(req, res){
   models.User.findAll().then(function(users){

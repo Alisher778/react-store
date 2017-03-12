@@ -3,22 +3,11 @@ const router      = express.Router();
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
-// const Sequelize = require('sequelize');
-// const databaseURL   = 'sqlite://database.sqlite3';
-// const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
 const $           = require('jquery');
 const axios       = require('axios');
 const models      = require('../models');
 models.sequelize.sync();
 
-
-// const Product = sequelize.define('Product', {
-//   name: Sequelize.STRING,
-//   image: {type: Sequelize.STRING, allowNull: true},
-//   description: Sequelize.TEXT,
-//   price: Sequelize.STRING,
-//   category: Sequelize.STRING
-// })
 
 
 aws.config.update({
@@ -27,30 +16,17 @@ aws.config.update({
     region: 'us-east-1'
 });
 
-// var s3 = new aws.S3();
+var s3 = new aws.S3();
 
-// var productImages = multer({
-//     storage: multerS3({
-//         s3: s3,
-//         bucket: 'my-final-store/products',
-//         key: function (req, file, cb) {
-//             cb(null, Date.now() + file.originalname);
-//         }
-//     })
-// });
-
-var productStorage = multer.diskStorage({
-        destination: function(req, file, cb) {
-            cb(null, './')
-        },
-        filename: function(req, file, cb) {
+var productImages = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'my-final-store/products',
+        key: function (req, file, cb) {
             cb(null, Date.now() + file.originalname);
         }
-    });
-
-    var productImages = multer({
-        storage: productStorage
-    });
+    })
+});
 
 
 // ################# DELETE Product By Id ###################
