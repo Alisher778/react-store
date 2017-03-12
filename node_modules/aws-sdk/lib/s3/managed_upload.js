@@ -174,6 +174,10 @@ AWS.S3.ManagedUpload = AWS.util.inherit({
             self.isDoneChunking = true;
             self.numParts = self.totalPartNumbers;
             self.fillQueue.call(self);
+
+            if (self.isDoneChunking && self.totalPartNumbers >= 1 && self.doneParts === self.numParts) {
+              self.finishMultiPart();
+            }
           });
       }
     }
