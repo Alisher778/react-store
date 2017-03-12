@@ -16,17 +16,30 @@ aws.config.update({
 
 models.sequelize.sync();
 
-const s3 = new aws.S3();
+// const s3 = new aws.S3();
 
-const userImage = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'my-final-store/users',
-        key: function (req, file, cb) {
+// const userImage = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: 'my-final-store/users',
+//         key: function (req, file, cb) {
+//             cb(null, Date.now() + file.originalname);
+//         }
+//     })
+// });
+
+var userStorage = multer.diskStorage({
+        destination: function(req, file, cb) {
+            cb(null, './')
+        },
+        filename: function(req, file, cb) {
             cb(null, Date.now() + file.originalname);
         }
-    })
-});
+    });
+
+    var userImage = multer({
+        storage: userStorage
+    });
 
 // const User = sequelize.define('User', {
 //   first_name: Sequelize.STRING,

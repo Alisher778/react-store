@@ -27,17 +27,30 @@ aws.config.update({
     region: 'us-east-1'
 });
 
-var s3 = new aws.S3();
+// var s3 = new aws.S3();
 
-var productImages = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'my-final-store/products',
-        key: function (req, file, cb) {
+// var productImages = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: 'my-final-store/products',
+//         key: function (req, file, cb) {
+//             cb(null, Date.now() + file.originalname);
+//         }
+//     })
+// });
+
+var productStorage = multer.diskStorage({
+        destination: function(req, file, cb) {
+            cb(null, './')
+        },
+        filename: function(req, file, cb) {
             cb(null, Date.now() + file.originalname);
         }
-    })
-});
+    });
+
+    var productImages = multer({
+        storage: productStorage
+    });
 
 
 // ################# DELETE Product By Id ###################
