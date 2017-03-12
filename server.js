@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 const multer      = require('multer');
 const multerS3    = require('multer-s3');
 const aws         = require('aws-sdk');
+const morgan      = require('morgan');
 // const Sequelize = require('sequelize');
 // const databaseURL   = 'sqlite://database.sqlite3';
 // const sequelize     = new Sequelize(process.env.DATABASE_URL || databaseURL);
@@ -31,6 +32,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(morgan('tiny'))
 app.set('view engine', 'ejs')
 const products = require('./routes/products');
 const users = require('./routes/users');

@@ -25682,9 +25682,9 @@
 	          if (data.username !== 0 && data.username !== undefined && data.username !== null) {
 	            _this2.setState({ isLoggedIn: true });
 	          }
-	          _jquery2.default.get('/users/api/cart/' + _this2.state.id, function (data) {
-	            _this2.setState({ items: data.length });
-	          });
+	          // $.get(`/users/api/cart/${this.state.id}`, (data)=>{
+	          //   this.setState({items: data.length})
+	          // })
 	        }
 	      });
 	    }

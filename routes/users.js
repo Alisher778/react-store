@@ -85,6 +85,7 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       password: passwordHash.generate(req.body.password),
       avatar: req.file.location
     }).then(function(user){
+      console.log("Created user...");
       req.session.username = user.id;
       res.redirect(`/profile/${user.id}`)
     })
@@ -173,7 +174,7 @@ router.get('/api/user/address/:id/delete', function(req, res){
 
 router.post("/api/cart/:user_id/:product_id", function(req, res){
    models.Cart.findAll({
-     where: { user_id: req.params.user_id, product_id: req.params.product_id}
+     where: { user_id: req.params.user_id || 0, product_id: req.params.product_id || 0}
    }).then(function(data){
      console.log("find cart ----",data.length)
      if(data.length == 0){
@@ -197,9 +198,8 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
          res.json(data)
        })
      }
-   })
-   
- })
+   })   
+})
 
 
 router.get("/api/carts", function(req, res){
@@ -211,7 +211,7 @@ router.get("/api/carts", function(req, res){
 
 router.get('/api/cart/:user_id', function(req, res){
   req.session.username;
-  models.Cart.findAll({where: {user_id: req.params.user_id}})
+  models.Cart.findAll({where: {user_id: req.params.user_id || 0}})
     .then(function(data){
       res.json(data)
     })

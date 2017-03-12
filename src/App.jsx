@@ -19,9 +19,9 @@ export default class App extends Component {
           if(data.username !== 0 && data.username !== undefined && data.username !== null){
             this.setState({isLoggedIn: true})
           }
-        $.get(`/users/api/cart/${this.state.id}`, (data)=>{
-          this.setState({items: data.length})
-        })
+        // $.get(`/users/api/cart/${this.state.id}`, (data)=>{
+        //   this.setState({items: data.length})
+        // })
       }
     })
   }
