@@ -73,6 +73,8 @@ router.get('/api/users', function(req, res){
 router.get('/api/user/:id', function(req, res){
   models.User.findById(req.params.id).then(function(user){
     res.json(user);
+  }).catch((err)=>{
+      console.error(err)
   })
 });
 
@@ -88,6 +90,8 @@ router.post('/api/register', userImage.single('avatar'), function(req, res){
       console.log("Created user...");
       req.session.username = user.id;
       res.redirect(`/profile/${user.id}`)
+    }).catch((err)=>{
+      console.error('user register....',err)
     })
 })
 
@@ -112,6 +116,8 @@ router.post('/api/login', function(req, res){
       }else{
         res.json({error: "email not found"})
       }
+    }).catch((err)=>{
+      console.error(err)
     })
 })
 
@@ -148,6 +154,8 @@ router.post('/api/user/:id/address', function(req, res){
     }).then(function(result){
       req.session.username;
       res.redirect(`/profile/${req.session.username}`)
+    }).catch((err)=>{
+      console.error(err)
     })  
 
 })
@@ -157,6 +165,8 @@ router.get('/api/user/address/:user_id', function(req, res){
     .then(function(result){
       req.session.username;
       res.json(result);
+    }).catch((err)=>{
+      console.error(err)
     })
 })
 
@@ -198,7 +208,9 @@ router.post("/api/cart/:user_id/:product_id", function(req, res){
          res.json(data)
        })
      }
-   })   
+   }).catch((err)=>{
+      console.error(err)
+    })   
 })
 
 
@@ -206,6 +218,8 @@ router.get("/api/carts", function(req, res){
   req.session.username;
   models.Cart.findAll().then(function(data){
     res.json(data)
+  }).catch((err)=>{
+      console.error(err)
   })
 })
 
@@ -214,6 +228,8 @@ router.get('/api/cart/:user_id', function(req, res){
   models.Cart.findAll({where: {user_id: req.params.user_id || 0}})
     .then(function(data){
       res.json(data)
+    }).catch((err)=>{
+      console.error(err)
     })
 })
 

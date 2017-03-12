@@ -79,6 +79,8 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
     category: req.body.category
   }).then(function(product){
       res.redirect('/')
+  }).catch((err)=>{
+    console.error(err)
   })  
 })
 
@@ -86,6 +88,8 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
 router.get('/api/product/:id', function(req, res){
   models.Product.findById(req.params.id).then(function(product){
     res.json(product)
+  }).catch((err)=>{
+    console.error(err)
   })
 })
 
