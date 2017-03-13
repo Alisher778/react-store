@@ -30,29 +30,32 @@ export default class Products extends Component {
     const index1 = e.target.dataset.index1;
     const index2 = e.target.dataset.index2;
     
-    this.setState({num1: this.state.num1+2, num2: this.state.num2+2})
+    $('.pagination li').removeClass('active') 
+    $(e.target).addClass('active')
     
-    $.get('/api/products', function(data){
+    $.get('/api/products/shoe', function(data){
       this.setState({products: data.slice(index1,index2)})
     }.bind(this));
   }  
 
   // Pagination exampple
-  printButton(e){
+  paginationBtn(e){
 
     let buttons = [];
     for(let i = 0; i < this.state.maxProduct /2; i++){
             const num1 = i*1;
             const num2 = num1 + 2;
-            buttons.push(<li onClick={this.onClickEvent.bind(this)} id={`btn-${i+1}`} data-index1={num1} data-index2={num2}>{i+1}</li>)
+            buttons.push(<li onClick={this.onClickEvent.bind(this)} key={i} id={`btn-${i+1}`} data-index1={num1} data-index2={num2}>{i+1}</li>)
           }
-    return(
-      <ul className="pagination">
-        <li id="prevBtn" data-index1="" data-index2="" onClick={this.onClickEvent.bind(this)}><i className="fa fa-angle-double-left" aria-hidden="true"></i></li>
-        {buttons}
-        <li id="lastBtn" onClick={this.onClickEvent.bind(this)}><i className="fa fa-angle-double-right" aria-hidden="true"></i></li>
-      </ul>
+    if(this.state.maxProduct > 0){
+      return(
+        <ul className="pagination">
+          <li key={"prevkey"} className="prevBtn"><i className="fa fa-angle-double-left" aria-hidden="true"></i></li>
+          {buttons}
+          <li key={"lastkey"} className="lastBtn"><i className="fa fa-angle-double-right" aria-hidden="true"></i></li>
+        </ul>
       )
+    }
   }
   
   render() {
@@ -72,8 +75,7 @@ export default class Products extends Component {
               )
           })}
         </ul>
-          
-          {this.printButton()}
+          {this.paginationBtn()}
       </div>
     )
   }

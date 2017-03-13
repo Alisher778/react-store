@@ -41340,7 +41340,8 @@
 	      var index1 = e.target.dataset.index1;
 	      var index2 = e.target.dataset.index2;
 	
-	      this.setState({ num1: this.state.num1 + 2, num2: this.state.num2 + 2 });
+	      (0, _jquery2.default)('.pagination li').removeClass('active');
+	      (0, _jquery2.default)(e.target).addClass('active');
 	
 	      _jquery2.default.get('/api/products', function (data) {
 	        this.setState({ products: data.slice(index1, index2) });
@@ -41350,34 +41351,37 @@
 	    // Pagination exampple
 	
 	  }, {
-	    key: 'printButton',
-	    value: function printButton(e) {
-	
+	    key: 'paginationBtn',
+	    value: function paginationBtn(e) {
 	      var buttons = [];
+	
 	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
 	        var num1 = i * 1;
 	        var num2 = num1 + 2;
 	        buttons.push(_react2.default.createElement(
 	          'li',
-	          { onClick: this.onClickEvent.bind(this), id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
+	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2, className: '' },
 	          i + 1
 	        ));
 	      }
-	      return _react2.default.createElement(
-	        'ul',
-	        { className: 'pagination' },
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'prevBtn', 'data-index1': '', 'data-index2': '', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
-	        ),
-	        buttons,
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'lastBtn', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
-	        )
-	      );
+	
+	      if (this.state.maxProduct > 0) {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'pagination' },
+	          _react2.default.createElement(
+	            'li',
+	            { key: "prevkey", className: 'prevBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
+	          ),
+	          buttons,
+	          _react2.default.createElement(
+	            'li',
+	            { key: "lastkey", className: 'lastBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
+	          )
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -41411,7 +41415,7 @@
 	            );
 	          })
 	        ),
-	        this.printButton()
+	        this.paginationBtn()
 	      );
 	    }
 	  }]);
@@ -42576,7 +42580,7 @@
 	      var index1 = this.state.num1;
 	      var index2 = this.state.num2;
 	
-	      _jquery2.default.get('/api/products/bag', function (data) {
+	      _jquery2.default.get('/api/products', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
 	    }
@@ -42587,9 +42591,10 @@
 	      var index1 = e.target.dataset.index1;
 	      var index2 = e.target.dataset.index2;
 	
-	      this.setState({ num1: this.state.num1 + 2, num2: this.state.num2 + 2 });
+	      (0, _jquery2.default)('.pagination li').removeClass('active');
+	      (0, _jquery2.default)(e.target).addClass('active');
 	
-	      _jquery2.default.get('/api/products', function (data) {
+	      _jquery2.default.get('/api/products/bag', function (data) {
 	        this.setState({ products: data.slice(index1, index2) });
 	      }.bind(this));
 	    }
@@ -42597,8 +42602,8 @@
 	    // Pagination exampple
 	
 	  }, {
-	    key: 'printButton',
-	    value: function printButton(e) {
+	    key: 'paginationBtn',
+	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
 	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
@@ -42606,25 +42611,27 @@
 	        var num2 = num1 + 2;
 	        buttons.push(_react2.default.createElement(
 	          'li',
-	          { onClick: this.onClickEvent.bind(this), id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
+	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
 	          i + 1
 	        ));
 	      }
-	      return _react2.default.createElement(
-	        'ul',
-	        { className: 'pagination' },
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'prevBtn', 'data-index1': '', 'data-index2': '', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
-	        ),
-	        buttons,
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'lastBtn', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
-	        )
-	      );
+	      if (this.state.maxProduct > 0) {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'pagination' },
+	          _react2.default.createElement(
+	            'li',
+	            { key: "prevkey", className: 'prevBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
+	          ),
+	          buttons,
+	          _react2.default.createElement(
+	            'li',
+	            { key: "lastkey", className: 'lastBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
+	          )
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -42658,7 +42665,7 @@
 	            );
 	          })
 	        ),
-	        this.printButton()
+	        this.paginationBtn()
 	      );
 	    }
 	  }]);
@@ -42739,9 +42746,10 @@
 	      var index1 = e.target.dataset.index1;
 	      var index2 = e.target.dataset.index2;
 	
-	      this.setState({ num1: this.state.num1 + 2, num2: this.state.num2 + 2 });
+	      (0, _jquery2.default)('.pagination li').removeClass('active');
+	      (0, _jquery2.default)(e.target).addClass('active');
 	
-	      _jquery2.default.get('/api/products', function (data) {
+	      _jquery2.default.get('/api/products/shoe', function (data) {
 	        this.setState({ products: data.slice(index1, index2) });
 	      }.bind(this));
 	    }
@@ -42749,8 +42757,8 @@
 	    // Pagination exampple
 	
 	  }, {
-	    key: 'printButton',
-	    value: function printButton(e) {
+	    key: 'paginationBtn',
+	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
 	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
@@ -42758,25 +42766,27 @@
 	        var num2 = num1 + 2;
 	        buttons.push(_react2.default.createElement(
 	          'li',
-	          { onClick: this.onClickEvent.bind(this), id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
+	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
 	          i + 1
 	        ));
 	      }
-	      return _react2.default.createElement(
-	        'ul',
-	        { className: 'pagination' },
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'prevBtn', 'data-index1': '', 'data-index2': '', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
-	        ),
-	        buttons,
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'lastBtn', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
-	        )
-	      );
+	      if (this.state.maxProduct > 0) {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'pagination' },
+	          _react2.default.createElement(
+	            'li',
+	            { key: "prevkey", className: 'prevBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
+	          ),
+	          buttons,
+	          _react2.default.createElement(
+	            'li',
+	            { key: "lastkey", className: 'lastBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
+	          )
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -42810,7 +42820,7 @@
 	            );
 	          })
 	        ),
-	        this.printButton()
+	        this.paginationBtn()
 	      );
 	    }
 	  }]);
@@ -42891,9 +42901,10 @@
 	      var index1 = e.target.dataset.index1;
 	      var index2 = e.target.dataset.index2;
 	
-	      this.setState({ num1: this.state.num1 + 2, num2: this.state.num2 + 2 });
+	      (0, _jquery2.default)('.pagination li').removeClass('active');
+	      (0, _jquery2.default)(e.target).addClass('active');
 	
-	      _jquery2.default.get('/api/products', function (data) {
+	      _jquery2.default.get('/api/products/jewelery', function (data) {
 	        this.setState({ products: data.slice(index1, index2) });
 	      }.bind(this));
 	    }
@@ -42901,8 +42912,8 @@
 	    // Pagination exampple
 	
 	  }, {
-	    key: 'printButton',
-	    value: function printButton(e) {
+	    key: 'paginationBtn',
+	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
 	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
@@ -42910,25 +42921,27 @@
 	        var num2 = num1 + 2;
 	        buttons.push(_react2.default.createElement(
 	          'li',
-	          { onClick: this.onClickEvent.bind(this), id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
+	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
 	          i + 1
 	        ));
 	      }
-	      return _react2.default.createElement(
-	        'ul',
-	        { className: 'pagination' },
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'prevBtn', 'data-index1': '0', 'data-index2': '', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
-	        ),
-	        buttons,
-	        _react2.default.createElement(
-	          'li',
-	          { id: 'lastBtn', onClick: this.onClickEvent.bind(this) },
-	          _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
-	        )
-	      );
+	      if (this.state.maxProduct > 0) {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'pagination' },
+	          _react2.default.createElement(
+	            'li',
+	            { key: "prevkey", className: 'prevBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
+	          ),
+	          buttons,
+	          _react2.default.createElement(
+	            'li',
+	            { key: "lastkey", className: 'lastBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
+	          )
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -42962,7 +42975,7 @@
 	            );
 	          })
 	        ),
-	        this.printButton()
+	        this.paginationBtn()
 	      );
 	    }
 	  }]);
@@ -43011,39 +43024,79 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Accessories = function (_Component) {
-	  _inherits(Accessories, _Component);
+	var Products = function (_Component) {
+	  _inherits(Products, _Component);
 	
-	  function Accessories(props) {
-	    _classCallCheck(this, Accessories);
+	  function Products(props) {
+	    _classCallCheck(this, Products);
 	
-	    var _this = _possibleConstructorReturn(this, (Accessories.__proto__ || Object.getPrototypeOf(Accessories)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Products.__proto__ || Object.getPrototypeOf(Products)).call(this, props));
 	
 	    _this.state = { products: [{
-	        id: 1, name: "Hello", image: "someUrl", price: 20, category: ''
-	      }] };
+	        id: 0, name: "", image: "", price: 0, category: ''
+	      }], num1: 0, num2: 2, maxProduct: 0 };
+	
 	    return _this;
 	  }
 	
-	  _createClass(Accessories, [{
+	  _createClass(Products, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var index1 = this.state.num1;
+	      var index2 = this.state.num2;
+	
 	      _jquery2.default.get('/api/products/accessory', function (data) {
-	        this.setState({ products: data });
+	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
 	    }
 	  }, {
-	    key: 'deleteProduct',
-	    value: function deleteProduct(event) {
-	      event.preventDefault();
-	      var productId = (0, _jquery2.default)('');
-	      _jquery2.default.ajax({
-	        url: '/api/product/delete/',
-	        type: 'DELETE',
-	        success: function success(result) {
-	          console.log(result);
-	        }
-	      });
+	    key: 'onClickEvent',
+	    value: function onClickEvent(e) {
+	      e.preventDefault();
+	      var index1 = e.target.dataset.index1;
+	      var index2 = e.target.dataset.index2;
+	
+	      (0, _jquery2.default)('.pagination li').removeClass('active');
+	      (0, _jquery2.default)(e.target).addClass('active');
+	
+	      _jquery2.default.get('/api/products/accessory', function (data) {
+	        this.setState({ products: data.slice(index1, index2) });
+	      }.bind(this));
+	    }
+	
+	    // Pagination exampple
+	
+	  }, {
+	    key: 'paginationBtn',
+	    value: function paginationBtn(e) {
+	
+	      var buttons = [];
+	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
+	        var num1 = i * 1;
+	        var num2 = num1 + 2;
+	        buttons.push(_react2.default.createElement(
+	          'li',
+	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
+	          i + 1
+	        ));
+	      }
+	      if (this.state.maxProduct > 0) {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'pagination' },
+	          _react2.default.createElement(
+	            'li',
+	            { key: "prevkey", className: 'prevBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-left', 'aria-hidden': 'true' })
+	          ),
+	          buttons,
+	          _react2.default.createElement(
+	            'li',
+	            { key: "lastkey", className: 'lastBtn' },
+	            _react2.default.createElement('i', { className: 'fa fa-angle-double-right', 'aria-hidden': 'true' })
+	          )
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -43076,15 +43129,16 @@
 	              )
 	            );
 	          })
-	        )
+	        ),
+	        this.paginationBtn()
 	      );
 	    }
 	  }]);
 	
-	  return Accessories;
+	  return Products;
 	}(_react.Component);
 	
-	exports.default = Accessories;
+	exports.default = Products;
 
 /***/ },
 /* 321 */
