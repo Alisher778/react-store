@@ -92,6 +92,7 @@ export default class App extends Component {
             <ul className="user-cart">
               <li><Link to={`/cart/${this.state.id}`} onClick={this.redirectUrl.bind(this)}><i className="fa fa-shopping-cart" aria-hidden="true"></i><span className="cart-number">{this.state.items}</span></Link></li>
               <li><Link to={`/profile/${this.state.id}`} onClick={this.redirectUrl.bind(this)}><i className="fa fa-user-circle-o" aria-hidden="true"></i></Link></li>
+              <li><Link to="/search"><i className="fa fa-search" aria-hidden="true"></i></Link></li>
             </ul>
             {this.isLoggedInFunc()}
             {this.isAdmin()}

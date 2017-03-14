@@ -18,6 +18,7 @@ import ProductDetails from './containers/ProductDetails.jsx';
 
 import ShoppingCart from './containers/ShoppingCart.jsx';
 import UserProfile from './containers/UserProfile.jsx';
+import SearchBar from './features/SearchBar.jsx';
 
 // ReactStormpath.init({
 //   endpoints: {
@@ -40,6 +41,7 @@ render(
         <Route path="/product/:product_id" component={ProductDetails} />
         <Route path="/add/new_product" component={ProductForm} />
         <Route path="/cart/:id" component={ShoppingCart} />
+        <Route path="/search" component={SearchBar} />
 
     // ------------------- User Sign/Log In ------------------------
         <Route path="/sign_up" component={UserRegister} />        //

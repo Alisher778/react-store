@@ -109,6 +109,10 @@
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
+	var _SearchBar = __webpack_require__(/*! ./features/SearchBar.jsx */ 324);
+	
+	var _SearchBar2 = _interopRequireDefault(_SearchBar);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// ReactStormpath.init({
@@ -118,6 +122,8 @@
 	// });
 	
 	
+	// import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath';
+	// Components
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRouter.Router,
 	    { history: _reactRouter.browserHistory },
@@ -137,6 +143,7 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/cart/:id', component: _ShoppingCart2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/search', component: _SearchBar2.default }),
 	        '// ------------------- User Sign/Log In ------------------------',
 	        _react2.default.createElement(_reactRouter.Route, { path: '/sign_up', component: _UserRegister2.default }),
 	        '        //',
@@ -147,8 +154,6 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
 	    )
 	), document.getElementById('app'));
-	// import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath';
-	// Components
 
 /***/ },
 /* 1 */
@@ -25862,6 +25867,15 @@
 	                  { to: '/profile/' + this.state.id, onClick: this.redirectUrl.bind(this) },
 	                  _react2.default.createElement('i', { className: 'fa fa-user-circle-o', 'aria-hidden': 'true' })
 	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/search' },
+	                  _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
+	                )
 	              )
 	            ),
 	            this.isLoggedInFunc(),
@@ -43896,6 +43910,128 @@
 	}(_react.Component);
 	
 	exports.default = UserProfile;
+
+/***/ },
+/* 324 */
+/*!************************************!*\
+  !*** ./src/features/SearchBar.jsx ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _axios = __webpack_require__(/*! axios */ 217);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchBar = function (_Component) {
+	  _inherits(SearchBar, _Component);
+	
+	  function SearchBar(props) {
+	    _classCallCheck(this, SearchBar);
+	
+	    var _this = _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
+	
+	    _this.state = { search: '', result: [], printableResult: {} };
+	    return _this;
+	  }
+	
+	  _createClass(SearchBar, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      _jquery2.default.get('/api/products', function (data) {
+	        _this2.setState({ result: data });
+	      });
+	    }
+	  }, {
+	    key: 'onSearchChange',
+	    value: function onSearchChange(e) {
+	      e.preventDefault();
+	      this.setState({ search: e.target.value });
+	    }
+	  }, {
+	    key: 'another',
+	    value: function another(term) {
+	      return this.state.result.filter(function (data) {
+	        var name = data.name.toLowerCase().indexOf(term.toLowerCase());
+	        var cat = data.category.toLowerCase().indexOf(term.toLowerCase());
+	        var price = data.price.toLowerCase().indexOf(term.toLowerCase());
+	        var des = data.description.toLowerCase().indexOf(term.toLowerCase());
+	        var af = [];
+	        if (name > -1 || cat > -1 || price > -1 || des > -1) {
+	          return data;
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	
+	      var name = this.another(this.state.search);
+	      console.log(name);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'SearchBar' },
+	        _react2.default.createElement('input', { type: 'search', className: 'search', value: this.state.search, onChange: this.onSearchChange.bind(this) }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          name.map(function (name, i) {
+	            return _react2.default.createElement(
+	              'ul',
+	              { key: i },
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                name.name
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                name.price
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                name.category
+	              )
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return SearchBar;
+	}(_react.Component);
+	
+	exports.default = SearchBar;
 
 /***/ }
 /******/ ]);
