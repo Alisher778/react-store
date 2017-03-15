@@ -147,8 +147,8 @@ span.cart-number {
   text-decoration: none;
 }
 .products-list img{
-  width: 250px;
-  height: 200px;
+  width: 100%;
+  height: auto;
   margin-top: 5px;
 }
 .product-name{
@@ -225,6 +225,66 @@ input#image {
 .form-items.button{
   text-align: center;
 }
+
+/*==================== Edit Product Form ================================*/
+.edit-product-details{
+  margin: 6.5em 0;
+  display: flex;
+  flex-direction: column;
+}
+.edit-product-details form{
+  width: 80%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+.edit-product label{
+  width: 90px;
+  display: inline-block;
+  font-weight: 800;
+  font-size: 19px;
+}
+.edit-product-img{
+  display: flex;
+  flex-direction: column;
+}
+.edit-product-img img{
+  width: 100%;
+}
+.edit-product input{
+  width: 89%;
+  height: 36px;
+  margin: 10px 0;
+  border: 2px solid #ababab;
+  border-radius: 4px;
+  font-size: 15px;
+  padding: 2px 0 2px 8px;
+}
+.edit-product textarea{
+  display: none;
+}
+ .edit-btn{
+  height: 35px;
+  width: 200px;
+  padding: 8px;
+  background-color: #18ad59;
+  border: 2px solid #18ad59;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 28px;
+  align-self: center;
+}
+
+
+
+
+
+
+}
+
+
 /*================================ Product details =================================*/
 
 .product-details{
@@ -534,7 +594,6 @@ button.StripeCheckout{
   margin: 7px 0;
   flex-grow: 1;
   border: 1px solid rgba(121, 119, 119, 0.46);
-  z-index: -1;
 }
 .login-form form label{
   margin: 10px 0 3px 0;
@@ -631,6 +690,7 @@ button.StripeCheckout{
 }
 .search-img{
   max-width: 175px;
+  min-width: 175px;
   width: 100%;
 }
 li.search-product-list {
@@ -757,6 +817,12 @@ li.search-product-list {
   }
   
 }
+@media screen and (max-width: 1040px){
+  .products-list{
+    flex: 0 28%;
+  }
+}
+
 @media screen and (max-width: 880px){
   .products-list{
     flex: 0 44%;

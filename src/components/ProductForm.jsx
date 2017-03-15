@@ -20,7 +20,6 @@ export default class ProductForm extends Component {
       <div className="new-products-form">
         <form action="/api/new_product" method="post" encType="multipart/form-data">
           <div className="form-items"><label>Name:</label><input type="text" name="name" id="name" placeholder="Product title"/></div>
-          <div className="form-items"><label>Image:</label><input type="file" name="image" id="image" /></div>
           <div className="form-items"><label>Price:</label><input type="text" name="price" id="price" placeholder="price in USD"/></div>
           <div className="form-items"><label>Category:</label>
             <select className="category" name="category">

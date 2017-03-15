@@ -7,6 +7,7 @@ const $           = require('jquery');
 const axios       = require('axios');
 const models      = require('../models');
 
+
 models.sequelize.sync();
 
 
@@ -83,6 +84,26 @@ router.get('/api/product/:id', function(req, res){
   }).catch((err)=>{
     console.error(err)
   })
+})
+
+
+// ################## Update prodcut by Id ######################
+
+router.post('/api/product/:id/edit', productImages.single('image'), function(req, res){
+  return models.Product.update({
+    name: req.body.name,
+    image: req.file.location,
+    description: req.body.description,
+    price: req.body.price,
+    category: req.body.category}, {
+    where: {
+      id: req.params.id
+    }
+  }).then(function(product){
+      res.redirect('/')
+  }).catch((err)=>{
+    console.error(err)
+  })  
 })
 
 

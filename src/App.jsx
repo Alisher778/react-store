@@ -74,7 +74,7 @@ componentDidMount() {
 
 // *********** Check if CurrentUser is Admin ***************************
   isAdmin(){
-    if(this.state.id == 1){
+    if(this.state.id == 'ali@example.com'){
       return(
           <ul className="admin-btn">
             <li>
@@ -89,6 +89,26 @@ componentDidMount() {
 
 
   render() {
+    $('.pagination li:nth-child(2)').attr('class', 'active');
+    // Search bar -------------------------------------------
+    $('.fa-search').click(function(){
+      $(this).hide();
+      $('.search-wrapper').show();
+      $('.search-wrapper input').focus();
+          $('.search-wrapper').focusout(function(){
+          $(this).hide();
+          $('.fa-search').show()
+      })
+    })
+
+  // -------- Navbar on hover media-query--------------------
+  $('#menu-bar').hover(function(){
+    $('.nav-list, .user-bar').show(function(e){
+      $('nav').on('click mouseleave', function(){
+        $('.nav-list, .user-bar').hide()
+      })
+    });
+  })
     return(
       <div>
         <nav>

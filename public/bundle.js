@@ -101,29 +101,24 @@
 	
 	var _ProductDetails2 = _interopRequireDefault(_ProductDetails);
 	
-	var _ShoppingCart = __webpack_require__(/*! ./containers/ShoppingCart.jsx */ 322);
+	var _EditProductDetail = __webpack_require__(/*! ./containers/EditProductDetail.jsx */ 322);
+	
+	var _EditProductDetail2 = _interopRequireDefault(_EditProductDetail);
+	
+	var _ShoppingCart = __webpack_require__(/*! ./containers/ShoppingCart.jsx */ 323);
 	
 	var _ShoppingCart2 = _interopRequireDefault(_ShoppingCart);
 	
-	var _UserProfile = __webpack_require__(/*! ./containers/UserProfile.jsx */ 323);
+	var _UserProfile = __webpack_require__(/*! ./containers/UserProfile.jsx */ 324);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
-	var _SearchBar = __webpack_require__(/*! ./features/SearchBar.jsx */ 324);
+	var _SearchBar = __webpack_require__(/*! ./features/SearchBar.jsx */ 325);
 	
 	var _SearchBar2 = _interopRequireDefault(_SearchBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// ReactStormpath.init({
-	//   endpoints: {
-	//     baseUri: 'https://react-store.apps.stormpath.io'
-	//   }
-	// });
-	
-	
-	// import ReactStormpath, { Router, AuthenticatedRoute, LoginLink } from 'react-stormpath';
-	// Components
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRouter.Router,
 	    { history: _reactRouter.browserHistory },
@@ -141,6 +136,7 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '/accessory', component: _Accessories2.default }),
 	        '    // // ============================================================',
 	        _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id', component: _ProductDetails2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/product/:product_id/edit', component: _EditProductDetail2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/add/new_product', component: _ProductForm2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/cart/:id', component: _ShoppingCart2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/search', component: _SearchBar2.default }),
@@ -154,6 +150,7 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
 	    )
 	), document.getElementById('app'));
+	// Components
 
 /***/ },
 /* 1 */
@@ -25781,7 +25778,7 @@
 	  }, {
 	    key: 'isAdmin',
 	    value: function isAdmin() {
-	      if (this.state.id == 1) {
+	      if (this.state.id == 'ali@example.com') {
 	        return _react2.default.createElement(
 	          'ul',
 	          { className: 'admin-btn' },
@@ -25800,6 +25797,26 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      (0, _jquery2.default)('.pagination li:nth-child(2)').attr('class', 'active');
+	      // Search bar -------------------------------------------
+	      (0, _jquery2.default)('.fa-search').click(function () {
+	        (0, _jquery2.default)(this).hide();
+	        (0, _jquery2.default)('.search-wrapper').show();
+	        (0, _jquery2.default)('.search-wrapper input').focus();
+	        (0, _jquery2.default)('.search-wrapper').focusout(function () {
+	          (0, _jquery2.default)(this).hide();
+	          (0, _jquery2.default)('.fa-search').show();
+	        });
+	      });
+	
+	      // -------- Navbar on hover media-query--------------------
+	      (0, _jquery2.default)('#menu-bar').hover(function () {
+	        (0, _jquery2.default)('.nav-list, .user-bar').show(function (e) {
+	          (0, _jquery2.default)('nav').on('click mouseleave', function () {
+	            (0, _jquery2.default)('.nav-list, .user-bar').hide();
+	          });
+	        });
+	      });
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -37820,16 +37837,6 @@
 	            _react2.default.createElement(
 	              'label',
 	              null,
-	              'Image:'
-	            ),
-	            _react2.default.createElement('input', { type: 'file', name: 'image', id: 'image' })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-items' },
-	            _react2.default.createElement(
-	              'label',
-	              null,
 	              'Price:'
 	            ),
 	            _react2.default.createElement('input', { type: 'text', name: 'price', id: 'price', placeholder: 'price in USD' })
@@ -43305,12 +43312,25 @@
 	    value: function isAdmin() {
 	      if (this.props.id() == 1) {
 	        return _react2.default.createElement(
-	          'button',
+	          'div',
 	          null,
 	          _react2.default.createElement(
-	            'a',
-	            { href: '/api/product/delete/' + this.state.product.id },
-	            'DELETE'
+	            'button',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/api/product/delete/' + this.state.product.id },
+	              'DELETE'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/product/' + this.state.product.id + '/edit' },
+	              'EDIT'
+	            )
 	          )
 	        );
 	      }
@@ -43476,6 +43496,214 @@
 
 /***/ },
 /* 322 */
+/*!**********************************************!*\
+  !*** ./src/containers/EditProductDetail.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 216);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _reactTinymceInput = __webpack_require__(/*! react-tinymce-input */ 243);
+	
+	var _reactTinymceInput2 = _interopRequireDefault(_reactTinymceInput);
+	
+	var _axios = __webpack_require__(/*! axios */ 217);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var EditProductDetail = function (_Component) {
+	  _inherits(EditProductDetail, _Component);
+	
+	  function EditProductDetail(props) {
+	    _classCallCheck(this, EditProductDetail);
+	
+	    var _this = _possibleConstructorReturn(this, (EditProductDetail.__proto__ || Object.getPrototypeOf(EditProductDetail)).call(this, props));
+	
+	    _this.state = { id: '', name: '', description: '', image: '', price: '', category: '' };
+	    return _this;
+	  }
+	
+	  _createClass(EditProductDetail, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _jquery2.default.get('/api/product/' + this.props.params.product_id, function (data) {
+	        console.log(data);
+	        this.setState({
+	          id: data.id, name: data.name, image: data.image, price: data.price, description: data.description, category: data.category
+	        });
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'onNameChange',
+	    value: function onNameChange(e) {
+	
+	      this.setState({ name: e.target.value });
+	      console.log(this.state);
+	    }
+	  }, {
+	    key: 'onPriceChange',
+	    value: function onPriceChange(e) {
+	      this.setState({ price: e.target.value });
+	      console.log(this.state);
+	    }
+	  }, {
+	    key: 'onCategoryChange',
+	    value: function onCategoryChange(e) {
+	      this.setState({ category: e.target.value });
+	    }
+	  }, {
+	    key: 'onChange',
+	    value: function onChange(e) {
+	      this.setState({ description: e });
+	      console.log(this.state);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'edit-product-details' },
+	        _react2.default.createElement(
+	          'form',
+	          { action: '/api/product/' + this.state.id + '/edit', method: 'post', encType: 'multipart/form-data' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'edit-product' },
+	            _react2.default.createElement(
+	              'label',
+	              null,
+	              'Name:'
+	            ),
+	            _react2.default.createElement('input', { onChange: this.onNameChange.bind(this), value: this.state.name, type: 'text', name: 'name', id: 'name', placeholder: 'Product title' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'edit-product' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'edit-product-img' },
+	              _react2.default.createElement('img', { src: this.state.image }),
+	              _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                  'label',
+	                  null,
+	                  'Image:'
+	                ),
+	                _react2.default.createElement('input', { type: 'file', name: 'image', id: 'image' })
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Price:'
+	              ),
+	              _react2.default.createElement('input', { type: 'text', onChange: this.onPriceChange.bind(this), value: this.state.price, name: 'price', id: 'price', placeholder: 'price in USD' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Category:'
+	              ),
+	              _react2.default.createElement(
+	                'select',
+	                { className: 'category', name: 'category', onChange: this.onCategoryChange.bind(this), value: this.state.category },
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'bag' },
+	                  'Handbag'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'shoe' },
+	                  'Shoes'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'jewelery' },
+	                  'Jewelry'
+	                ),
+	                _react2.default.createElement(
+	                  'option',
+	                  { value: 'accessory' },
+	                  'Accessories'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              null,
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Details:'
+	              ),
+	              _react2.default.createElement(_reactTinymceInput2.default, { value: this.state.description, onChange: this.onChange.bind(this), tinymceConfig: {
+	                  'language': 'en',
+	                  'theme': 'modern',
+	                  'toolbar': 'bold italic underline strikethrough hr | bullist numlist | link unlink | undo redo | spellchecker code',
+	                  'menubar': false,
+	                  'statusbar': true,
+	                  'resize': true,
+	                  'plugins': 'link,spellchecker,paste',
+	                  'theme_modern_toolbar_location': 'top',
+	                  'theme_modern_toolbar_align': 'left'
+	                } }),
+	              _react2.default.createElement(
+	                'textarea',
+	                { id: 'text', type: 'hidden', name: 'description', value: this.state.description, cols: 0, rows: 0 },
+	                this.state.description
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'edit-btn' },
+	            'Update'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return EditProductDetail;
+	}(_react.Component);
+	
+	exports.default = EditProductDetail;
+
+/***/ },
+/* 323 */
 /*!*****************************************!*\
   !*** ./src/containers/ShoppingCart.jsx ***!
   \*****************************************/
@@ -43680,7 +43908,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../~/process/browser.js */ 4)))
 
 /***/ },
-/* 323 */
+/* 324 */
 /*!****************************************!*\
   !*** ./src/containers/UserProfile.jsx ***!
   \****************************************/
@@ -43961,7 +44189,7 @@
 	exports.default = UserProfile;
 
 /***/ },
-/* 324 */
+/* 325 */
 /*!************************************!*\
   !*** ./src/features/SearchBar.jsx ***!
   \************************************/

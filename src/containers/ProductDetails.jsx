@@ -59,7 +59,12 @@ export default class ProductDetails extends Component{
 
   isAdmin(){
     if(this.props.id() == 1){
-      return <button><a href={`/api/product/delete/${this.state.product.id}`}>DELETE</a></button>
+      return (
+          <div>
+            <button><a href={`/api/product/delete/${this.state.product.id}`}>DELETE</a></button>
+            <button><a href={`/product/${this.state.product.id}/edit`}>EDIT</a></button>
+          </div>
+        )
     }
   }
 
