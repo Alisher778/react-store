@@ -41381,7 +41381,7 @@
 	
 	    _this.state = { products: [{
 	        id: 0, name: "", image: "", price: 0, category: ''
-	      }], num1: 0, num2: 2, maxProduct: 0 };
+	      }], num1: 0, num2: 12, maxProduct: 0 };
 	
 	    return _this;
 	  }
@@ -41418,9 +41418,9 @@
 	    value: function paginationBtn(e) {
 	      var buttons = [];
 	
-	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
-	        var num1 = i * 1;
-	        var num2 = num1 + 2;
+	      for (var i = 0; i < this.state.maxProduct / 12; i++) {
+	        var num1 = i * 12;
+	        var num2 = num1 + 12;
 	        buttons.push(_react2.default.createElement(
 	          'li',
 	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2, className: '' },
@@ -42632,7 +42632,7 @@
 	
 	    _this.state = { products: [{
 	        id: 0, name: "", image: "", price: 0, category: ''
-	      }], num1: 0, num2: 2, maxProduct: 0 };
+	      }], num1: 0, num2: 12, maxProduct: 0 };
 	
 	    return _this;
 	  }
@@ -42669,9 +42669,9 @@
 	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
-	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
-	        var num1 = i * 1;
-	        var num2 = num1 + 2;
+	      for (var i = 0; i < this.state.maxProduct / 12; i++) {
+	        var num1 = i * 12;
+	        var num2 = num1 + 12;
 	        buttons.push(_react2.default.createElement(
 	          'li',
 	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
@@ -42787,7 +42787,7 @@
 	
 	    _this.state = { products: [{
 	        id: 0, name: "", image: "", price: 0, category: ''
-	      }], num1: 0, num2: 2, maxProduct: 0 };
+	      }], num1: 0, num2: 12, maxProduct: 0 };
 	
 	    return _this;
 	  }
@@ -42824,9 +42824,9 @@
 	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
-	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
-	        var num1 = i * 1;
-	        var num2 = num1 + 2;
+	      for (var i = 0; i < this.state.maxProduct / 12; i++) {
+	        var num1 = i * 12;
+	        var num2 = num1 + 12;
 	        buttons.push(_react2.default.createElement(
 	          'li',
 	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
@@ -42942,7 +42942,7 @@
 	
 	    _this.state = { products: [{
 	        id: 0, name: "", image: "", price: 0, category: ''
-	      }], num1: 0, num2: 2, maxProduct: 0 };
+	      }], num1: 0, num2: 12, maxProduct: 0 };
 	
 	    return _this;
 	  }
@@ -42979,9 +42979,9 @@
 	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
-	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
-	        var num1 = i * 1;
-	        var num2 = num1 + 2;
+	      for (var i = 0; i < this.state.maxProduct / 12; i++) {
+	        var num1 = i * 12;
+	        var num2 = num1 + 12;
 	        buttons.push(_react2.default.createElement(
 	          'li',
 	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },
@@ -43097,7 +43097,7 @@
 	
 	    _this.state = { products: [{
 	        id: 0, name: "", image: "", price: 0, category: ''
-	      }], num1: 0, num2: 2, maxProduct: 0 };
+	      }], num1: 0, num2: 12, maxProduct: 0 };
 	
 	    return _this;
 	  }
@@ -43134,9 +43134,9 @@
 	    value: function paginationBtn(e) {
 	
 	      var buttons = [];
-	      for (var i = 0; i < this.state.maxProduct / 2; i++) {
-	        var num1 = i * 1;
-	        var num2 = num1 + 2;
+	      for (var i = 0; i < this.state.maxProduct / 12; i++) {
+	        var num1 = i * 12;
+	        var num2 = num1 + 12;
 	        buttons.push(_react2.default.createElement(
 	          'li',
 	          { onClick: this.onClickEvent.bind(this), key: i, id: 'btn-' + (i + 1), 'data-index1': num1, 'data-index2': num2 },

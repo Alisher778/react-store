@@ -757,6 +757,17 @@ li.search-product-list {
   }
   
 }
+@media screen and (max-width: 880px){
+  .products-list{
+    flex: 0 44%;
+  }
+}
+
+@media screen and (max-width: 599px){
+  .products-list{
+    flex: 0 90%;
+  }
+}
 
 
 

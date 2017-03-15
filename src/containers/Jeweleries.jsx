@@ -12,7 +12,7 @@ export default class Products extends Component {
     super(props);
     this.state = {products: [{
       id: 0, name: "", image: "", price: 0, category: ''
-    }], num1: 0, num2: 2, maxProduct: 0}
+    }], num1: 0, num2: 12, maxProduct: 0}
 
   }
 
@@ -42,9 +42,9 @@ export default class Products extends Component {
   paginationBtn(e){
 
     let buttons = [];
-    for(let i = 0; i < this.state.maxProduct /2; i++){
-            const num1 = i*1;
-            const num2 = num1 + 2;
+    for(let i = 0; i < this.state.maxProduct /12; i++){
+            const num1 = i*12;
+            const num2 = num1 + 12;
             buttons.push(<li onClick={this.onClickEvent.bind(this)} key={i} id={`btn-${i+1}`} data-index1={num1} data-index2={num2}>{i+1}</li>)
           }
     if(this.state.maxProduct > 0){
