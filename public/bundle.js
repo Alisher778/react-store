@@ -25669,7 +25669,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-	    _this.state = { id: 0, items: 0, isLoggedIn: false };
+	    _this.state = { id: 0, items: 0, isLoggedIn: false, search: '' };
 	    console.log(_this.state.id);
 	    return _this;
 	  }
@@ -25687,12 +25687,30 @@
 	          if (data.username !== 0 && data.username !== undefined && data.username !== null) {
 	            _this2.setState({ isLoggedIn: true });
 	          }
-	          // $.get(`/users/api/cart/${this.state.id}`, (data)=>{
-	          //   this.setState({items: data.length})
-	          // })
+	          _jquery2.default.get('/users/api/cart/' + _this2.state.id, function (data) {
+	            _this2.setState({ items: data.length });
+	          });
 	        }
 	      });
 	    }
+	
+	    // *************************** Search function **********************
+	
+	  }, {
+	    key: 'onSearchChange',
+	    value: function onSearchChange(e) {
+	      e.preventDefault();
+	      this.setState({ search: e.target.value });
+	      console.log(this.state);
+	    }
+	  }, {
+	    key: 'search',
+	    value: function search() {
+	      return this.state.search;
+	    }
+	
+	    // ************************** On Click increment Cart Number ********
+	
 	  }, {
 	    key: 'incrementCart',
 	    value: function incrementCart() {
@@ -25700,7 +25718,7 @@
 	        items: this.state.items + 1
 	      });
 	    }
-	    // ************* Set CurrentUser Id Globally ************************
+	    // ************* Set CurrentUser_Id Globally ************************
 	
 	  }, {
 	    key: 'getCurrentUserId',
@@ -25748,6 +25766,15 @@
 	        );
 	      }
 	    }
+	    // If not logged in redirect
+	
+	  }, {
+	    key: 'redirectUrl',
+	    value: function redirectUrl() {
+	      if (!this.state.isLoggedIn) {
+	        window.location.href = "/sign_up";
+	      }
+	    }
 	
 	    // *********** Check if CurrentUser is Admin ***************************
 	
@@ -25771,13 +25798,6 @@
 	      }
 	    }
 	  }, {
-	    key: 'redirectUrl',
-	    value: function redirectUrl() {
-	      if (!this.state.isLoggedIn) {
-	        window.location.href = "/sign_up";
-	      }
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -25796,6 +25816,24 @@
 	                _reactRouter.Link,
 	                { to: '/', activeClassName: 'active', id: 'logo' },
 	                'Rstore'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'search-li' },
+	            _react2.default.createElement(
+	              'form',
+	              null,
+	              _react2.default.createElement('input', { type: 'search', autofocus: 'autofocus', className: 'search', value: this.state.search, onChange: this.onSearchChange.bind(this) }),
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/search' },
+	                _react2.default.createElement(
+	                  'button',
+	                  null,
+	                  'Search'
+	                )
 	              )
 	            )
 	          ),
@@ -25870,12 +25908,22 @@
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                null,
+	                { id: 'hide-media-query' },
 	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  { to: '/search' },
-	                  _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
-	                )
+	                  'form',
+	                  { className: 'search-wrapper' },
+	                  _react2.default.createElement('input', { type: 'search', autofocus: 'autofocus', className: 'search', value: this.state.search, onChange: this.onSearchChange.bind(this) }),
+	                  _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: '/search' },
+	                    _react2.default.createElement(
+	                      'button',
+	                      null,
+	                      'Search'
+	                    )
+	                  )
+	                ),
+	                _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
 	              )
 	            ),
 	            this.isLoggedInFunc(),
@@ -25885,7 +25933,8 @@
 	        ),
 	        this.props.children && _react2.default.cloneElement(this.props.children, {
 	          incrementCart: this.incrementCart.bind(this),
-	          id: this.getCurrentUserId.bind(this)
+	          id: this.getCurrentUserId.bind(this),
+	          search: this.search.bind(this)
 	        })
 	      );
 	    }
@@ -43956,7 +44005,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
 	
-	    _this.state = { search: '', result: [], printableResult: {} };
+	    _this.state = { result: [] };
 	    return _this;
 	  }
 	
@@ -43970,14 +44019,8 @@
 	      });
 	    }
 	  }, {
-	    key: 'onSearchChange',
-	    value: function onSearchChange(e) {
-	      e.preventDefault();
-	      this.setState({ search: e.target.value });
-	    }
-	  }, {
-	    key: 'another',
-	    value: function another(term) {
+	    key: 'search',
+	    value: function search(term) {
 	      return this.state.result.filter(function (data) {
 	        var name = data.name.toLowerCase().indexOf(term.toLowerCase());
 	        var cat = data.category.toLowerCase().indexOf(term.toLowerCase());
@@ -43992,34 +44035,41 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	
-	      var name = this.another(this.state.search);
-	      console.log(name);
+	      var searchResult = this.search(this.props.search());
+	      (0, _jquery2.default)('');
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'SearchBar' },
-	        _react2.default.createElement('input', { type: 'search', className: 'search', value: this.state.search, onChange: this.onSearchChange.bind(this) }),
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          name.map(function (name, i) {
+	          { className: 'search-list' },
+	          searchResult.map(function (product, i) {
 	            return _react2.default.createElement(
-	              'ul',
-	              { key: i },
+	              'li',
+	              { key: i, className: 'search-product-list' },
 	              _react2.default.createElement(
-	                'li',
-	                null,
-	                name.name
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                name.price
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                name.category
+	                _reactRouter.Link,
+	                { to: '/product/' + product.id },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'search-img' },
+	                  _react2.default.createElement('img', { src: product.image, alt: product.name })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'search-product-details' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'search-product-name' },
+	                    product.name
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'search-product-price' },
+	                    '$',
+	                    product.price
+	                  )
+	                )
 	              )
 	            );
 	          })

@@ -6,37 +6,49 @@ import axios from 'axios';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state={id: 0, items: 0, isLoggedIn: false}
+    this.state={id: 0, items: 0, isLoggedIn: false, search: ''}
     console.log(this.state.id)
   }
 
-  componentDidMount() {
-    $.ajax({
-      url: '/users/username',
-      success: (data)=>{
-        console.log('username id -- ', data.username)
-        this.setState({id: data.username});
-          if(data.username !== 0 && data.username !== undefined && data.username !== null){
-            this.setState({isLoggedIn: true})
-          }
-        // $.get(`/users/api/cart/${this.state.id}`, (data)=>{
-        //   this.setState({items: data.length})
-        // })
-      }
-    })
-  }
+componentDidMount() {
+  $.ajax({
+    url: '/users/username',
+    success: (data)=>{
+      console.log('username id -- ', data.username)
+      this.setState({id: data.username});
+        if(data.username !== 0 && data.username !== undefined && data.username !== null){
+          this.setState({isLoggedIn: true})
+        }
+      $.get(`/users/api/cart/${this.state.id}`, (data)=>{
+        this.setState({items: data.length})
+      })
+    }
+  })
+}
 
-  incrementCart(){
-    this.setState({
-      items: this.state.items + 1
-    })
-  }
-  // ************* Set CurrentUser Id Globally ************************
-  getCurrentUserId(){
-    return this.state.id;
-  };
+// *************************** Search function **********************
+    onSearchChange(e){
+      e.preventDefault();
+      this.setState({search: e.target.value})
+      console.log(this.state)
+    }
 
- // ************** Check if a User Logged in *************************
+    search(){
+      return this.state.search
+    }
+
+// ************************** On Click increment Cart Number ********
+    incrementCart(){
+      this.setState({
+        items: this.state.items + 1
+      })
+    }
+// ************* Set CurrentUser_Id Globally ************************
+    getCurrentUserId(){
+      return this.state.id;
+    };
+
+// ************** Check if a User Logged in *************************
   isLoggedInFunc(){
     if(this.state.isLoggedIn){
       return(
@@ -53,8 +65,14 @@ export default class App extends Component {
         )
     }
   }
+    // If not logged in redirect
+  redirectUrl(){
+    if(!this.state.isLoggedIn){
+      window.location.href= "/sign_up"
+    }
+  }
 
-  // *********** Check if CurrentUser is Admin ***************************
+// *********** Check if CurrentUser is Admin ***************************
   isAdmin(){
     if(this.state.id == 1){
       return(
@@ -69,11 +87,6 @@ export default class App extends Component {
     }
   }
 
-  redirectUrl(){
-    if(!this.state.isLoggedIn){
-      window.location.href= "/sign_up"
-    }
-  }
 
   render() {
     return(
@@ -81,6 +94,12 @@ export default class App extends Component {
         <nav>
           <div className="logo">
             <li ><Link to="/" activeClassName="active" id="logo">Rstore</Link></li>
+          </div>
+          <div className="search-li">
+            <form>
+              <input type="search" autofocus="autofocus" className="search" value={this.state.search} onChange={this.onSearchChange.bind(this)}/>
+              <Link to="/search"><button>Search</button></Link>
+            </form>
           </div>
           <div className="nav-list">
             <li><Link to="/accessory">Accessories</Link></li>
@@ -92,7 +111,13 @@ export default class App extends Component {
             <ul className="user-cart">
               <li><Link to={`/cart/${this.state.id}`} onClick={this.redirectUrl.bind(this)}><i className="fa fa-shopping-cart" aria-hidden="true"></i><span className="cart-number">{this.state.items}</span></Link></li>
               <li><Link to={`/profile/${this.state.id}`} onClick={this.redirectUrl.bind(this)}><i className="fa fa-user-circle-o" aria-hidden="true"></i></Link></li>
-              <li><Link to="/search"><i className="fa fa-search" aria-hidden="true"></i></Link></li>
+              <li id="hide-media-query">
+                <form className="search-wrapper">
+                  <input type="search" autofocus="autofocus" className="search" value={this.state.search} onChange={this.onSearchChange.bind(this)}/>
+                  <Link to="/search"><button>Search</button></Link>
+                </form>
+                <i className="fa fa-search" aria-hidden="true"></i>
+              </li>
             </ul>
             {this.isLoggedInFunc()}
             {this.isAdmin()}
@@ -101,7 +126,8 @@ export default class App extends Component {
         </nav>
         {this.props.children && React.cloneElement(this.props.children, {
               incrementCart: this.incrementCart.bind(this),
-              id: this.getCurrentUserId.bind(this)
+              id: this.getCurrentUserId.bind(this),
+              search: this.search.bind(this)
             })}
             
       </div>

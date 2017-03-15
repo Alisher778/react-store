@@ -13,16 +13,20 @@ body {
 a{
   text-decoration: none;
 }
-ul li{
+li{
   list-style-type: none;
 }
 /*======================================= Nav Bar =========================================*/
 nav{
   display: flex;
   height: 60px;
+  width: 100%;
   /*background: linear-gradient(-34deg, rgb(22, 235, 237), rgb(23, 175, 150));*/
   background-color: #1fa67a;
   margin-bottom: 5vh;
+  position: fixed;
+  top: 0;
+  z-index: 999;
 }
 nav li{
   list-style-type: none;
@@ -63,6 +67,12 @@ i.fa.fa-shopping-cart{
 }
 i.fa.fa-user-circle-o{
   font-size: 22px;
+}
+i.fa.fa-search{
+  color: #f5f2f5;
+  text-decoration: none;
+  text-shadow: 0px 0px 2px black;
+  font-size: 20px;
 }
 span.cart-number {
   position: relative;
@@ -108,12 +118,20 @@ span.cart-number {
 #menu-bar{
   display: none;
 }
+
+.search-wrapper{
+  display: none;
+}
+.search-li{
+  display: none;
+}
 /*------------------------------------------------------------------------------------------*/
 /*=============================== Products.jsx =======================================*/
 .all-products{
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-around; */
+  margin-top: 90px;
 }
 .products-list{
   box-sizing: border-box;
@@ -171,7 +189,8 @@ span.cart-number {
 .new-products-form{
   display: flex;
   justify-content: center;
-  margin-top: 5em;
+  margin-top: 100px;
+
 }
 
 .new-products-form label{
@@ -213,6 +232,8 @@ input#image {
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
+  margin-top: 100px;
+
 }
 .product-details h1{
   align-self: center;
@@ -289,6 +310,8 @@ input#image {
   justify-content: center;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;
+  margin-top: 100px;
+
 }
 .shopping-cart h1{
   text-align: center;
@@ -377,6 +400,8 @@ button.StripeCheckout{
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 100px;
+
 }
 
 .user-info{
@@ -439,6 +464,10 @@ button.StripeCheckout{
   text-align: center;
   display: flex;
   flex-direction: column;
+  width: 45%;
+  padding: 20px 0;
+  background: #ece9e9;
+  border-radius: 4px;
 }
 .address-hidden label{
   
@@ -483,6 +512,8 @@ button.StripeCheckout{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 100px;
+
 }
 .login-form h2{
   text-align: center;
@@ -493,6 +524,7 @@ button.StripeCheckout{
   flex-direction: column;
   width: 300px;
   max-width: 325px;
+  z-index: 1;
 } 
 .login-form form input{
   height: 40px;
@@ -501,7 +533,8 @@ button.StripeCheckout{
   border-radius: 4px;
   margin: 7px 0;
   flex-grow: 1;
-  border: 1px solid rgba(121, 119, 119, 0.46)
+  border: 1px solid rgba(121, 119, 119, 0.46);
+  z-index: -1;
 }
 .login-form form label{
   margin: 10px 0 3px 0;
@@ -537,6 +570,7 @@ button.StripeCheckout{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 100px;
 }
 .sign-up-page h2{
   text-align: center;
@@ -545,6 +579,7 @@ button.StripeCheckout{
   display: flex;
   flex-direction: column;
   align-self: center;
+  z-index: 1;
 }
 .sign-up-page p{
   display: flex;
@@ -581,6 +616,48 @@ button.StripeCheckout{
 }
 
 
+/*================================== Search bar =================================*/
+.search-list{
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+.search-product-list a{
+  display: flex;
+}
+.search-product-list img{
+  height: 100px;
+}
+.search-img{
+  max-width: 175px;
+  width: 100%;
+}
+li.search-product-list {
+  border-bottom: 1px solid;
+  width: 80%;
+  max-width: 900px;
+  align-self: center;
+  display: flex;
+  margin: 5px;
+}
+.search-product-details{
+  display: flex;
+  flex-direction: column;
+}
+.search-product-name {
+  color: #100106;
+  font-size: 17px;
+  font-family: 'Roboto';
+  font-weight: 200;
+}
+.search-product-price {
+  color: #0c9689;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
 /*###############################################################################*/
 /*###############################################################################*/
 /*#################### Media Queries  ###########################################*/
@@ -588,18 +665,97 @@ button.StripeCheckout{
 @media screen and (max-width: 725px){
   #menu-bar{
     display: block;
-    position: relative;
+    position: absolute;
+    top: 10px;
     right: 37px;
     font-size: 24px;
     align-self: center;
   }
+  .logo{
+    position: absolute;
+    top: -5px;
+  }
   .user-bar, .nav-list{
     display: none;
   }
+  /*#menu-bar:hover .user-bar, .nav-list{
+    display: flex;
+  }*/
+  nav{
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
 
-  #menu-bar:hover .user-bar{
+  .nav-list{
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+    top: 60px;
+  }
+  .nav-list li{
+    width: 100%;
+    background-color: rgba(17, 22, 20, 0.85);
+    text-align: center;
+  }
+  .search-li{
+    display: block;
+    position: fixed;
+    top: 17px;
+    align-self: center;
+  }
+
+  nav li{
+    padding: 10px 0;
+    cursor: pointer;
+  }
+  nav li a{
     display: block;
   }
+  nav li:hover{
+    background-color: #1fa67a;
+    z-index: 9999;
+  }
+  .user-bar{
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    top: 44px;
+  }
+  .user-bar ul{
+    width: 100%;
+  }
+  .user-cart{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    padding: 0;
+  }
+  .user-cart li{
+    width: 100%;
+    background-color: rgba(17, 22, 20, 0.85);
+  }
+  #hide-media-query{
+    display: none;
+  }
+  .auth-links{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    
+  }
+  .auth-links li{
+    background-color: rgba(17, 22, 20, 0.85);
+    width: 100%;
+    text-align: center;
+  }
+  
 }
 
 

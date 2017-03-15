@@ -8,7 +8,7 @@ export default class SearchBar extends Component {
   
 constructor(props) {
   super(props);
-  this.state = {search: '', result: [], printableResult: {}}
+  this.state = {result: []}
 }
 
 componentDidMount() {
@@ -18,12 +18,7 @@ componentDidMount() {
   
 }
 
-onSearchChange(e){
-  e.preventDefault();
-  this.setState({search: e.target.value})
-}
-
-another(term){
+search(term){
   return this.state.result.filter(function(data){
     let name = data.name.toLowerCase().indexOf(term.toLowerCase());
     let cat = data.category.toLowerCase().indexOf(term.toLowerCase());
@@ -37,24 +32,26 @@ another(term){
 }
    
   render() {
-    
-    const name = this.another(this.state.search);
-    console.log(name)
+    const searchResult = this.search(this.props.search());
+    $('')
     return(
         <div className="SearchBar">
-          <input type="search" className="search" value={this.state.search} onChange={this.onSearchChange.bind(this)}/>
-
-          <div>
-            {name.map((name, i)=>{
-              return(
-                  <ul key={i}>
-                    <li>{name.name}</li>
-                    <li>{name.price}</li>
-                    <li>{name.category}</li>
-                  </ul>
-                )
-              })
-            }
+          <div className="search-list">
+            {searchResult.map((product, i)=>{
+             return(
+                <li key={i} className="search-product-list">
+                  <Link to={`/product/${product.id}`} >
+                    <div className="search-img">
+                      <img src={product.image} alt={product.name} />
+                    </div>
+                    <div className="search-product-details">
+                      <div className="search-product-name">{product.name}</div>
+                      <div className="search-product-price">${product.price}</div>
+                    </div>
+                  </Link>
+                </li>
+              )
+          })}
           </div>
         </div>
       )
