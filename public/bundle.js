@@ -25778,7 +25778,7 @@
 	  }, {
 	    key: 'isAdmin',
 	    value: function isAdmin() {
-	      if (this.state.id == 'ali@example.com') {
+	      if (this.state.id == '1') {
 	        return _react2.default.createElement(
 	          'ul',
 	          { className: 'admin-btn' },
@@ -42650,7 +42650,7 @@
 	      var index1 = this.state.num1;
 	      var index2 = this.state.num2;
 	
-	      _jquery2.default.get('/api/products', function (data) {
+	      _jquery2.default.get('/api/products/bag', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
 	    }

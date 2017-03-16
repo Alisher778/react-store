@@ -20,7 +20,7 @@ export default class Products extends Component {
     const index1 = this.state.num1;
     const index2 = this.state.num2;
 
-    $.get('/api/products', function(data){
+    $.get('/api/products/bag', function(data){
       this.setState({products: data.slice(index1,index2), maxProduct: data.length})
     }.bind(this));
   }
@@ -36,7 +36,7 @@ export default class Products extends Component {
     $.get('/api/products/bag', function(data){
       this.setState({products: data.slice(index1,index2)})
     }.bind(this));
-  }   
+  }  
 
   // Pagination exampple
   paginationBtn(e){
