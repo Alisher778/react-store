@@ -41490,6 +41490,8 @@
 	      _jquery2.default.get('/api/products', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
+	
+	      (0, _jquery2.default)('btn-1').addClass('active');
 	    }
 	  }, {
 	    key: 'onClickEvent',
@@ -41544,6 +41546,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -42741,6 +42744,8 @@
 	      _jquery2.default.get('/api/products/bag', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
+	
+	      (0, _jquery2.default)('btn-1').addClass('active');
 	    }
 	  }, {
 	    key: 'onClickEvent',
@@ -42896,6 +42901,8 @@
 	      _jquery2.default.get('/api/products/shoe', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
+	
+	      (0, _jquery2.default)('btn-1').addClass('active');
 	    }
 	  }, {
 	    key: 'onClickEvent',
@@ -43051,6 +43058,8 @@
 	      _jquery2.default.get('/api/products/jewelery', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
+	
+	      (0, _jquery2.default)('btn-1').addClass('active');
 	    }
 	  }, {
 	    key: 'onClickEvent',
@@ -43206,6 +43215,8 @@
 	      _jquery2.default.get('/api/products/accessory', function (data) {
 	        this.setState({ products: data.slice(index1, index2), maxProduct: data.length });
 	      }.bind(this));
+	
+	      (0, _jquery2.default)('btn-1').addClass('active');
 	    }
 	  }, {
 	    key: 'onClickEvent',

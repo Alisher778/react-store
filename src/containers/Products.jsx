@@ -23,6 +23,8 @@ export default class Products extends Component {
     $.get('/api/products', function(data){
       this.setState({products: data.slice(index1,index2), maxProduct: data.length})
     }.bind(this));
+
+    $('btn-1').addClass('active');
   }
   
   onClickEvent(e){
@@ -61,6 +63,7 @@ export default class Products extends Component {
   }
   
   render() {
+
     return(
       <div>
         <ul className="all-products">
