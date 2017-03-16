@@ -48,12 +48,18 @@ router.get('/api/user/:id', function(req, res){
 
 // ********************** User SIGN UP *******************************************
 router.post('/api/register', userImage.single('avatar'), function(req, res){
+  let avatar = '';
+    
+  if(req.file == undefined){
+    avatar = 'https://s3.amazonaws.com/my-final-store/users/avatar.jpg';
+  }
+
   models.User.create({
       first_name: req.body.firstName,
       last_name: req.body.lastName,
       email: req.body.email,
       password: passwordHash.generate(req.body.password),
-      avatar: req.file.location
+      avatar: avatar
     }).then(function(user){
       console.log("Created user...");
       req.session.username = user.id;

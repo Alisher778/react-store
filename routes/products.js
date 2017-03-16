@@ -64,9 +64,15 @@ router.get('/api/products', function(req, res){
 
 // ################# Post New Product ###################
 router.post('/api/new_product', productImages.single('image'), function(req, res){
+  let file = '';
+    
+  if(req.file == undefined){
+    file = 'https://s3.amazonaws.com/my-final-store/products/product-default.png';
+  }
+    
   return models.Product.create({
     name: req.body.name,
-    image: req.file.location,
+    image: file,
     description: req.body.description,
     price: req.body.price,
     category: req.body.category
@@ -90,20 +96,30 @@ router.get('/api/product/:id', function(req, res){
 // ################## Update prodcut by Id ######################
 
 router.post('/api/product/:id/edit', productImages.single('image'), function(req, res){
-  return models.Product.update({
-    name: req.body.name,
-    image: req.file.location,
-    description: req.body.description,
-    price: req.body.price,
-    category: req.body.category}, {
-    where: {
-      id: req.params.id
+  models.Product.findById(req.params.id).then((data)=>{
+    let file = '';
+    if(data.image){
+      console.log(data.image)
+      file = data.image;
+    }else{
+      console.log("error")
+      file = "default";
     }
-  }).then(function(product){
+    return data.update({
+      name: req.body.name,
+      image: file,
+      description: req.body.description,
+      price: req.body.price,
+      category: req.body.category}, {
+      where: {
+        id: req.params.id
+      }
+    }).then(function(product){
       res.redirect('/')
-  }).catch((err)=>{
-    console.error(err)
-  })  
+    }).catch((err)=>{
+      console.error(err)
+    })  
+  })
 })
 
 
