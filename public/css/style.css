@@ -32,7 +32,7 @@ li{
 }
 nav{
   display: flex;
-  height: 60px;
+  height: 70px;
   width: 100%;
   /*background: linear-gradient(-34deg, rgb(22, 235, 237), rgb(23, 175, 150));*/
   background-color: #1fa67a;
