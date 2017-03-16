@@ -74,7 +74,7 @@ componentDidMount() {
 
 // *********** Check if CurrentUser is Admin ***************************
   isAdmin(){
-    if(this.state.id == 'ali@example.com'){
+    if(this.state.id == '1'){
       return(
           <ul className="admin-btn">
             <li>
