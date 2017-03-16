@@ -25778,7 +25778,7 @@
 	  }, {
 	    key: 'isAdmin',
 	    value: function isAdmin() {
-	      if (this.state.id == 'ali@example.com') {
+	      if (this.state.id == '1') {
 	        return _react2.default.createElement(
 	          'ul',
 	          { className: 'admin-btn' },
@@ -37830,6 +37830,16 @@
 	              'Name:'
 	            ),
 	            _react2.default.createElement('input', { type: 'text', name: 'name', id: 'name', placeholder: 'Product title' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-items' },
+	            _react2.default.createElement(
+	              'label',
+	              null,
+	              'Image:'
+	            ),
+	            _react2.default.createElement('input', { type: 'file', name: 'image', id: 'image' })
 	          ),
 	          _react2.default.createElement(
 	            'div',
