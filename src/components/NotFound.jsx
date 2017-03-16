@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class NotFound extends Component {
   render() {
     return(
-        <div style={{textAlign: "center", display: "flex", justifyContent: "center", flexDirection: "column"}}>
+        <div style={{textAlign: "center", display: "flex", justifyContent: "center", flexDirection: "column", marginTop: "30%"}}>
           <h1>Page Not Found</h1>
           <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{fontSize: "36px", color: "red"}}></i>
         </div>
