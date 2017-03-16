@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, browserHistory} from 'react-router';
 import $ from 'jquery';
 import axios from 'axios';
+import Footer from './components/Footer.jsx'
 
 export default class App extends Component {
   constructor(props) {
@@ -110,7 +111,7 @@ componentDidMount() {
     });
   })
     return(
-      <div>
+      <div id="app-jsx">
         <nav>
           <div className="logo">
             <li ><Link to="/" activeClassName="active" id="logo">Rstore</Link></li>
@@ -122,10 +123,10 @@ componentDidMount() {
             </form>
           </div>
           <div className="nav-list">
-            <li><Link to="/accessory">Accessories</Link></li>
-            <li><Link to="/bag">Bags</Link></li>
-            <li><Link to="/shoe">Shoes</Link></li>
-            <li><Link to="/jewelery">Jeweleries</Link></li>
+            <li><Link to="/accessory" activeClassName="active-link">Accessories</Link></li>
+            <li><Link to="/bag" activeClassName="active-link">Bags</Link></li>
+            <li><Link to="/shoe" activeClassName="active-link">Shoes</Link></li>
+            <li><Link to="/jewelery" activeClassName="active-link">Jeweleries</Link></li>
           </div>
           <ul className="user-bar">
             <ul className="user-cart">
@@ -149,7 +150,7 @@ componentDidMount() {
               id: this.getCurrentUserId.bind(this),
               search: this.search.bind(this)
             })}
-            
+        <Footer />
       </div>
     )
   }

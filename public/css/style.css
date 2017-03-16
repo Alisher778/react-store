@@ -16,7 +16,20 @@ a{
 li{
   list-style-type: none;
 }
+
+#app-jsx{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 /*======================================= Nav Bar =========================================*/
+.active-link{
+  color: #F6F3F3;
+  border-bottom: 2px solid #2D0805;
+  padding-bottom: 16px;
+  padding: 14px 3px;
+  font-size: 20px;
+}
 nav{
   display: flex;
   height: 60px;
@@ -167,6 +180,7 @@ span.cart-number {
 .pagination{
   display: flex;
   justify-content: center;
+  margin: 56px 0;
 }
 
 .pagination li{
@@ -357,8 +371,9 @@ input#image {
   color: #fff;
   border: 1px solid #53a318;
   border-radius: 3px;
-  height: 30px;
+  height: 46px;
   padding: 3px;
+  font-size: 19px;
   margin: 10px 0;
 }
 
@@ -704,6 +719,7 @@ li.search-product-list {
 .search-product-details{
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 }
 .search-product-name {
   color: #100106;
@@ -718,6 +734,26 @@ li.search-product-list {
   letter-spacing: 1px;
   margin-top: 8px;
 }
+
+
+/*==================================== Footer ==============================================*/
+
+footer{
+  margin-top: auto;
+  height: 39px;
+  text-align: center;
+  padding: 12px;
+  background-color: #1fa67a;
+}
+
+footer a{
+  color: #e3e4dc;
+  font-size: 13px;
+}
+
+
+
+
 /*###############################################################################*/
 /*###############################################################################*/
 /*#################### Media Queries  ###########################################*/

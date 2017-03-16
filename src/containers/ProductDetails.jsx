@@ -113,7 +113,7 @@ export default class ProductDetails extends Component{
                   <option value="green">Green</option>
                 </select>
               </div>
-              <button className="buy-button" onClick={this.addToCart.bind(this)}>BUY</button>
+              <button className="buy-button" onClick={this.addToCart.bind(this)}><i className="fa fa-shopping-cart" aria-hidden="true"></i> Add To Cart</button>
               {this.isAdmin()} 
             </div>
         </div>
