@@ -53,9 +53,11 @@ componentDidMount() {
   isLoggedInFunc(){
     if(this.state.isLoggedIn){
       return(
-        <li>
-          <a href="/users/logout" id="log-out-btn" >Log Out</a>
-        </li>
+        <ul id="log-out-btn" >
+          <li>
+            <a href="/users/logout" >Log Out</a>
+          </li>
+        </ul>
       )
     }else{
       return(

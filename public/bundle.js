@@ -25734,12 +25734,16 @@
 	    value: function isLoggedInFunc() {
 	      if (this.state.isLoggedIn) {
 	        return _react2.default.createElement(
-	          'li',
-	          null,
+	          'ul',
+	          { id: 'log-out-btn' },
 	          _react2.default.createElement(
-	            'a',
-	            { href: '/users/logout', id: 'log-out-btn' },
-	            'Log Out'
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/users/logout' },
+	              'Log Out'
+	            )
 	          )
 	        );
 	      } else {
@@ -41411,7 +41415,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
-	        { style: { textAlign: "center", display: "flex", justifyContent: "center", flexDirection: "column" } },
+	        { style: { textAlign: "center", display: "flex", justifyContent: "center", flexDirection: "column", marginTop: "30%" } },
 	        _react2.default.createElement(
 	          "h1",
 	          null,
@@ -43412,24 +43416,16 @@
 	      if (this.props.id() == 1) {
 	        return _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: 'admin-panel' },
 	          _react2.default.createElement(
-	            'button',
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: '/api/product/delete/' + this.state.product.id },
-	              'DELETE'
-	            )
+	            'a',
+	            { href: '/api/product/delete/' + this.state.product.id, id: 'delete-btn' },
+	            'DELETE'
 	          ),
 	          _react2.default.createElement(
-	            'button',
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: '/product/' + this.state.product.id + '/edit' },
-	              'EDIT'
-	            )
+	            'a',
+	            { href: '/product/' + this.state.product.id + '/edit', id: 'edit-btn' },
+	            'EDIT'
 	          )
 	        );
 	      }

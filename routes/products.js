@@ -68,6 +68,8 @@ router.post('/api/new_product', productImages.single('image'), function(req, res
     
   if(req.file == undefined){
     file = 'https://s3.amazonaws.com/my-final-store/products/product-default.png';
+  }else{
+    file = req.file.location
   }
     
   return models.Product.create({
@@ -98,12 +100,10 @@ router.get('/api/product/:id', function(req, res){
 router.post('/api/product/:id/edit', productImages.single('image'), function(req, res){
   models.Product.findById(req.params.id).then((data)=>{
     let file = '';
-    if(data.image){
-      console.log(data.image)
+    if(req.file == undefined){
       file = data.image;
     }else{
-      console.log("error")
-      file = "default";
+      file = req.file.location;
     }
     return data.update({
       name: req.body.name,
